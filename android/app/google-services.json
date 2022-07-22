@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "630488783409",
+    "project_id": "flighttrack-860aa",
+    "storage_bucket": "flighttrack-860aa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:630488783409:android:6d927f80351c4fa7b3d310",
+        "android_client_info": {
+          "package_name": "com.flighttrack"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "630488783409-bigp5k6v4a49kc4a96018n59866ulsn9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEaTYpufclihsge8npIbjsTbjrDr_7ZnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "630488783409-bigp5k6v4a49kc4a96018n59866ulsn9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
