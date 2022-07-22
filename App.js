@@ -1,18 +1,14 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from 'react-native';
-
-import firestore from "@react-native-firebase/firestore";
+import { getTestData } from "./Firebase/Firestore";
 
 const App = () => {
   const [greeting, setGreeting] = useState('loading...');
 
-  const getTestData = async () => {
-    const userDocument = await firestore().collection("Test").doc("123").get()
-      .catch(error => console.error(error));
-    console.log(userDocument);
-    setGreeting(userDocument._data.greeting);
-  };
-  getTestData();
+  
+  getTestData().then(testVal => {
+    setGreeting(testVal);
+  })
   return (
     <View style={styles.enclosingView}>
       <Text style={styles.helloWorldText}>Hello World!</Text>
