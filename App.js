@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View } from 'react-native';
 
 const App = () => {
-  const [greeting, setGreeting] = useState('');
+  const [greeting, setGreeting] = useState('loading...');
 
   return (
     <View style={styles.enclosingView}>
