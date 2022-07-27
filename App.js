@@ -1,44 +1,43 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from 'react-native';
 import { testFirestoreConnection } from "./Firebase/Firestore";
+import { LoginPage } from "./Pages/LoginPage";
 
 const App = () => {
-  const [greeting, setGreeting] = useState(<Text style={styles.helloWorldText}>loading...</Text>);
+  const [greeting, setGreeting] = useState(
+    <View><Text style={styles.helloWorldText}>loading...</Text></View>
+  );
   const isDatabaseConnected = async () => {
+    let view = (
+      <Text style={styles.helloWorldText}>
+        An Error Occurred. Please tell Jacob to fix the code.
+      </Text>
+    );
     if (await testFirestoreConnection() === true) {
-      setGreeting(
-        <Text style={styles.helloWorldText}>
-          We are connected and ready to go!
-        </Text>
+      view = (
+        <LoginPage/>
       );
     }
     else {
-      setGreeting(
+      view = (
         <Text style={styles.helloWorldText}>
           Unable to connect to database.. Very sad.
         </Text>
       );
     }
+    setGreeting(<>{view}</>);
   };
   
   isDatabaseConnected();
-  
+
   return (
-    <View style={styles.enclosingView}>
-      {greeting}
-    </View>
+    <>{greeting}</>
   );
 };
 
 export default App;
 
 const styles = new StyleSheet.create({
-  enclosingView: {
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#348CCB',
-  },
   helloWorldText: {
     color: '#CB7334',
   },
