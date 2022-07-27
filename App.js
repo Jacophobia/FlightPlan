@@ -1,18 +1,31 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from 'react-native';
-import { getTestData } from "./Firebase/Firestore";
+import { testFirestoreConnection } from "./Firebase/Firestore";
 
 const App = () => {
-  const [greeting, setGreeting] = useState('loading...');
-
+  const [greeting, setGreeting] = useState(<Text style={styles.helloWorldText}>loading...</Text>);
+  const isDatabaseConnected = async () => {
+    if (await testFirestoreConnection() === true) {
+      setGreeting(
+        <Text style={styles.helloWorldText}>
+          We are connected and ready to go!
+        </Text>
+      );
+    }
+    else {
+      setGreeting(
+        <Text style={styles.helloWorldText}>
+          Unable to connect to database.. Very sad.
+        </Text>
+      );
+    }
+  };
   
-  getTestData().then(testVal => {
-    setGreeting(testVal);
-  })
+  isDatabaseConnected();
+  
   return (
     <View style={styles.enclosingView}>
-      <Text style={styles.helloWorldText}>Hello World!</Text>
-      <Text style={styles.helloWorldText}>{greeting}</Text>
+      {greeting}
     </View>
   );
 };

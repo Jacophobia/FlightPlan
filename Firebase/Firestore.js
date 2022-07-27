@@ -1,40 +1,92 @@
 import firestore from "@react-native-firebase/firestore";
 // https://www.youtube.com/watch?v=eET0YtDBWWg
 
-export const getTestData = async () => {
+// v v v v v Tests v v v v v
+
+const getTestData = async () => {
   const result = await firestore()
-    .collection("Test")
-    .doc("123")
+    .collection("Collection")
+    .doc("Document")
     .collection("SubCollection")
     .doc("SubDocument")
     .get()
     .catch(error => console.error(error));
-  return result._data["SubField"];
+  return result.data()["SubField"];
 };
 
-export const getPlaneData = async tailNumber => {
-  const result = await firestore()
-    .collection("Planes")
-    .doc(String(tailNumber))
-    .get()
-    .catch(error => console.error(error));
-  return result._data;
-};
-
-export const getFlightData = async (tailNumber, flightId = -1) => {
-  const flightsCollRef = firestore()
-    .collection("Planes")
-    .doc(String(tailNumber))
-    .collection("Flights")
-  if (flightId === -1) {
-    let result = flightsCollRef
-      .get()
-      .catch(error => console.error(error));
-    return result._data;
+export const testFirestoreConnection = async () => {
+  if (await getTestData() === "Connected") {
+    return true;  // tests passed
   }
-  let result = flightsCollRef
-    .doc(String(flightId))
-    .get()
-    .catch(error => console.error(error));
-  return result._data;
+  else {
+    return false; // tests failed
+  }
+};
+
+// ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^
+
+const getPlanesRef = () => {
+  const result = firestore()
+    .collection("Planes");
+  return result;
+};
+
+const getPlaneRef = (tailNumber) => {
+  const result = getPlanesRef()
+    .doc(String(tailNumber));
+  return result;
+}
+
+const getFlightsRef = (tailNumber) => {
+  const result = getPlaneRef(tailNumber)
+    .collection("Flights");
+  return result;
+};
+
+const getFlightRef = (tailNumber, flightId) => {
+  const result = getFlightsRef(tailNumber)
+    .doc(String(flightId));
+  return result;
+};
+
+const getCrewMembersRef = () => {
+  const result = firestore()
+    .collection("Crew Members");
+  return result;
+}
+
+const getCrewMemberRef = (id) => {
+  const result = getCrewMembersRef()
+    .doc(String(id));
+  return result;
+}
+
+const getClientsRef = () => {
+  const result = firestore()
+    .collection("Clients");
+  return result;
+};
+
+const getClientRef = (id) => {
+  const result = getClientsRef()
+    .doc(String(id));
+  return result;
+};
+
+const getPrinciplesRef = () => {
+  const result = firestore()
+    .collection("Principles");
+  return result;
+};
+
+const getPrincipleRef = (id) => {
+  const result = getPrinciplesRef()
+    .doc(String(id));
+  return result;
+}
+
+const getProfilesRef = () => {
+  const result = firestore()
+    .collection("Profiles");
+  return result;
 }
