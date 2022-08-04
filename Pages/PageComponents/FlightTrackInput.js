@@ -1,69 +1,43 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Pressable, TextInput, Image } from 'react-native';
+import { StyleSheet, Text, View, Pressable, Image } from 'react-native';
 import { testFirestoreConnection } from "./Firebase/Firestore";
+import { TextInput } from 'react-native-paper';
+
+
 
 /**
  * Flight Track Input
- * @props initialValue, labelText, icon
+ * @props initialValue, labelText, iconName
  * @returns A Text Input With FlightTrack Custom Styling
  */
 export function FlightTrackInput(props) {
-  const [inputText, setInputText] = useState("Hello From Flight Tracker Input!")
-
+  const [text, setText] = useState(props.initialValue || "");
+  
   return (
-    <View style={styles.container}>
-      <Text></Text>
-      <Pressable style={styles.button} onPress={() => console.log(inputText)}>
-        <TextInput 
-          onChangeText={newText => setInputText(newText)} 
-          placeholder={props.initialValue}
-        >
-          {inputText}
-          
-        </TextInput>
-        <View style={styles.iconContainer}>
-          {
-            () => {
-              if (props.icon) {
-                return (
-                  <Image 
-                    source={props.icon} 
-                    style={styles.icon}
-                  />
-                );
-              }
-              return (<></>);
-            }
-          }
-          
-        </View>
-      </Pressable>
+    <View style={styles.usernameContainer}>
+      <View style={styles.divider} />
+      <TextInput
+        label={props.labelText || "No Label ;-;"}
+        value={text}
+        onChangeText={text => setText(text)}
+        style={styles.username}
+        mode='outlined'
+        activeOutlineColor="gray"
+        right={<TextInput.Icon name={props.iconName} />}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    width: '90%',
-    padding: 10,
-    marginVertical: 5,
-    borderWidth: 2.5,
-    borderRadius: 10,
+  usernameContainer: {
+    width: 250,
   },
-  button: {
-    backgroundColor: 'transparent',
-    borderColor: 'gray',
-    borderWidth: 2.5,
-    borderRadius: 10,
-    flexDirection: 'row',
-    alignItems: 'center',
+  username: {
+    // todo: round corners and see if you can get label to
+    //  stay in the top left
   },
-  icon: {
-    width: 35,
-    height: 35,
-    resizeMode: "contain",
-  },
-  iconContainer: {
-    marginLeft: 10,
+  divider: {
+    height: 10,
   },
 });
