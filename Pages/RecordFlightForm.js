@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, ScrollView, View, Image, KeyboardAvoidingView } from 'react-native';
 import { testFirestoreConnection } from "./Firebase/Firestore";
 import { FlightTrackInput } from "./PageComponents/FlightTrackInput";
 import LinearGradient from 'react-native-linear-gradient';
@@ -13,16 +13,33 @@ export function RecordFlightForm(props) {
   return (
     <View>
       <FlightTrackHeader />
-      <FlightTrackDatePicker />
-      <FlightTrackNumberInput />
-      <FlightTrackPhotoButton />
-      <FlightTrackDropDown />
-      <FlightTrackInput />
-      <Text>Record Flight Form Not Yet Initialized</Text>
+      <ScrollView>
+        <KeyboardAvoidingView style={styles.formList}>
+          <FlightTrackDatePicker />
+          <FlightTrackNumberInput />
+          <FlightTrackPhotoButton />
+          <FlightTrackDropDown />
+          <Text>Record Flight Form Not Yet Initialized</Text>
+          <FlightTrackInput />
+          <FlightTrackInput />
+          <FlightTrackInput />
+          <FlightTrackInput />
+          <FlightTrackInput />
+          <FlightTrackInput />
+          <FlightTrackInput />
+          <FlightTrackInput />
+          <FlightTrackInput />
+          <FlightTrackInput />
+          <FlightTrackInput />
+        </KeyboardAvoidingView>
+      </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-
+  formList: {
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
 });
