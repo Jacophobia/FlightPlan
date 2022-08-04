@@ -7,15 +7,47 @@ import LinearGradient from 'react-native-linear-gradient';
 
 export function LoginPage(props) {
   return (
-    <LinearGradient colors={['#ffffff', '#ffffff', '#AEDDFE', '#4BB3FD']} style={styles.enclosingView}>
+    <LinearGradient 
+      colors={
+        [
+          '#ffffff',
+          '#ffffff',
+          '#ffffff',
+          '#ffffff',
+          '#ffffff',
+          '#ffffff',
+          '#ffffff',
+          '#ffffff',
+          '#ffffff',
+          '#ffffff',
+          '#ffffff',
+          '#f7fafd', 
+          '#e1eff6', 
+          '#c2dcee', 
+          '#aad1e8', 
+          '#8ebfdf', 
+          '#7cb5dc', 
+          '#60a5d3', 
+          '#4b99cd', 
+          '#348dc7', 
+          '#197cbf',
+          // '#177cbf', // medium blue from logo
+          // '#222e61', // dark blue from logo
+        ]
+      } 
+      style={styles.enclosingView}
+    >
       <View style={styles.pageContent}>  
-        <Image source={require("./../assets/PlaceHolderLogo.jpg")} style={styles.logo}/>
+        <Image 
+          source={require("./../assets/Logo.png")} 
+          style={styles.logo}
+        />
         <View style={styles.input}>
           <Text style={styles.buttonText}>
             Login
           </Text>
-          <FlightTrackInput/>
-          <FlightTrackInput/>
+          <FlightTrackInput labelText='Username' />
+          <FlightTrackInput labelText='Password' />
           <View style={styles.forgotLoginPressable}>
             <Text style={styles.forgotLoginText}>
               Forgot Login
@@ -40,7 +72,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   input: {
-    flex: 2,
+    flex: 2.1,
     justifyContent: 'flex-start'
   },  
   buttonText: {
@@ -48,21 +80,21 @@ const styles = StyleSheet.create({
     fontFamily: 'Gill Sans',
     textAlign: 'center',
     margin: 10,
-    color: '#000000',
+    color: '#222e60',
     backgroundColor: 'transparent',
   },
   logo: {
     flex: 1,
-    width: 200,
+    width: 120,
     resizeMode: "contain",
-    height: 126,
   },
   forgotLoginPressable: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
   forgotLoginText: {
-    fontSize: 12,
+    color: '#222e60',
+    fontSize: 14,
     marginRight: 9,
   },
 });
