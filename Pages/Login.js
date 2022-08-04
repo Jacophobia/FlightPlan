@@ -5,7 +5,7 @@ import { FlightTrackInput } from "./PageComponents/FlightTrackInput";
 import LinearGradient from 'react-native-linear-gradient';
 
 
-export function LoginPage(props) {
+export function Login(props) {
   return (
     <LinearGradient 
       colors={
