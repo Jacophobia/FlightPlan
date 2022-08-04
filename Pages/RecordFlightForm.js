@@ -40,6 +40,7 @@ export function RecordFlightForm(props) {
 const styles = StyleSheet.create({
   formList: {
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginVertical: 25,
   },
 });

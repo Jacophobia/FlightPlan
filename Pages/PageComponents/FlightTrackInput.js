@@ -12,38 +12,23 @@ import { testFirestoreConnection } from "./Firebase/Firestore";
  */
 export function FlightTrackInput(props) {
   const [text, setText] = useState(props.initialValue || "");
+
+  const getIcon = () => {
+    if (props.iconPath) {
+      return (
+        <Image style={styles.logo} source={require("../../assets/Logo.png")} />
+      );
+    }
+    return (<></>);
+  };
   
   return (
     <View style={styles.inputContainer}>
       <View style={styles.label}>
-        <Text>{props.labelText || "No label prop provided"}</Text>
+        <Text style={styles.labelText}>{props.labelText || "No label prop provided"}</Text>
       </View>
       <TextInput style={styles.input} onChangeText={setText} value={text} />
-      <Image style={styles.logo} source={require("../../assets/Logo.png")} />
-    </View>
-  );
-
-
-
-
-
-
-
-
-
-
-
-  return (
-    <View style={styles.usernameContainer}>
-      <View style={styles.divider} />
-      <TextInput
-        label={props.labelText || "No Label ;-;"}
-        value={text}
-        onChangeText={text => setText(text)}
-        mode='outlined'
-        activeOutlineColor="gray"
-        right={<TextInput.Icon name={props.iconName} />}
-      />
+      {getIcon()}
     </View>
   );
 }
@@ -52,10 +37,10 @@ const styles = StyleSheet.create({
   inputContainer: {
     width: '90%',
     height: 55,
-    marginTop: 10,
+    marginTop: 15,
     paddingBottom: 50,
     borderWidth: 2.5,
-    borderColor: 'gray',
+    borderColor: '#b0b0b0',
     borderRadius: 12,
     backgroundColor: 'transparent',
     flexDirection: 'column',
@@ -65,10 +50,14 @@ const styles = StyleSheet.create({
   },
   label: {
     position: 'absolute',
-    left: 10,
-    top: -10,
+    left: 16,
+    top: -13,
     backgroundColor: 'white',
     paddingHorizontal: 2,
+  },
+  labelText: {
+    fontSize: 17,
+    color: '#b0b0b0',
   },
   input: {
     // borderColor: 'red',
