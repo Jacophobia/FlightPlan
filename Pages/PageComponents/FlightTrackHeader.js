@@ -1,8 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
-import { testFirestoreConnection } from "./Firebase/Firestore";
-import { FlightTrackInput } from "./PageComponents/FlightTrackInput";
-import LinearGradient from 'react-native-linear-gradient';
 
 /**
  * Flight Track Header
@@ -88,6 +85,7 @@ const styles = StyleSheet.create({
     height: 7,
     backgroundColor: '#177dbf',
     borderRadius: 3,
+    marginVertical: 2,
   },
   headerText: {
     fontSize: 40,
@@ -96,7 +94,6 @@ const styles = StyleSheet.create({
     color: '#222e60',
   },
   headerTextContainer: {
-    marginBottom: 12,
   },
   smallHeaderText: {
     fontSize: 33,

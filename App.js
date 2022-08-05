@@ -12,7 +12,7 @@ const Page = {
 const App = () => {
   const [page, setPage] = useState(Page.RECORD_FLIGHT);
   const [screen, setScreen] = useState(
-    <View>
+    <View style={styles.loading}>
       <Text style={styles.helloWorldText}>
         loading...
       </Text>
@@ -68,4 +68,10 @@ const styles = new StyleSheet.create({
   helloWorldText: {
     color: '#CB7334',
   },
+  loading: {
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    width: '100%', 
+    height: '100%'
+  }
 });

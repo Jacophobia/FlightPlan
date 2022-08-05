@@ -7,16 +7,23 @@ import { FlightTrackInput } from "./FlightTrackInput";
  * @props initialValue, labelText, labelColor, onUpdate
  * @returns A Text Input With FlightTrack Custom Styling
  */
-export function FlightTrackNumberInput(props) {
+export function FlightTrackDollarInput(props) {
+
+  const onUpdate = (value) => {
+    if (!!props.onUpdate) {
+      props.onUpdate(Math.round(Number(value) * 100));
+    }
+  }
+
   return (
     <FlightTrackInput
-      initialValue={props.initialValue}
+      initialValue={props.initialValue || ""}
       labelText={props.labelText}
       labelColor={props.labelColor}
-      icon={require('../../assets/NumberSign.png')}
-      iconScale={45}
+      icon={require('../../assets/DollarSign.png')}
+      iconScale={60}
       keyboardType='numeric'
-      onUpdate={props.onUpdate}
+      onUpdate={onUpdate}
       align='right'
     />
   );
