@@ -11,8 +11,8 @@ import { FlightTrackDropDown } from "./PageComponents/FlightTrackDropDown";
 
 export function RecordFlightForm(props) {
   return (
-    <View>
-      <FlightTrackHeader />
+    <View style={styles.container}>
+      <FlightTrackHeader headerText='Flights' />
       <ScrollView>
         <KeyboardAvoidingView style={styles.formList}>
           <FlightTrackDatePicker />
@@ -20,7 +20,7 @@ export function RecordFlightForm(props) {
           <FlightTrackPhotoButton />
           <FlightTrackDropDown />
           <Text>Record Flight Form Not Yet Initialized</Text>
-          <FlightTrackInput />
+          <FlightTrackInput iconPath={true} />
           <FlightTrackInput />
           <FlightTrackInput />
           <FlightTrackInput />
@@ -38,6 +38,9 @@ export function RecordFlightForm(props) {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#ffffff',
+  },
   formList: {
     alignItems: 'center',
     justifyContent: 'center',

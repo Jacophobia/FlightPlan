@@ -43,7 +43,7 @@ export function Login(props) {
           style={styles.logo}
         />
         <View style={styles.input}>
-          <Text style={styles.buttonText}>
+          <Text style={styles.loginText}>
             Login
           </Text>
           <FlightTrackInput labelText='Username' />
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     width: '65%',
     marginTop: 45,
   },  
-  buttonText: {
+  loginText: {
     fontSize: 43,
     fontFamily: 'Gill Sans',
     textAlign: 'center',
