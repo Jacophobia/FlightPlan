@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, ScrollView, View, Image, KeyboardAvoidingView, DatePickerIOSBase, DatePickerAndroid } from 'react-native';
+import { StyleSheet, Text, ScrollView, View, Image, KeyboardAvoidingView } from 'react-native';
 import { FlightTrackInput } from "./PageComponents/FlightTrackInput";
 import { FlightTrackDatePicker } from "./PageComponents/FlightTrackDatePicker";
 import { FlightTrackHeader } from "./PageComponents/FlightTrackHeader";
@@ -35,6 +35,7 @@ export function RecordFlightForm(props) {
             <FlightTrackInput labelText='Purpose' icon={require('../assets/DropDownArrow.png')} labelColor='#010100' />
             <FlightTrackDollarInput labelText='Landing Fee' labelColor='#010100' />
             <FlightTrackInput labelText='Receipts' icon={require('../assets/Camera.png')} labelColor='#010100' />
+            <FlightTrackDatePicker />
             <Text>Record Flight Form Not Yet Complete</Text>
           </View>
         </ScrollView>

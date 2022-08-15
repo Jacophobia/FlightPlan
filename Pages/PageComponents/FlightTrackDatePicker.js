@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, Pressable, Image, TextInput } from 'react-native';
+import FlightTrackDatePickerDialog from "./FlightTrackDatePickerDialog";
 
 
 export function FlightTrackDatePicker(props) {
@@ -30,6 +31,7 @@ export function FlightTrackDatePicker(props) {
       </View>
       <TextInput style={styles.input} onChangeText={onUpdate} value={text} />
       {getIcon()}
+      <FlightTrackDatePickerDialog />
     </View>
   );
 }
