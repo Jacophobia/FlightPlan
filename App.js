@@ -10,7 +10,7 @@ const Page = {
 };
 
 const App = () => {
-  const [page, setPage] = useState(Page.LOGIN);
+  const [page, setPage] = useState(Page.RECORD_FLIGHT);
   const [screen, setScreen] = useState(
     <View style={styles.loading}>
       <Text style={styles.helloWorldText}>
