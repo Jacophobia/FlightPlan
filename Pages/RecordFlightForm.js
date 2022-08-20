@@ -11,7 +11,7 @@ import { launchCamera } from "react-native-image-picker";
 
 export function RecordFlightForm(props) {
   const openCamera = () => {
-    launchCamera({includeBase64: true, mediaType: 'photo', quality: 0.5}).then(data => console.log(data.assets));
+    launchCamera({includeBase64: true, mediaType: 'photo', quality: 0.5}).then(data => console.log(data));
   };
   return (
     <View style={styles.container}>
