@@ -7,18 +7,21 @@ import { FlightTrackNumberInput } from "./PageComponents/FlightTrackNumberInput"
 import { FlightTrackPhotoButton } from "./PageComponents/FlightTrackPhotoButton";
 import { FlightTrackDropDown } from "./PageComponents/FlightTrackDropDown";
 import { FlightTrackDollarInput } from "./PageComponents/FlightTrackDollarInput";
+import { launchCamera } from "react-native-image-picker";
 
 export function RecordFlightForm(props) {
-  
+  const openCamera = () => {
+    launchCamera({includeBase64: true, mediaType: 'photo', quality: 0.5}).then(data => console.log(data.assets));
+  };
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <FlightTrackHeader headerText='Record Flight' />
+        <FlightTrackHeader headerText='Record Flight' onBackArrowPress={openCamera}/>
       </View>
       <KeyboardAvoidingView style={styles.scrollable}>
         <ScrollView>
           <View style={styles.formList}>
-            <FlightTrackInput labelText='Tail Number' icon={require('../assets/DropDownArrow.png')} labelColor='#010100' validate={(value) => value != 'panda'} />
+            <FlightTrackInput labelText='Tail Number' icon={require('../assets/DropDownArrow.png')} labelColor='#010100' validate={value => value != 'panda'} />
             <FlightTrackInput labelText='Date' icon={require('../assets/Calendar.png')} labelColor='#010100' />
             <FlightTrackInput labelText='Departure' icon={require('../assets/DepartingPlane.png')} labelColor='#010100' />
             <FlightTrackInput labelText='Arrival' icon={require('../assets/ArrivingPlane.png')} labelColor='#010100' />

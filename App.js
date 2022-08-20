@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { testFirestoreConnection } from "./Firebase/Firestore";
 import { Login } from "./Pages/Login";
 import { RecordFlightForm } from "./Pages/RecordFlightForm";
+import { ProgressBar } from "react-native-paper";
 
 const Page = {
   LOGIN: 1,
@@ -13,9 +14,9 @@ const App = () => {
   const [page, setPage] = useState(Page.RECORD_FLIGHT);
   const [screen, setScreen] = useState(
     <View style={styles.loading}>
-      <Text style={styles.helloWorldText}>
-        loading...
-      </Text>
+      <ProgressBar
+        progress={0.5} color="#177cbf"
+      />
     </View>
   );
 
