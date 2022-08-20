@@ -51,5 +51,20 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+  <!-- Required with iOS 10 and higher -->
+  <key>NSCameraUsageDescription</key>
+  <string>Hello there! Can I access your camera to take a picture of your reciept?</string>
+
+  <!-- Required with iOS 11 and higher: include this only if you are planning to use the camera roll -->
+  <key>NSPhotoLibraryAddUsageDescription</key>
+  <string>Hello there! Can I take a look at your photos so I can upload your reciept?</string>
+
+  <!-- Include this only if you are planning to use the camera roll -->
+  <key>NSPhotoLibraryUsageDescription</key>
+  <string>Hello there! Can I take a look at your photos so I can upload your reciept?</string>
+
+  <!-- Include this only if you are planning to use the microphone for video recording -->
+  <key>NSMicrophoneUsageDescription</key>
+  <string>Hello! Can I have access to your camera to improve your app experience?</string>
 </dict>
 </plist>
