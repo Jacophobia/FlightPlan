@@ -33,7 +33,7 @@ export default function FlightTrackDatePickerDialog(props) {
           </Dialog.ScrollArea>
           <Dialog.ScrollArea style={[styles.dateFieldContainer, styles.roundedRight]}>
             <ScrollView style={styles.dateField} contentContainerStyle={{paddingHorizontal: 10}}>
-              {range(currentYear + 5, currentYear - 5, -1).map(val => <View key={val}><Text>{val}</Text></View>)}
+              {range(currentYear + 5, currentYear - 5, -1).map(val => <View key={val}><Text styles={styles.number}>{val}</Text></View>)}
             </ScrollView>
           </Dialog.ScrollArea>
         </View>
@@ -67,5 +67,8 @@ const styles = StyleSheet.create({
   roundedRight: {
     borderTopRightRadius: 10,
     borderBottomRightRadius: 10,
+  },
+  number: {
+    fontSize: 450,
   },
 });
