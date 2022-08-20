@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, View, Text } from 'react-native';
 import { Dialog, Portal } from 'react-native-paper';
+import DatePicker from 'react-native-date-picker';
 
 const range = (start, stop, step = 1) => {
   let val = [];
@@ -18,27 +19,15 @@ export default function FlightTrackDatePickerDialog(props) {
   const currentYear = new Date().getFullYear();
 
   return (
-    <Portal>
-      <Dialog style={styles.dialogContainer} visible={visible} onDismiss={hideDialog}>
-        <View style={styles.dateOptions}>
-          <Dialog.ScrollArea style={[styles.dateFieldContainer, styles.roundedLeft]}>
-            <ScrollView style={styles.dateField} contentContainerStyle={{paddingHorizontal: 10}}>
-              {range(1, 12).map(val => <View><Text>{val}</Text></View>)}
-            </ScrollView>
-          </Dialog.ScrollArea>
-          <Dialog.ScrollArea style={styles.dateFieldContainer}>
-            <ScrollView style={styles.dateField} contentContainerStyle={{paddingHorizontal: 10}}>
-              {range(1, 31).map(val => <View><Text>{val}</Text></View>)}
-            </ScrollView>
-          </Dialog.ScrollArea>
-          <Dialog.ScrollArea style={[styles.dateFieldContainer, styles.roundedRight]}>
-            <ScrollView style={styles.dateField} contentContainerStyle={{paddingHorizontal: 10}}>
-              {range(currentYear + 5, currentYear - 5, -1).map(val => <View key={val}><Text styles={styles.number}>{val}</Text></View>)}
-            </ScrollView>
-          </Dialog.ScrollArea>
-        </View>
-      </Dialog>
-    </Portal>
+      <DatePicker
+        modal
+        open={true}
+        date={new Date()}
+        onConfirm={date => {
+          console.log("Date = ", date.toLocaleDateString())
+        }}
+        onCancel={() => console.log("Cancelled!")}
+      />
   );
 };
 
