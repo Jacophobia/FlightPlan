@@ -23,7 +23,7 @@ export function RecordFlightForm(props) {
           <View style={styles.formList}>
             <FlightTrackInput labelText='Tail Number' icon={require('../assets/DropDownArrow.png')} labelColor='#010100' validate={value => value != 'panda'} />
             <FlightTrackInput labelText='Date' icon={require('../assets/Calendar.png')} labelColor='#010100' />
-            <FlightTrackDropDown />
+            <FlightTrackDropDown data={['Option 1', 'Option 2', 'Option 3', 'Option 4']} onUpdate={console.log} />
             <FlightTrackInput labelText='Departure' icon={require('../assets/DepartingPlane.png')} labelColor='#010100' />
             <FlightTrackInput labelText='Arrival' icon={require('../assets/ArrivingPlane.png')} labelColor='#010100' />
             <FlightTrackInput labelText='Hobbs' labelColor='#010100' />

@@ -5,13 +5,13 @@ import { Login } from "./Pages/Login";
 import { RecordFlightForm } from "./Pages/RecordFlightForm";
 import { ProgressBar } from "react-native-paper";
 
-const Page = {
+const Pages = {
   LOGIN: 1,
   RECORD_FLIGHT: 2,
 };
 
 const App = () => {
-  const [page, setPage] = useState(Page.RECORD_FLIGHT);
+  const [page, setPage] = useState(Pages.RECORD_FLIGHT);
   const [screen, setScreen] = useState(
     <View style={styles.loading}>
       <ProgressBar
@@ -23,17 +23,17 @@ const App = () => {
   const initializeScreen = async () => {
     let view = (
       <Text style={styles.helloWorldText}>
-        An Error Occurred. Please tell Jacob to fix the code.
+        An Error Occurred. Please contact the development team.
       </Text>
     );
     if (await testFirestoreConnection() === true) {
       switch (page) {
-        case Page.LOGIN:
+        case Pages.LOGIN:
           view = (
             <Login />
           );
           break;
-        case Page.RECORD_FLIGHT:
+        case Pages.RECORD_FLIGHT:
           view = (
             <RecordFlightForm />
           );

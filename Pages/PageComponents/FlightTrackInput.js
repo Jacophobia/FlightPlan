@@ -69,7 +69,7 @@ export function FlightTrackInput(props) {
 
   const getInputContent = () => {
     let inputBarStyle = props.align === 'right' ? { right: 0 } : { left: 0 };
-    let textInput = (
+    let input = props.input ? props.input : (
       <TextInput 
         style={[styles.input, inputBarStyle]} 
         onChangeText={onUpdate} 
@@ -82,13 +82,13 @@ export function FlightTrackInput(props) {
       return (
         <>
           {icon}
-          {textInput}
+          {input}
         </>
       );
     }
     return (
       <>
-        {textInput}
+        {input}
         {icon}
       </>
     );
