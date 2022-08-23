@@ -40,7 +40,7 @@ export function FlightTrackDropDown(props) {
       <View style={styles.accordion}>
         <View style={styles.label}>
           <Text 
-            style={[styles.labelText, !!props.labelColor ? {color: props.labelColor} : {}]}
+            style={[styles.labelText, !!props.color ? {color: props.color} : {}]}
           >
             {props.labelText || "No label prop provided"}
           </Text>

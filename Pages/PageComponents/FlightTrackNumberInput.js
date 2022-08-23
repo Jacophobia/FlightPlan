@@ -4,7 +4,7 @@ import { FlightTrackInput } from "./FlightTrackInput";
 
 /**
  * Flight Track Number Input
- * @props initialValue, labelText, labelColor, onUpdate
+ * @props initialValue, labelText, color, onUpdate
  * @returns A Text Input With FlightTrack Custom Styling
  */
 export function FlightTrackNumberInput(props) {
@@ -12,7 +12,7 @@ export function FlightTrackNumberInput(props) {
     <FlightTrackInput
       initialValue={props.initialValue}
       labelText={props.labelText}
-      labelColor={props.labelColor}
+      color={props.color}
       icon={require('../../assets/NumberSign.png')}
       iconScale={45}
       keyboardType='numeric'

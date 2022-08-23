@@ -7,7 +7,7 @@ const iconHeight = 45;
 
 /**
  * Flight Track Input
- * @props onUpdate, initialValue, labelText, labelColor, icon, iconScale, keyboardType, align, errorText, validate
+ * @props onUpdate, initialValue, labelText, color, icon, iconScale, keyboardType, align, errorText, validate
  * @returns A Text Input With FlightTrack Custom Styling
  */
 export function FlightTrackInput(props) {
@@ -113,7 +113,7 @@ export function FlightTrackInput(props) {
       >
         <View style={styles.label}>
           <Text 
-            style={[styles.labelText, !!props.labelColor ? {color: props.labelColor} : {}]}
+            style={[styles.labelText, !!props.color ? {color: props.color} : {}]}
           >
             {props.labelText || "No label prop provided"}
           </Text>

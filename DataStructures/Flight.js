@@ -1,4 +1,4 @@
-class Flight {
+export default class Flight {
   constructor({
     tailNumber,
     date,
@@ -17,56 +17,144 @@ class Flight {
     purposeId,
     landingFee,
     reciepts, // fuel, landing
-  })
+  }) {
+    this.tailNumber = tailNumber;
+    this.date = date;
+    this.departure = departure;
+    this.arrival = arrival;
+    this.hobb = hobb;
+    this.flightHours = flightHours;
+    this.apuHours = apuHours;
+    this.fuel = fuel;
+    this.gallons = gallons;
+    this.fuelPrice = fuelPrice;
+    this.pilotId = pilotId;
+    this.copilotId = copilotId;
+    this.clientId = clientId;
+    this.principleId = principleId;
+    this.purposeId = purposeId;
+    this.landingFee = landingFee;
+    this.reciepts = reciepts;
+  }
+
   getTailNumber() {
-    return tailNumber;
+    return this.tailNumber;
   }
   getDate() {
-    return date;
+    return this.date;
   }
   getDeparture() {
-    return departure;
+    return this.departure;
   }
   getArrival() {
-    return arrival;
+    return this.arrival;
   }
   getHobb() {
-    return hobb; 
+    return this.hobb; 
   }
   getFlightHours() {
-    return flightHours;
+    return this.flightHours;
   }
   getApuHours() {
-    return apuHours;
+    return this.apuHours;
   }
   getFuel() {
-    return fuel;
+    return this.fuel;
   }
   getGallons() {
-    return gallons;
+    return this.gallons;
   }
   getFuelPrice() {
-    return fuelPrice;
+    return this.fuelPrice;
   }
   getPilotId() {
-    return pilotId;
+    return this.pilotId;
   }
   getCopilotId() {
-    return copilotId;
+    return this.copilotId;
   }
   getClientId() {
-    return clientId;
+    return this.clientId;
   }
   getPrincipleId() {
-    return principleId;
+    return this.principleId;
   }
   getPurposeId() {
-    return purposeId;
+    return this.purposeId;
   }
   getLandingFee() {
-    return landingFee;
+    return this.landingFee;
   }
   getReciepts() {
-    return reciepts;
+    return this.reciepts;
+  }
+
+  setTailNumber(newVal) {
+    this.tailNumber = newVal;
+    return this;
+  }
+  setDate(newVal) {
+    this.date = newVal;
+    return this;
+  }
+  setDeparture(newVal) {
+    this.departure = newVal;
+    return this;
+  }
+  setArrival(newVal) {
+    this.arrival = newVal;
+    return this;
+  }
+  setHobb(newVal) {
+    this.hobb = newVal;
+    return this; 
+  }
+  setFlightHours(newVal) {
+    this.flightHours = newVal;
+    return this;
+  }
+  setApuHours(newVal) {
+    this.apuHours = newVal;
+    return this;
+  }
+  setFuel(newVal) {
+    this.fuel = newVal;
+    return this;
+  }
+  setGallons(newVal) {
+    this.gallons = newVal;
+    return this;
+  }
+  setFuelPrice(newVal) {
+    this.fuelPrice = newVal;
+    return this;
+  }
+  setPilotId(newVal) {
+    this.pilotId = newVal;
+    return this;
+  }
+  setCopilotId(newVal) {
+    this.copilotId = newVal;
+    return this;
+  }
+  setClientId(newVal) {
+    this.clientId = newVal;
+    return this;
+  }
+  setPrincipleId(newVal) {
+    this.principleId = newVal;
+    return this;
+  }
+  setPurposeId(newVal) {
+    this.purposeId = newVal;
+    return this;
+  }
+  setLandingFee(newVal) {
+    this.landingFee = newVal;
+    return this;
+  }
+  setReciepts(newVal) {
+    this.reciepts = newVal;
+    return this;
   }
 }

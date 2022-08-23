@@ -20,7 +20,7 @@ export function FlightTrackPhotoButton(props) {
 
   return (
     <Pressable style={styles.container} onPress={async () => { await openCamera(); }}>
-      <Text>{props.label || ''}</Text>
+      <Text style={{color: props.color}}>{props.label || ''}</Text>
       <Image style={[styles.icon, {opacity: opacity}]} source={require('../../assets/Camera.png')}></Image>
     </Pressable>
   );

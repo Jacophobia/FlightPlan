@@ -1,5 +1,5 @@
-import React from "react";
-import { StyleSheet, Text, ScrollView, View, KeyboardAvoidingView } from 'react-native';
+import React, { useState } from "react";
+import { StyleSheet, Text, ScrollView, View, KeyboardAvoidingView, Button } from 'react-native';
 import { FlightTrackInput } from "./PageComponents/FlightTrackInput";
 import { FlightTrackDatePicker } from "./PageComponents/FlightTrackDatePicker";
 import { FlightTrackHeader } from "./PageComponents/FlightTrackHeader";
@@ -9,8 +9,21 @@ import { FlightTrackDropDown } from "./PageComponents/FlightTrackDropDown";
 import { FlightTrackDollarInput } from "./PageComponents/FlightTrackDollarInput";
 import { FlightTrackDualInput } from "./PageComponents/FlightTrackDualInput";
 import { FlightTrackLabeledNumberInput } from "./PageComponents/FlightTrackLabeledNumberInput";
+import Flight from "../DataStructures/Flight";
+import { FlightTrackButton } from "./PageComponents/FlightTrackButton";
 
+/**
+ * Record Flight Form
+ * @param props data (type: Flight Object), onSubmit
+ * @returns A form which collects info about a single flight
+ */
 export function RecordFlightForm(props) {
+  const [flight, setFlight] = useState(new Flight({}));
+
+  const setReciepts = ({left, right}) => {
+    setFlight(oldFlight => oldFlight.setReciepts({Fuel: left, Landing: right}));
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -19,27 +32,31 @@ export function RecordFlightForm(props) {
       <KeyboardAvoidingView style={styles.scrollable}>
         <ScrollView>
           <View style={styles.formList}>
-            <FlightTrackDualInput rightField={FlightTrackPhotoButton} rightLabel='Landing:' leftField={FlightTrackPhotoButton} leftLabel='Fuel:' onUpdate={console.log} />
-            <FlightTrackDualInput rightField={FlightTrackLabeledNumberInput} rightLabel='Out:' leftField={FlightTrackLabeledNumberInput} leftLabel='Out:' />
-            <FlightTrackInput labelText='Tail Number' icon={require('../assets/DropDownArrow.png')} labelColor='#010100' validate={value => value != 'panda'} />
-            <FlightTrackDatePicker labelText='Date' labelColor='#010100' />
-            <FlightTrackDropDown data={['Option 1', 'Option 2', 'Option 3', 'Option 4']} onUpdate={console.log} />
-            <FlightTrackInput labelText='Departure' icon={require('../assets/DepartingPlane.png')} labelColor='#010100' />
-            <FlightTrackInput labelText='Arrival' icon={require('../assets/ArrivingPlane.png')} labelColor='#010100' />
-            <FlightTrackInput labelText='Hobbs' labelColor='#010100' />
-            <FlightTrackNumberInput labelText='Flight Hours' icon={require('../assets/NumberSign.png')} labelColor='#010100' />
-            <FlightTrackNumberInput labelText='APU Hours' icon={require('../assets/NumberSign.png')} labelColor='#010100' />
-            <FlightTrackInput labelText='Fuel' labelColor='#010100' />
-            <FlightTrackNumberInput labelText='Gallons' icon={require('../assets/NumberSign.png')} labelColor='#010100' />
-            <FlightTrackDollarInput labelText='Fuel Price' labelColor='#010100' />
-            <FlightTrackInput labelText='Pilot in Command' icon={require('../assets/DropDownArrow.png')} labelColor='#010100' />
-            <FlightTrackInput labelText='Second in Command' icon={require('../assets/DropDownArrow.png')} labelColor='#010100' />
-            <FlightTrackInput labelText='Client' icon={require('../assets/DropDownArrow.png')} labelColor='#010100' />
-            <FlightTrackInput labelText='Principle' icon={require('../assets/DropDownArrow.png')} labelColor='#010100' />
-            <FlightTrackInput labelText='Purpose' icon={require('../assets/DropDownArrow.png')} labelColor='#010100' />
-            <FlightTrackDollarInput labelText='Landing Fee' labelColor='#010100' />
-            <FlightTrackInput labelText='Receipts' labelColor='#010100' />
-            <FlightTrackDatePicker />
+            <FlightTrackDropDown labelText='Tail Number' color='#010100' data={['Tail Number 1', 'Tail Number 2', 'Tail Number 3', 'Tail Number 4', 'Tail Number 5']} />
+            <FlightTrackDatePicker labelText='Date' color='#010100' />
+            <FlightTrackInput labelText='Departure' icon={require('../assets/DepartingPlane.png')} color='#010100' />
+            <FlightTrackInput labelText='Arrival' icon={require('../assets/ArrivingPlane.png')} color='#010100' />
+            <FlightTrackDualInput labelText='Hobbs' leftField={FlightTrackLabeledNumberInput} leftLabel='Out:' rightField={FlightTrackLabeledNumberInput} rightLabel='In:' color='#010100' />
+            <FlightTrackNumberInput labelText='Flight Hours' color='#010100' />
+            <FlightTrackNumberInput labelText='APU Hours' color='#010100' />
+            <FlightTrackDualInput labelText='Fuel' leftField={FlightTrackLabeledNumberInput} leftLabel='Out:' rightField={FlightTrackLabeledNumberInput} rightLabel='In:' color='#010100' />
+            <FlightTrackNumberInput labelText='Gallons' color='#010100' />
+            <FlightTrackDollarInput labelText='Fuel Price' color='#010100' />
+            <FlightTrackDropDown labelText='Pilot in Command' color='#010100' data={['Crew Member 1', 'Crew Member 2', 'Crew Member 3', 'Crew Member 4', 'Crew Member 5']} />
+            <FlightTrackDropDown labelText='Second in Command' color='#010100' data={['Crew Member 1', 'Crew Member 2', 'Crew Member 3', 'Crew Member 4', 'Crew Member 5']} />
+            <FlightTrackDropDown labelText='Client' color='#010100' data={['Client 1', 'Client 2', 'Client 3', 'Client 4', 'Client 5']} />
+            <FlightTrackDropDown labelText='Principle' color='#010100' data={['Principle 1', 'Principle 2', 'Principle 3', 'Principle 4', 'Principle 5']} />
+            <FlightTrackDropDown labelText='Purpose' color='#010100' data={['Purpose 1', 'Purpose 2', 'Purpose 3', 'Purpose 4', 'Purpose 5']} />
+            <FlightTrackDollarInput labelText='Landing Fee' color='#010100' />
+            <FlightTrackDualInput 
+              rightField={FlightTrackPhotoButton} 
+              rightLabel='Landing:' 
+              leftField={FlightTrackPhotoButton} 
+              leftLabel='Fuel:' 
+              onUpdate={setReciepts} 
+              color='#010100'
+            />
+            <FlightTrackButton onPress={() => console.log(flight)} title='Submit' />
             <Text>Record Flight Form Not Yet Complete</Text>
           </View>
         </ScrollView>

@@ -9,8 +9,8 @@ import { StyleSheet, Text, View, Pressable, Image, TextInput, ScrollView } from 
 export function FlightTrackDualInput(props) {
   
   const [data, setData] = useState({
-    right: props?.data?.right || '',
-    left: props?.data?.left || '',
+    'right': props?.data?.right || '',
+    'left': props?.data?.left || '',
   })
 
   const setRightData = newRightData => {
@@ -34,14 +34,14 @@ export function FlightTrackDualInput(props) {
       <View style={styles.InputField}>
         <View style={styles.label}>
           <Text 
-            style={[styles.labelText, !!props.labelColor ? {color: props.labelColor} : {}]}
+            style={[styles.labelText, !!props.color ? {color: props.color} : {}]}
           >
             {props.labelText || "No label prop provided"}
           </Text>
         </View>
         <View style={styles.inputArea}>
-          <props.leftField onUpdate={setLeftData} data={data.left} label={props.leftLabel} />
-          <props.rightField onUpdate={setRightData} data={data.right} label={props.rightLabel} />
+          <props.leftField onUpdate={setLeftData} data={data.left} label={props.leftLabel} color={props.color} />
+          <props.rightField onUpdate={setRightData} data={data.right} label={props.rightLabel} color={props.color} />
         </View>
       </View>
     </>

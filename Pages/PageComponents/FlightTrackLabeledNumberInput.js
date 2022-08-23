@@ -37,7 +37,7 @@ export function FlightTrackLabeledNumberInput(props) {
 
   return (
     <View style={styles.container}>
-      <Text>{props.label || ''}</Text>
+      <Text style={{color: props.color}}>{props.label || ''}</Text>
       <View style={styles.textContainer}>
         <TextInput 
           style={styles.text} 

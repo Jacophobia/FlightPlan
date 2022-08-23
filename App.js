@@ -4,6 +4,7 @@ import { testFirestoreConnection } from "./Firebase/Firestore";
 import { Login } from "./Pages/Login";
 import { RecordFlightForm } from "./Pages/RecordFlightForm";
 import { ProgressBar } from "react-native-paper";
+import Flight from "./DataStructures/Flight";
 
 const Pages = {
   LOGIN: 1,
