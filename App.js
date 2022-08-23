@@ -35,7 +35,7 @@ const App = () => {
           break;
         case Pages.RECORD_FLIGHT:
           view = (
-            <RecordFlightForm />
+            <RecordFlightForm toLogin={() => setPage(Pages.LOGIN)} />
           );
           break;
         default:

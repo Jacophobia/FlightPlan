@@ -1,15 +1,37 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, Pressable, Image, TextInput, ScrollView } from 'react-native';
-import DatePicker from "react-native-date-picker";
 
+/**
+ * Flight Track Dual Input
+ * @param props leftField, rightField, data (right, left), labelText, onUpdate
+ * @returns An input field with two configurable inputs
+ */
+export function FlightTrackDualInput(props) {
+  
+  const [data, setData] = useState({
+    right: props?.data?.right || '',
+    left: props?.data?.left || '',
+  })
 
-export function FlightTrackDatePicker(props) {
-  const [date, setDate] = useState(props.data || new Date());
-  const [open, setOpen] = useState(false);
+  const setRightData = newRightData => {
+    setData(oldData => {
+      oldData.right = newRightData;
+      props.onUpdate(oldData);
+      return oldData;
+    });
+  };
+
+  const setLeftData = newLeftData => {
+    setData(oldData => {
+      oldData.left = newLeftData;
+      props.onUpdate(oldData);
+      return oldData;
+    });
+  };
   
   return (
     <>
-      <View style={styles.accordion}>
+      <View style={styles.InputField}>
         <View style={styles.label}>
           <Text 
             style={[styles.labelText, !!props.labelColor ? {color: props.labelColor} : {}]}
@@ -17,32 +39,17 @@ export function FlightTrackDatePicker(props) {
             {props.labelText || "No label prop provided"}
           </Text>
         </View>
-        <Pressable style={styles.pressable} onPress={() => setOpen(true)}>
-          <Text>{date.toDateString()}</Text>
-          <View>
-            <Image style={[styles.icon]} source={require('../../assets/Calendar.png')} />
-          </View>
-        </Pressable>
-        <DatePicker
-          mode="date"
-          modal
-          open={open}
-          date={date}
-          onConfirm={date => {
-            setDate(date);
-            setOpen(false);
-          }}
-          onCancel={() => {
-            setOpen(false);
-          }}
-        />
+        <View style={styles.inputArea}>
+          <props.leftField onUpdate={setLeftData} data={data.left} label={props.leftLabel} />
+          <props.rightField onUpdate={setRightData} data={data.right} label={props.rightLabel} />
+        </View>
       </View>
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  accordion: {
+  InputField: {
     width: '90%',
     marginTop: 15,
     borderWidth: 2.5,
@@ -65,11 +72,11 @@ const styles = StyleSheet.create({
     fontSize: 17,
     color: '#b0b0b0',
   },
-  pressable: {
+  inputArea: {
     width: '100%',
     height: 50,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
     paddingLeft: 10,
   },

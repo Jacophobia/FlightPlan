@@ -1,14 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, ScrollView, Image, Pressable } from 'react-native';
-import { testFirestoreConnection } from "./Firebase/Firestore";
-import { FlightTrackInput } from "./PageComponents/FlightTrackInput";
-import LinearGradient from 'react-native-linear-gradient';
-import { Button, Menu, Divider, Provider, List } from 'react-native-paper';
-import { transparent } from "react-native-paper/lib/typescript/styles/colors";
+import { testFirestoreConnection } from "./../../Firebase/Firestore";
 import { FlightTrackDropDownOption } from "./FlightTrackDropDownOption";
-
-const iconWidth = 45;
-const iconHeight = 45;
 
 /**
  * Flight Track Drop Down
@@ -16,7 +9,7 @@ const iconHeight = 45;
  * @returns A dropdown menu with selectable elements
  */
 export function FlightTrackDropDown(props) {
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(false);
   const [selected, setSelected] = useState('');
 
   const handlePress = () => {
@@ -32,9 +25,9 @@ export function FlightTrackDropDown(props) {
     if (expanded) {
       return (
         (!!props.data ? props.data : ['Test Value 1', 'Test Value 2', 'Test Value 3', 'Test Value 4'])
-          .map((value) => {
+          .map((value, index) => {
             return (
-              <FlightTrackDropDownOption value={value} onPress={onSelect} />
+              <FlightTrackDropDownOption key={index} value={value} onPress={onSelect} />
             )
           })
       );

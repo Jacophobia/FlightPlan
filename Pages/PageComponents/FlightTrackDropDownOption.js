@@ -10,6 +10,7 @@ import LinearGradient from 'react-native-linear-gradient';
  * @returns A single element to be placed in a Flight Track Dropdown element
  */
 export function FlightTrackDropDownOption(props) {
+  const [color, setColor] = useState('transparent');
 
   const onPress = () => {
     props.onPress(props.value);
@@ -18,7 +19,12 @@ export function FlightTrackDropDownOption(props) {
   return (
     <>
       <View style={styles.divider} />
-      <Pressable style={styles.highlight} onPress={onPress}>
+      <Pressable 
+        style={[styles.pressable, {backgroundColor: color}]} 
+        onPress={onPress}
+        onPressIn={() => setColor('#D9D9D9')}
+        onPressOut={() => setColor('transparent')}
+      >
         <Text>{props.value}</Text>
       </Pressable>
     </>
@@ -26,8 +32,7 @@ export function FlightTrackDropDownOption(props) {
 }
 
 const styles = StyleSheet.create({
-  highlight: {
-    borderColor: 'transparent',
+  pressable: {
     padding: 10,
   },
   divider: {

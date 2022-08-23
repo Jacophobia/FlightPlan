@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, ScrollView, View, Image, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, ScrollView, View, KeyboardAvoidingView } from 'react-native';
 import { FlightTrackInput } from "./PageComponents/FlightTrackInput";
 import { FlightTrackDatePicker } from "./PageComponents/FlightTrackDatePicker";
 import { FlightTrackHeader } from "./PageComponents/FlightTrackHeader";
@@ -7,22 +7,22 @@ import { FlightTrackNumberInput } from "./PageComponents/FlightTrackNumberInput"
 import { FlightTrackPhotoButton } from "./PageComponents/FlightTrackPhotoButton";
 import { FlightTrackDropDown } from "./PageComponents/FlightTrackDropDown";
 import { FlightTrackDollarInput } from "./PageComponents/FlightTrackDollarInput";
-import { launchCamera } from "react-native-image-picker";
+import { FlightTrackDualInput } from "./PageComponents/FlightTrackDualInput";
+import { FlightTrackLabeledNumberInput } from "./PageComponents/FlightTrackLabeledNumberInput";
 
 export function RecordFlightForm(props) {
-  const openCamera = () => {
-    launchCamera({includeBase64: true, mediaType: 'photo', quality: 0.5}).then(data => console.log(data));
-  };
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <FlightTrackHeader headerText='Record Flight' onBackArrowPress={openCamera}/>
+        <FlightTrackHeader headerText='Record Flight' onBackArrowPress={props.toLogin}/>
       </View>
       <KeyboardAvoidingView style={styles.scrollable}>
         <ScrollView>
           <View style={styles.formList}>
+            <FlightTrackDualInput rightField={FlightTrackPhotoButton} rightLabel='Landing:' leftField={FlightTrackPhotoButton} leftLabel='Fuel:' onUpdate={console.log} />
+            <FlightTrackDualInput rightField={FlightTrackLabeledNumberInput} rightLabel='Out:' leftField={FlightTrackLabeledNumberInput} leftLabel='Out:' />
             <FlightTrackInput labelText='Tail Number' icon={require('../assets/DropDownArrow.png')} labelColor='#010100' validate={value => value != 'panda'} />
-            <FlightTrackInput labelText='Date' icon={require('../assets/Calendar.png')} labelColor='#010100' />
+            <FlightTrackDatePicker labelText='Date' labelColor='#010100' />
             <FlightTrackDropDown data={['Option 1', 'Option 2', 'Option 3', 'Option 4']} onUpdate={console.log} />
             <FlightTrackInput labelText='Departure' icon={require('../assets/DepartingPlane.png')} labelColor='#010100' />
             <FlightTrackInput labelText='Arrival' icon={require('../assets/ArrivingPlane.png')} labelColor='#010100' />
@@ -38,7 +38,7 @@ export function RecordFlightForm(props) {
             <FlightTrackInput labelText='Principle' icon={require('../assets/DropDownArrow.png')} labelColor='#010100' />
             <FlightTrackInput labelText='Purpose' icon={require('../assets/DropDownArrow.png')} labelColor='#010100' />
             <FlightTrackDollarInput labelText='Landing Fee' labelColor='#010100' />
-            <FlightTrackInput labelText='Receipts' icon={require('../assets/Camera.png')} labelColor='#010100' />
+            <FlightTrackInput labelText='Receipts' labelColor='#010100' />
             <FlightTrackDatePicker />
             <Text>Record Flight Form Not Yet Complete</Text>
           </View>
