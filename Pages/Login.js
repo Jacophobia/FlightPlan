@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
 import { FlightTrackInput } from "./PageComponents/FlightTrackInput";
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -42,16 +42,16 @@ export function Login(props) {
           style={styles.logo}
         />
         <View style={styles.input}>
-          <Text style={styles.loginText}>
-            Login
-          </Text>
           <FlightTrackInput labelText='Username' />
           <FlightTrackInput labelText='Password' />
           <View style={styles.forgotLoginPressable}>
-            <Text style={styles.forgotLoginText}>
-              Forgot Login
-            </Text>
+            <Pressable onPress={() => alert('Not yet implemented')}>
+              <Text style={styles.forgotLoginText}>
+                Forgot Login
+              </Text>
+            </Pressable>
           </View>
+
         </View>
       </View>
     </LinearGradient>

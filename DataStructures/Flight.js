@@ -4,7 +4,7 @@ export default class Flight {
     date,
     departure,
     arrival,
-    hobb, // in, out
+    hobbs, // in, out
     flightHours,
     apuHours,
     fuel, // in, out
@@ -22,7 +22,7 @@ export default class Flight {
     this.date = date;
     this.departure = departure;
     this.arrival = arrival;
-    this.hobb = hobb;
+    this.hobbs = hobbs;
     this.flightHours = flightHours;
     this.apuHours = apuHours;
     this.fuel = fuel;
@@ -49,8 +49,8 @@ export default class Flight {
   getArrival() {
     return this.arrival;
   }
-  getHobb() {
-    return this.hobb; 
+  getHobbs() {
+    return this.hobbs; 
   }
   getFlightHours() {
     return this.flightHours;
@@ -105,8 +105,8 @@ export default class Flight {
     this.arrival = newVal;
     return this;
   }
-  setHobb(newVal) {
-    this.hobb = newVal;
+  setHobbs(newVal) {
+    this.hobbs = newVal;
     return this; 
   }
   setFlightHours(newVal) {

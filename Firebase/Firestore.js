@@ -35,7 +35,7 @@ const getPlaneRef = (tailNumber) => {
   const result = getPlanesRef()
     .doc(String(tailNumber));
   return result;
-}
+};
 
 const getFlightsRef = (tailNumber) => {
   const result = getPlaneRef(tailNumber)
@@ -53,13 +53,13 @@ const getCrewMembersRef = () => {
   const result = firestore()
     .collection("Crew Members");
   return result;
-}
+};
 
 const getCrewMemberRef = (id) => {
   const result = getCrewMembersRef()
     .doc(String(id));
   return result;
-}
+};
 
 const getClientsRef = () => {
   const result = firestore()
@@ -83,10 +83,20 @@ const getPrincipleRef = (id) => {
   const result = getPrinciplesRef()
     .doc(String(id));
   return result;
-}
+};
 
 const getProfilesRef = () => {
   const result = firestore()
     .collection("Profiles");
   return result;
-}
+};
+
+export const tableNumbers = {
+  
+};
+
+export const getOptions = (ids, tableNumber) => {
+  switch (tableNumber) {
+
+  }
+};

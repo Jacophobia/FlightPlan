@@ -1,33 +1,34 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, ScrollView, Image, Pressable } from 'react-native';
-import { testFirestoreConnection } from "./../../Firebase/Firestore";
+import { testFirestoreConnection, getOptions } from "./../../Firebase/Firestore";
 import { FlightTrackDropDownOption } from "./FlightTrackDropDownOption";
 
 /**
  * Flight Track Drop Down
- * @param props data, onUpdate
+ * @param props options, onUpdate, data
  * @returns A dropdown menu with selectable elements
  */
 export function FlightTrackDropDown(props) {
   const [expanded, setExpanded] = useState(false);
-  const [selected, setSelected] = useState('');
+  const [selected, setSelected] = useState(props.data || {id: '', name: ''});
 
   const handlePress = () => {
     setExpanded(prev => !prev);
   };
 
-  const onSelect = value => {
-    setSelected(value);
+  const onSelect = option => {
+    setSelected(option);
+    props.onUpdate(option.id);
     handlePress();
   };
 
   const renderDropDown = () => {
     if (expanded) {
       return (
-        (!!props.data ? props.data : ['Test Value 1', 'Test Value 2', 'Test Value 3', 'Test Value 4'])
-          .map((value, index) => {
+        (!!props.options ? props.options : [{name: 'Test option 1', id: '1'}, {name: 'Test option 2', id: '2'}, {name: 'Test option 3', id: '3'}, {name: 'Test option 4', id: '4'}])
+          .map((option) => {
             return (
-              <FlightTrackDropDownOption key={index} value={value} onPress={onSelect} />
+              <FlightTrackDropDownOption key={option.id} option={option} onPress={onSelect} />
             )
           })
       );
@@ -46,7 +47,7 @@ export function FlightTrackDropDown(props) {
           </Text>
         </View>
         <Pressable style={styles.pressable} onPress={handlePress}>
-          <Text>{selected}</Text>
+          <Text>{selected.name}</Text>
           <View>
             <Image style={[styles.icon]} source={require('../../assets/DropDownArrow.png')} />
           </View>

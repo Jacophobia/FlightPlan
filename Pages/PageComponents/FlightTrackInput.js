@@ -7,43 +7,38 @@ const iconHeight = 45;
 
 /**
  * Flight Track Input
- * @props onUpdate, initialValue, labelText, color, icon, iconScale, keyboardType, align, errorText, validate
+ * @props onUpdate, data, labelText, color, icon, iconScale, keyboardType, align, errorText, validate
  * @returns A Text Input With FlightTrack Custom Styling
  */
 export function FlightTrackInput(props) {
-  const [text, setText] = useState(props.initialValue || "");
+  const [text, setText] = useState(props.data || "");
 
   const onUpdate = (textValue) => {
     if (props.keyboardType === 'numeric') {
       setText(curr => {
-        let isInvalid = false;
         let decimalCount = 0;
         for (const val of textValue) {
           let numVal = Number(val);
           if (val === ' ') {
-            isInvalid = true;
+            return curr;
           }
           if (val === '.') {
             decimalCount += 1;
             if (decimalCount > 1) {
-              isInvalid = true;
+              return curr;
             }
           }
           else if (numVal < 0 || numVal > 9 || (numVal !== 0 && !numVal)) {
-            isInvalid = true;
+            return curr;
           }
         }
-        if (isInvalid) {
-          return curr;
-        }
+        props.onUpdate(textValue);
         return textValue;
       });
     }
     else {
+      props.onUpdate(textValue);
       setText(textValue);
-    }
-    if (!!props.onUpdate) {
-      props.onUpdate(text);
     }
   };
 

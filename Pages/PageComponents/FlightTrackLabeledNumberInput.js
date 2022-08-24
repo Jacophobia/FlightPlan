@@ -7,7 +7,7 @@ import { launchCamera } from "react-native-image-picker";
 
 /**
  * Flight Track Labeled Number Input
- * @param props label, data
+ * @param props label, data, onUpdate
  * @returns A small numerical input with a label
  */
 export function FlightTrackLabeledNumberInput(props) {
@@ -19,18 +19,22 @@ export function FlightTrackLabeledNumberInput(props) {
       for (const val of newValue) {
         let numVal = Number(val);
         if (val === ' ') {
+          props.onUpdate(curr);
           return curr;
         }
         if (val === '.') {
           decimalCount += 1;
           if (decimalCount > 1) {
+            props.onUpdate(curr);
             return curr;
           }
         }
         else if (numVal < 0 || numVal > 9 || (numVal !== 0 && !numVal)) {
+          props.onUpdate(curr);
           return curr;
         }
       }
+      props.onUpdate(newValue);
       return newValue;
     });
   };

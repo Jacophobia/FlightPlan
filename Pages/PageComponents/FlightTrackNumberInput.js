@@ -4,13 +4,13 @@ import { FlightTrackInput } from "./FlightTrackInput";
 
 /**
  * Flight Track Number Input
- * @props initialValue, labelText, color, onUpdate
+ * @props data, labelText, color, onUpdate
  * @returns A Text Input With FlightTrack Custom Styling
  */
 export function FlightTrackNumberInput(props) {
   return (
     <FlightTrackInput
-      initialValue={props.initialValue}
+      data={props.data}
       labelText={props.labelText}
       color={props.color}
       icon={require('../../assets/NumberSign.png')}

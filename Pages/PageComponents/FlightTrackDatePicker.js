@@ -30,6 +30,7 @@ export function FlightTrackDatePicker(props) {
           date={date}
           onConfirm={date => {
             setDate(date);
+            props.onUpdate(date);
             setOpen(false);
           }}
           onCancel={() => {
