@@ -13,7 +13,7 @@ import { launchCamera } from "react-native-image-picker";
 export function FlightTrackButton(props) {
 
   return (
-    <Pressable style={styles.button} onPress={props.onPress}>
+    <Pressable style={[styles.button, props.style]} onPress={props.onPress}>
       <Text style={styles.text}>{props.title || ''}</Text>
     </Pressable>
   );

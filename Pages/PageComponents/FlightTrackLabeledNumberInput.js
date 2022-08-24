@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Image, Pressable, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Image, Pressable, TextInput, Platform } from 'react-native';
 import { testFirestoreConnection } from "./Firebase/Firestore";
 import { FlightTrackInput } from "./PageComponents/FlightTrackInput";
 import LinearGradient from 'react-native-linear-gradient';
@@ -62,15 +62,17 @@ const styles = StyleSheet.create({
     width: '40%',
   },
   textContainer: {
-    height: '75%',
+    height: Platform.OS === 'ios' ? '100%' : '75%',
     width: '40%',
     marginLeft: 10,
     marginRight: 20,
-    marginTop: 14,
+    marginTop: Platform.OS === 'ios' ? 0 : 14,
     backgroundColor: 'transparent',
-    margin: 10,
+    margin: Platform.OS === 'ios' ? 0 : 10,
   },
   text: {
     backgroundColor: 'transparent',
+    width: '100%',
+    height: '100%',
   },
 });

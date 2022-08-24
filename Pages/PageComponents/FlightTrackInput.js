@@ -7,7 +7,7 @@ const iconHeight = 45;
 
 /**
  * Flight Track Input
- * @props onUpdate, data, labelText, color, icon, iconScale, keyboardType, align, errorText, validate
+ * @props onUpdate, data, labelText, color, icon, iconScale, keyboardType, align, errorText, validate, hide
  * @returns A Text Input With FlightTrack Custom Styling
  */
 export function FlightTrackInput(props) {
@@ -63,29 +63,30 @@ export function FlightTrackInput(props) {
   };
 
   const getInputContent = () => {
-    let inputBarStyle = props.align === 'right' ? { right: 0 } : { left: 0 };
+    let inputBarStyle = props.align === 'right' ? { width: '87%' } : {};
     let input = props.input ? props.input : (
       <TextInput 
         style={[styles.input, inputBarStyle]} 
         onChangeText={onUpdate} 
         value={text}  
         keyboardType={props.keyboardType || 'default'}
+        secureTextEntry={props.hide || false}
       />
     );
     let icon = getIcon();
     if (props.align === 'right') {
       return (
-        <>
+        <View style={styles.inputContent}>
           {icon}
           {input}
-        </>
+        </View>
       );
     }
     return (
-      <>
+      <View style={styles.inputContent}>
         {input}
         {icon}
-      </>
+      </View>
     );
   };
 
@@ -103,7 +104,6 @@ export function FlightTrackInput(props) {
       <View 
         style={[
           styles.inputContainer, 
-          {justifyContent: props.align === 'right' ? 'flex-start' : 'flex-end'}
         ]}
       >
         <View style={styles.label}>
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     
   },
   label: {
@@ -151,10 +151,16 @@ const styles = StyleSheet.create({
     color: '#b0b0b0',
   },
   input: {
-    position: 'absolute',
-    bottom: 0,
-    width: '85%',
-    marginLeft: 3,
+    marginLeft: 10,
+    width: '80%',
+    height: '100%',
+  },
+  inputContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    height: '100%',
   },
   icon: {
     resizeMode: "contain",

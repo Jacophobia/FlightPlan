@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, ScrollView, View, KeyboardAvoidingView, Button } from 'react-native';
+import { StyleSheet, Text, ScrollView, View, KeyboardAvoidingView, Button, Platform } from 'react-native';
 import { FlightTrackInput } from "./PageComponents/FlightTrackInput";
 import { FlightTrackDatePicker } from "./PageComponents/FlightTrackDatePicker";
 import { FlightTrackHeader } from "./PageComponents/FlightTrackHeader";
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   scrollable: {
-    flex: 3.9, // 6.0 if the scrollview doesn't move up with the keyboard
+    flex: Platform.OS === 'ios' ? 6.0 : 3.9,
   },
   header: {
     flex: 1,

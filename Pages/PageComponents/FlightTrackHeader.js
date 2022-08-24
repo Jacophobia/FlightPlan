@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Image, Pressable, Platform } from 'react-native';
 
 /**
  * Flight Track Header
@@ -52,7 +52,7 @@ export function FlightTrackHeader(props) {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    marginTop: 13,
+    marginTop: Platform.OS === 'ios' ? 24 : 13,
     paddingTop: 12,
     width: '100%',
   },
@@ -93,8 +93,8 @@ const styles = StyleSheet.create({
     height: '112%',
     color: '#222e60',
   },
-  headerTextContainer: {
-  },
+  headerTextContainer: Platform.OS === 'ios' ? 
+  {marginTop: 10} : {},
   smallHeaderText: {
     fontSize: 33,
     width: '100%',
@@ -102,6 +102,6 @@ const styles = StyleSheet.create({
     color: '#222e60',
   },
   smallHeaderTextContainer: {
-    marginTop: 6,
+    marginTop: Platform.OS === 'ios' ? 15 : 6,
   },
 });

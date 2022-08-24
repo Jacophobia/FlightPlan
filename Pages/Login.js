@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
 import { FlightTrackInput } from "./PageComponents/FlightTrackInput";
 import LinearGradient from 'react-native-linear-gradient';
+import { FlightTrackButton } from "./PageComponents/FlightTrackButton";
 
 
 export function Login(props) {
+  const [userName, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
   return (
     <LinearGradient 
       colors={
@@ -37,13 +41,15 @@ export function Login(props) {
       style={styles.enclosingView}
     >
       <View style={styles.pageContent}>  
-        <Image 
-          source={require("./../assets/Logo.png")} 
-          style={styles.logo}
-        />
+        <View style={styles.logoContainer} >
+          <Image 
+            source={require("./../assets/Logo.png")} 
+            style={styles.logo}
+          />
+        </View>
         <View style={styles.input}>
-          <FlightTrackInput labelText='Username' />
-          <FlightTrackInput labelText='Password' />
+          <FlightTrackInput labelText='Username' onUpdate={setUsername} />
+          <FlightTrackInput labelText='Password' onUpdate={setPassword} hide={true} />
           <View style={styles.forgotLoginPressable}>
             <Pressable onPress={() => alert('Not yet implemented')}>
               <Text style={styles.forgotLoginText}>
@@ -52,6 +58,9 @@ export function Login(props) {
             </Pressable>
           </View>
 
+        </View>
+        <View style={styles.submitContainer}>
+          <FlightTrackButton style={styles.submit} title='Log In' onPress={() => alert('Not yet implemented')} />
         </View>
       </View>
     </LinearGradient>
@@ -72,24 +81,26 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   input: {
-    flex: 2.9,
     justifyContent: 'flex-start',
     alignItems: 'center',
     width: '65%',
-    marginTop: 45,
   },  
   loginText: {
     fontSize: 43,
     fontFamily: 'Gill Sans',
     textAlign: 'center',
-    marginTop: 6,
-    marginBottom: 20,
     color: '#222e60',
     backgroundColor: 'transparent',
   },
+  logoContainer: {
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    marginTop: 60,
+    marginBottom: 120,
+  },
   logo: {
-    flex: 1,
     width: 130,
+    height: 130,
     resizeMode: "contain",
   },
   forgotLoginPressable: {
@@ -104,4 +115,15 @@ const styles = StyleSheet.create({
     fontSize: 15.5,
     marginRight: 14.9,
   },
+  submitContainer: {
+    width: '100%',
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+
+  },
+  submit: {
+    width: '35%',
+    height: 35
+  }
 });
