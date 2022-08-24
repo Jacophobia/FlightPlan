@@ -167,29 +167,34 @@ export function RecordFlightForm(props) {
               color='#010100' 
               options={[{name: 'Crew Member 1', id: '1'}, {name: 'Crew Member 2', id: '2'}, {name: 'Crew Member 3', id: '3'}, {name: 'Crew Member 4', id: '4'}, {name: 'Crew Member 5', id: '5'}]} 
               data={flight.getCopilotId()} 
+              onUpdate={setCopilotId}
             />
             <FlightTrackDropDown 
               labelText='Client' 
               color='#010100' 
               options={[{name: 'Client 1', id: '1'}, {name: 'Client 2', id: '2'}, {name: 'Client 3', id: '3'}, {name: 'Client 4', id: '4'}, {name: 'Client 5', id: '5'}]} 
               data={flight.getClientId()} 
+              onUpdate={setClientId}
             />
             <FlightTrackDropDown 
               labelText='Principle' 
               color='#010100' 
               options={[{name: 'Principle 1', id: '1'}, {name: 'Principle 2', id: '2'}, {name: 'Principle 3', id: '3'}, {name: 'Principle 4', id: '4'}, {name: 'Principle 5', id: '5'}]} 
               data={flight.getPrincipleId()} 
+              onUpdate={setPrincipleId}
             />
             <FlightTrackDropDown 
               labelText='Purpose' 
               color='#010100' 
               options={[{name: 'Purpose 1', id: '1'}, {name: 'Purpose 2', id: '2'}, {name: 'Purpose 3', id: '3'}, {name: 'Purpose 4', id: '4'}, {name: 'Purpose 5', id: '5'}]} 
               data={flight.getPurposeId()} 
+              onUpdate={setPurposeId}
             />
             <FlightTrackDollarInput 
               labelText='Landing Fee'
               color='#010100' 
               data={flight.getLandingFee()} 
+              onUpdate={setLandingFee}
             />
             <FlightTrackDualInput 
               labelText='Reciepts'
@@ -197,9 +202,9 @@ export function RecordFlightForm(props) {
               rightLabel='Landing:' 
               leftField={FlightTrackPhotoButton} 
               leftLabel='Fuel:' 
-              onUpdate={setReciepts} 
               color='#010100'
               data={flight.getReciepts()}
+              onUpdate={setReciepts}
             />
             <FlightTrackButton onPress={submit} title='Submit' />
             <Text>Record Flight Form Not Yet Complete</Text>
