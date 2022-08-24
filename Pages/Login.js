@@ -60,7 +60,7 @@ export function Login(props) {
 
         </View>
         <View style={styles.submitContainer}>
-          <FlightTrackButton style={styles.submit} title='Log In' onPress={() => alert('Not yet implemented')} />
+          <FlightTrackButton style={styles.submit} title='Log In' onPress={() =>{props.navigate.recordFlightForm(); alert('Not yet implemented');}} />
         </View>
       </View>
     </LinearGradient>

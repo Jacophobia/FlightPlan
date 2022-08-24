@@ -73,13 +73,14 @@ export function RecordFlightForm(props) {
   };
   const submit = () => {
     console.log(flight);
+    alert('Not yet implemented');
   };
   
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <FlightTrackHeader headerText='Record Flight' onBackArrowPress={props.toLogin}/>
+        <FlightTrackHeader headerText='Record Flight' onBackArrowPress={() => {props.navigate.login(); alert('Not yet implemented')}}/>
       </View>
       <KeyboardAvoidingView style={styles.scrollable}>
         <ScrollView>
@@ -207,7 +208,6 @@ export function RecordFlightForm(props) {
               onUpdate={setReciepts}
             />
             <FlightTrackButton onPress={submit} title='Submit' />
-            <Text>Record Flight Form Not Yet Complete</Text>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>

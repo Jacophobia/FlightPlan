@@ -21,6 +21,12 @@ const App = () => {
     </View>
   );
 
+  const navigate = {
+    home() {},
+    login() { setPage(Pages.LOGIN); },
+    recordFlightForm() { setPage(Pages.RECORD_FLIGHT); },
+  };
+
   const initializeScreen = async () => {
     let view = (
       <Text style={styles.helloWorldText}>
@@ -31,12 +37,12 @@ const App = () => {
       switch (page) {
         case Pages.LOGIN:
           view = (
-            <Login />
+            <Login navigate={navigate} />
           );
           break;
         case Pages.RECORD_FLIGHT:
           view = (
-            <RecordFlightForm toLogin={() => setPage(Pages.LOGIN)} />
+            <RecordFlightForm navigate={navigate} />
           );
           break;
         default:
