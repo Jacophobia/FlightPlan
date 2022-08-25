@@ -1,13 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Image, Pressable, KeyboardAvoidingView } from 'react-native';
 import { FlightTrackInput } from "./PageComponents/FlightTrackInput";
 import LinearGradient from 'react-native-linear-gradient';
 import { FlightTrackButton } from "./PageComponents/FlightTrackButton";
+import { onStateChange } from "../Firebase/Auth";
 
 
 export function Login(props) {
   const [userName, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  // Firebase v v v v v v v v v v v v v v v v v v v v v v
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState();
+
+  // Handle user state changes
+  function onAuthStateChanged(user) {
+    console.log("user =", user);
+    setUser(user);
+    if (initializing) {
+      setInitializing(false);
+    }
+  }
+
+  useEffect(() => {
+    const subscriber = onStateChange(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+  if (initializing) {
+    return null;
+  }
+  // Firebase ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^
 
   return (
     <KeyboardAvoidingView behavior='height' enabled={false} style={{flex: 1, width: '100%'}} >
@@ -60,9 +84,9 @@ export function Login(props) {
           </View>
         </View>
         <View style={styles.submitContainer}>
-          <FlightTrackButton style={styles.submit} title='Log In' onPress={() =>{props.navigate.recordFlightForm(); alert('Not yet implemented');}} />
+          <FlightTrackButton style={styles.submit} title='Log In' onPress={() =>{props.navigation.navigate('RecordFlightForm'); alert('Not yet implemented');}} />
         </View>
-        <Pressable onPress={() =>{props.navigate.signUp();  /*alert('Not yet implemented');*/}} style={styles.signUp} >
+        <Pressable onPress={() => props.navigation.navigate('SignUp')} style={styles.signUp} >
           <Text style={styles.signUpText}>Sign Up</Text>
         </Pressable>
       </View>

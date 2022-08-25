@@ -35,6 +35,8 @@ export default class Flight {
     this.purposeId = purposeId;
     this.landingFee = landingFee;
     this.reciepts = reciepts;
+
+    console.log('new flight created');
   }
 
   getTailNumber() {

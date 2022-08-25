@@ -12,13 +12,15 @@ import { FlightTrackLabeledNumberInput } from "./PageComponents/FlightTrackLabel
 import Flight from "../DataStructures/Flight";
 import { FlightTrackButton } from "./PageComponents/FlightTrackButton";
 
+const newFlight = new Flight({});
+
 /**
  * Record Flight Form
  * @param props data (type: Flight Object), onSubmit
  * @returns A form which collects info about a single flight
  */
 export function RecordFlightForm(props) {
-  const [flight, setFlight] = useState(new Flight({}));
+  const [flight, setFlight] = useState(newFlight);
 
   const setTailNumber = (newVal) => {
     setFlight(oldFlight => oldFlight.setTailNumber(newVal));
@@ -80,7 +82,7 @@ export function RecordFlightForm(props) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <FlightTrackHeader headerText='Record Flight' onBackArrowPress={() => {props.navigate.login(); alert('Not yet implemented')}}/>
+        <FlightTrackHeader headerText='Record Flight' onBackArrowPress={() => {props.navigation.goBack(); alert('Not yet implemented')}}/>
       </View>
       <KeyboardAvoidingView style={styles.scrollable}>
         <ScrollView>

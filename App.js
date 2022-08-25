@@ -1,20 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View } from 'react-native';
 import { testFirestoreConnection } from "./Firebase/Firestore";
+import { onStateChange } from "./Firebase/Auth";
 import { Login } from "./Pages/Login";
 import { RecordFlightForm } from "./Pages/RecordFlightForm";
 import { ProgressBar } from "react-native-paper";
 import Flight from "./DataStructures/Flight";
 import { SignUp } from "./Pages/SignUp";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-const Pages = {
-  LOGIN: 1,
-  SIGN_UP: 2,
-  RECORD_FLIGHT: 3,
-};
+const Stack = createNativeStackNavigator();
 
 const App = () => {
-  const [page, setPage] = useState(Pages.RECORD_FLIGHT);
+  // Set an initializing state whilst Firebase connects
   const [screen, setScreen] = useState(
     <View style={styles.loading}>
       <ProgressBar
@@ -23,46 +21,27 @@ const App = () => {
     </View>
   );
 
-  const navigate = {
-    home() {},
-    login() { setPage(Pages.LOGIN); },
-    signUp() { setPage(Pages.SIGN_UP); },
-    recordFlightForm() { setPage(Pages.RECORD_FLIGHT); },
-  };
-
   const initializeScreen = async () => {
     let view = (
-      <Text style={styles.helloWorldText}>
-        An Error Occurred. Please contact the development team.
-      </Text>
+      <View style={styles.loading}>
+        <Text style={styles.helloWorldText}>
+          Unable to connect to database.
+        </Text>
+        <Text style={styles.helloWorldText}>
+          Try again when you have a better connection.
+        </Text>
+      </View>
     );
     if (await testFirestoreConnection() === true) {
-      switch (page) {
-        case Pages.LOGIN:
-          view = (<Login navigate={navigate} />);
-          break;
-        case Pages.SIGN_UP:
-          view = (<SignUp navigate={navigate} />);
-          break;
-        case Pages.RECORD_FLIGHT:
-          view = (<RecordFlightForm navigate={navigate} />);
-          break;
-        default:
-          view = (
-            <Text>
-              The page you requested must be added to App.js
-            </Text>
-          );
-      }
-    }
-    else {
       view = (
-        <Text style={styles.helloWorldText}>
-          Unable to connect to database.. Very sad.
-        </Text>
+        <Stack.Navigator>
+          <Stack.Screen name='Login' component={Login} options={{headerShown: false}} />
+          <Stack.Screen name='SignUp' component={SignUp} options={{headerShown: false}} />
+          <Stack.Screen name='RecordFlightForm' component={RecordFlightForm} options={{headerShown: false}} />
+        </Stack.Navigator>
       );
     }
-    setScreen(<>{view}</>);
+    setScreen(view);
   };
   
   initializeScreen();
