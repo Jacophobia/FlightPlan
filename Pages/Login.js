@@ -57,11 +57,13 @@ export function Login(props) {
               </Text>
             </Pressable>
           </View>
-
         </View>
         <View style={styles.submitContainer}>
           <FlightTrackButton style={styles.submit} title='Log In' onPress={() =>{props.navigate.recordFlightForm(); alert('Not yet implemented');}} />
         </View>
+        <Pressable onPress={() => alert('Not yet implemented')} style={styles.signUp} >
+          <Text style={styles.signUpText}>Sign Up</Text>
+        </Pressable>
       </View>
     </LinearGradient>
   );
@@ -83,24 +85,17 @@ const styles = StyleSheet.create({
   input: {
     justifyContent: 'flex-start',
     alignItems: 'center',
-    width: '65%',
+    width: '85%',
   },  
-  loginText: {
-    fontSize: 43,
-    fontFamily: 'Gill Sans',
-    textAlign: 'center',
-    color: '#222e60',
-    backgroundColor: 'transparent',
-  },
   logoContainer: {
     justifyContent: 'flex-start',
     alignItems: 'center',
-    marginTop: 60,
-    marginBottom: 120,
+    marginTop: '14%',
+    marginBottom: '20%',
   },
   logo: {
-    width: 130,
-    height: 130,
+    width: 150,
+    height: 150,
     resizeMode: "contain",
   },
   forgotLoginPressable: {
@@ -108,12 +103,12 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignContent: 'flex-end',
     width: '90%',
-    marginTop: 5,
+    marginTop: 3,
   },
   forgotLoginText: {
-    color: '#222e60',
-    fontSize: 15.5,
-    marginRight: 14.9,
+    color: '#b0b0b0',
+    fontSize: 14,
+    marginRight: 0,
   },
   submitContainer: {
     width: '100%',
@@ -123,7 +118,16 @@ const styles = StyleSheet.create({
 
   },
   submit: {
-    width: '35%',
-    height: 35
-  }
+    width: '39%',
+    height: 39,
+    marginTop: '5%',
+  },
+  signUp: {
+    marginVertical: '10%',
+  },
+  signUpText: {
+    fontSize: 15,
+    fontFamily: 'sans-serif-medium',
+    color: '#000000'
+  },
 });

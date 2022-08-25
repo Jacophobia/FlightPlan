@@ -36,6 +36,8 @@ export function FlightTrackDropDown(props) {
     return (<></>);
   }
 
+  const icon = expanded ? require('../../assets/DropDownArrow.png') : require('../../assets/OpenDropDownArrow.png');
+
   return (
     <>
       <View style={styles.accordion}>
@@ -49,7 +51,7 @@ export function FlightTrackDropDown(props) {
         <Pressable style={styles.pressable} onPress={handlePress}>
           <Text>{selected.name}</Text>
           <View>
-            <Image style={[styles.icon]} source={require('../../assets/DropDownArrow.png')} />
+            <Image style={[styles.icon]} source={icon} />
           </View>
         </Pressable>
         <ScrollView style={[styles.dropDown]}>

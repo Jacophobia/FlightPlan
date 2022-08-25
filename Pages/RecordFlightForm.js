@@ -207,7 +207,7 @@ export function RecordFlightForm(props) {
               data={flight.getReciepts()}
               onUpdate={setReciepts}
             />
-            <FlightTrackButton onPress={submit} title='Submit' />
+            <FlightTrackButton onPress={submit} style={styles.submit} title='Submit' />
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -229,5 +229,8 @@ const styles = StyleSheet.create({
   },
   header: {
     flex: 1,
+  },
+  submit: {
+    margin: 35,
   },
 });
