@@ -5,9 +5,10 @@ import LinearGradient from 'react-native-linear-gradient';
 import { FlightTrackButton } from "./PageComponents/FlightTrackButton";
 
 
-export function Login(props) {
+export function SignUp(props) {
   const [userName, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
 
   return (
     <KeyboardAvoidingView behavior='height' enabled={false} style={{flex: 1, width: '100%'}} >
@@ -41,7 +42,7 @@ export function Login(props) {
       } 
       style={styles.enclosingView}
     >
-      <View style={styles.pageContent}>  
+      <KeyboardAvoidingView style={styles.pageContent} enabled={true} behavior='padding'>  
         <View style={styles.logoContainer} >
           <Image 
             source={require("./../assets/Logo.png")} 
@@ -49,23 +50,18 @@ export function Login(props) {
           />
         </View>
         <View style={styles.input}>
+          <FlightTrackInput labelText='Full Name' onUpdate={setName} />
           <FlightTrackInput labelText='Email Address' onUpdate={setUsername} />
           <FlightTrackInput labelText='Password' onUpdate={setPassword} hide={true} />
-          <View style={styles.forgotLoginPressable}>
-            <Pressable onPress={() => alert('Not yet implemented')}>
-              <Text style={styles.forgotLoginText}>
-                Forgot Login
-              </Text>
-            </Pressable>
-          </View>
+          <FlightTrackInput labelText='Confirm Password' onUpdate={setPassword} hide={true} />
         </View>
         <View style={styles.submitContainer}>
-          <FlightTrackButton style={styles.submit} title='Log In' onPress={() =>{props.navigate.recordFlightForm(); alert('Not yet implemented');}} />
+          <FlightTrackButton style={styles.submit} title='Sign Up' onPress={() =>{props.navigate.recordFlightForm(); alert('Not yet implemented');}} />
         </View>
-        <Pressable onPress={() =>{props.navigate.signUp();  /*alert('Not yet implemented');*/}} style={styles.signUp} >
-          <Text style={styles.signUpText}>Sign Up</Text>
+      </KeyboardAvoidingView>
+        <Pressable onPressIn={() =>{props.navigate.login(); /*alert('Not yet implemented');*/}} style={styles.signUp} >
+          <Text style={styles.signUpText}>Log In</Text>
         </Pressable>
-      </View>
     </LinearGradient>
     </KeyboardAvoidingView>
   );
@@ -93,7 +89,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     marginTop: '14%',
-    marginBottom: '20%',
+    marginBottom: '4%',
   },
   logo: {
     width: 150,

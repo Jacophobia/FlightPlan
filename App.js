@@ -5,10 +5,12 @@ import { Login } from "./Pages/Login";
 import { RecordFlightForm } from "./Pages/RecordFlightForm";
 import { ProgressBar } from "react-native-paper";
 import Flight from "./DataStructures/Flight";
+import { SignUp } from "./Pages/SignUp";
 
 const Pages = {
   LOGIN: 1,
-  RECORD_FLIGHT: 2,
+  SIGN_UP: 2,
+  RECORD_FLIGHT: 3,
 };
 
 const App = () => {
@@ -24,6 +26,7 @@ const App = () => {
   const navigate = {
     home() {},
     login() { setPage(Pages.LOGIN); },
+    signUp() { setPage(Pages.SIGN_UP); },
     recordFlightForm() { setPage(Pages.RECORD_FLIGHT); },
   };
 
@@ -36,14 +39,13 @@ const App = () => {
     if (await testFirestoreConnection() === true) {
       switch (page) {
         case Pages.LOGIN:
-          view = (
-            <Login navigate={navigate} />
-          );
+          view = (<Login navigate={navigate} />);
+          break;
+        case Pages.SIGN_UP:
+          view = (<SignUp navigate={navigate} />);
           break;
         case Pages.RECORD_FLIGHT:
-          view = (
-            <RecordFlightForm navigate={navigate} />
-          );
+          view = (<RecordFlightForm navigate={navigate} />);
           break;
         default:
           view = (
