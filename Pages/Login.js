@@ -3,8 +3,10 @@ import { StyleSheet, Text, View, Image, Pressable, KeyboardAvoidingView } from '
 import { FlightTrackInput } from "./PageComponents/FlightTrackInput";
 import LinearGradient from 'react-native-linear-gradient';
 import { FlightTrackButton } from "./PageComponents/FlightTrackButton";
-import { onStateChange } from "../Firebase/Auth";
+import { onStateChange, login, logout } from "../Firebase/Auth";
+import { FlightTrackFancyInput } from "./PageComponents/FlightTrackFancyInput";
 
+logout();
 
 export function Login(props) {
   const [userName, setUsername] = useState('');
@@ -15,13 +17,14 @@ export function Login(props) {
   const [user, setUser] = useState();
 
   // Handle user state changes
-  function onAuthStateChanged(user) {
-    console.log("user =", user);
+  const onAuthStateChanged = (user) => {
+    console.log('login user =', user);
     setUser(user);
-    if (initializing) {
-      setInitializing(false);
+    setInitializing(false);
+    if (!!user) {
+      props.navigation.navigate('RecordFlightForm'); // TODO: update this to be the home page
     }
-  }
+  };
 
   useEffect(() => {
     const subscriber = onStateChange(onAuthStateChanged);
@@ -31,10 +34,21 @@ export function Login(props) {
   if (initializing) {
     return null;
   }
+
+  const submit = async () => {
+    if (userName.length === 0 || password.length === 0) {
+      return;
+    }
+    try {
+      await logout();
+      await login(userName, password);
+    } catch (error) {
+      console.error('Error logging in or out:', error);
+    }
+  };
   // Firebase ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^
 
   return (
-    <KeyboardAvoidingView behavior='height' enabled={false} style={{flex: 1, width: '100%'}} >
     <LinearGradient 
       colors={
         [
@@ -72,9 +86,9 @@ export function Login(props) {
             style={styles.logo}
           />
         </View>
-        <View style={styles.input}>
-          <FlightTrackInput labelText='Email Address' onUpdate={setUsername} />
-          <FlightTrackInput labelText='Password' onUpdate={setPassword} hide={true} />
+        <KeyboardAvoidingView style={styles.input} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
+          <FlightTrackFancyInput label='Email Address' onUpdate={setUsername} keyboardType='email-address' />
+          <FlightTrackFancyInput label='Password' onUpdate={setPassword} hide={true} />
           <View style={styles.forgotLoginPressable}>
             <Pressable onPress={() => alert('Not yet implemented')}>
               <Text style={styles.forgotLoginText}>
@@ -82,20 +96,22 @@ export function Login(props) {
               </Text>
             </Pressable>
           </View>
-        </View>
-        <View style={styles.submitContainer}>
-          <FlightTrackButton style={styles.submit} title='Log In' onPress={() =>{props.navigation.navigate('RecordFlightForm'); alert('Not yet implemented');}} />
-        </View>
+            <FlightTrackButton style={styles.submit} title='Log In' onPress={submit} />
+        </KeyboardAvoidingView>
         <Pressable onPress={() => props.navigation.navigate('SignUp')} style={styles.signUp} >
           <Text style={styles.signUpText}>Sign Up</Text>
         </Pressable>
       </View>
     </LinearGradient>
-    </KeyboardAvoidingView>
   );
 }
 
-const styles = StyleSheet.create({
+const outline = {
+  // borderWidth: 1,
+  // borderColor: 'red',
+}
+
+export const styles = StyleSheet.create({
   enclosingView: {
     flex: 1,
     justifyContent: 'center',
@@ -104,27 +120,31 @@ const styles = StyleSheet.create({
   },
   pageContent: {
     flex: 1,
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
   },
   input: {
-    justifyContent: 'flex-start',
+    ...outline,
+    justifyContent: 'center',
     alignItems: 'center',
     width: '85%',
+    flex: 1,
   },  
   logoContainer: {
+    ...outline,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    marginTop: '14%',
-    marginBottom: '20%',
+    marginTop: '10%',
   },
   logo: {
+    ...outline,
     width: 150,
     height: 150,
     resizeMode: "contain",
   },
   forgotLoginPressable: {
+    ...outline,
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignContent: 'flex-end',
@@ -137,23 +157,25 @@ const styles = StyleSheet.create({
     marginRight: 0,
   },
   submitContainer: {
+    ...outline,
     width: '100%',
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-
   },
   submit: {
+    ...outline,
     width: '39%',
     height: 39,
-    marginTop: '5%',
+    margin: '5%',
   },
   signUp: {
-    marginVertical: '10%',
+    ...outline,
+    margin: '10%',
   },
   signUpText: {
     fontSize: 17,
-    fontFamily: 'Roboto',
-    color: '#000000'
+    fontFamily: Platform.OS === 'ios' ? undefined : 'Roboto',
+    color: '#000000',
   },
 });

@@ -81,10 +81,8 @@ export function RecordFlightForm(props) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <FlightTrackHeader headerText='Record Flight' onBackArrowPress={() => {props.navigation.goBack(); alert('Not yet implemented')}}/>
-      </View>
-      <KeyboardAvoidingView style={styles.scrollable}>
+      <FlightTrackHeader headerText='Record Flight' onBackArrowPress={() => {props.navigation.goBack(); alert('Not yet implemented')}}/>
+      <KeyboardAvoidingView style={styles.scrollable} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
         <ScrollView>
           <View style={styles.formList}>
             <FlightTrackDropDown 
@@ -221,16 +219,16 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#ffffff',
     flex: 1,
+    width: '100%',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
   },
   formList: {
     alignItems: 'center',
     justifyContent: 'center',
   },
   scrollable: {
-    flex: Platform.OS === 'ios' ? 6.0 : 3.9,
-  },
-  header: {
-    flex: 1,
+    flex: 1
   },
   submit: {
     margin: 35,

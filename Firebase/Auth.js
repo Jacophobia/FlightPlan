@@ -1,10 +1,14 @@
 import auth from '@react-native-firebase/auth';
 
+import { addCrewMember } from './Firestore'
+
 export const onStateChange = (callback) => {
+  console.log('onstatechange'); // DELETEME
   return auth().onAuthStateChanged(callback);
 };
 
-export const signUp = async (credentials, callback) => {
+export const signUp = async (credentials, callback = () => {}) => {
+  console.log('signup'); // DELETEME
   const validation = credentials.validate();
   if (validation.valid === false) {
     alert(validation.error);
@@ -22,30 +26,42 @@ export const signUp = async (credentials, callback) => {
     if (error.code === 'auth/invalid-email') {
       alert('That email address is invalid');
     }
-    alert("Error: Please use different credentials");
+    alert('Error: Please use different credentials');
     console.error(error)
   }
-  const currentUser = auth().currentUser;
-  if (!!currentUser) {
-    alert('Unable to create credentials. Please try again');
-    console.error(currentUser);
-  }
-  console.log(`Signed in as ${currentUser}`);
   callback();
 };
 
-export const login = async (email, password, callback) => {
+export const saveUser = (user, fullName) => {
+  console.log('saveuser'); // DELETEME
+  console.log(fullName);
+  addCrewMember(user, fullName).then(() => {
+    console.log('User added to database');
+  }).catch(reason => {
+    console.error('Unable to add user to database:', reason);
+  });
+};
+
+export const login = async (email, password, callback = () => {}) => {
+  console.log('login'); // DELETEME
   try {
     await auth().signInWithEmailAndPassword(email, password);
   }
   catch (error) {
-    alert(error);
+    alert('Unable to log in');
     console.error(error);
   }
   callback();
 };
 
 export const logout = async () => {
-  await auth().signOut();
+  console.log('logout'); // DELETEME
+  if (!!auth().currentUser) {
+    try {
+      await auth().signOut();
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  }
   console.log('Goodbye!');
 };

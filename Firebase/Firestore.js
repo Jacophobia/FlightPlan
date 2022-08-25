@@ -91,12 +91,10 @@ const getProfilesRef = () => {
   return result;
 };
 
-export const tableNumbers = {
-  
-};
-
-export const getOptions = (ids, tableNumber) => {
-  switch (tableNumber) {
-
-  }
+export const addCrewMember = async (user, name) => {
+  await getCrewMembersRef().doc(user.uid).set({
+    name,
+    email: user.email,
+    uid: user.uid,
+  });
 };

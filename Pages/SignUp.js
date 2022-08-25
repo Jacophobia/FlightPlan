@@ -4,7 +4,9 @@ import { FlightTrackInput } from "./PageComponents/FlightTrackInput";
 import LinearGradient from 'react-native-linear-gradient';
 import { FlightTrackButton } from "./PageComponents/FlightTrackButton";
 import { Credentials } from "../DataStructures/Credentials";
-import { onStateChange, signUp } from "../Firebase/Auth";
+import { onStateChange, saveUser, signUp, logout } from "../Firebase/Auth";
+import { FlightTrackFancyInput } from "./PageComponents/FlightTrackFancyInput";
+import { styles } from "./Login";
 
 const emptyCreds = new Credentials({});
 
@@ -28,11 +30,12 @@ export function SignUp(props) {
   const [user, setUser] = useState();
 
   // Handle user state changes
-  function onAuthStateChanged(user) {
-    console.log("user =", user);
+  const onAuthStateChanged = (user) => {
+    console.log("sign up user =", user);
     setUser(user);
-    if (initializing) {
-      setInitializing(false);
+    setInitializing(false);
+    if (!!user) {
+      saveUser(user, credentials.getName());
     }
   }
 
@@ -47,11 +50,12 @@ export function SignUp(props) {
   // Firebase ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^
 
   const submit = () => {
-    signUp(credentials, () => props.navigation.goBack());
+    if (credentials.validate()) {
+      signUp(credentials, () => props.navigation.goBack());
+    }
   };
 
   return (
-    <KeyboardAvoidingView behavior='height' enabled={false} style={{flex: 1, width: '100%'}} >
     <LinearGradient 
       colors={
         [
@@ -82,89 +86,24 @@ export function SignUp(props) {
       } 
       style={styles.enclosingView}
     >
-      <KeyboardAvoidingView style={styles.pageContent} enabled={true} behavior='padding'>  
+      <View style={styles.pageContent} enabled={true}>  
         <View style={styles.logoContainer} >
           <Image 
             source={require("./../assets/Logo.png")} 
             style={styles.logo}
           />
         </View>
-        <View style={styles.input}>
-          <FlightTrackInput labelText='Full Name' onUpdate={setName} />
-          <FlightTrackInput labelText='Email Address' onUpdate={setUsername} />
-          <FlightTrackInput labelText='Password' onUpdate={setPassword} hide={true} />
-          <FlightTrackInput labelText='Confirm Password' onUpdate={setConfirmedPassword} hide={true} />
-        </View>
-        <View style={styles.submitContainer}>
+        <KeyboardAvoidingView style={styles.input} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+          <FlightTrackFancyInput label='Full Name' onUpdate={setName} />
+          <FlightTrackFancyInput label='Email Address' onUpdate={setUsername} keyboardType='email-address' />
+          <FlightTrackFancyInput label='Password' onUpdate={setPassword} hide={true} />
+          <FlightTrackFancyInput label='Confirm Password' onUpdate={setConfirmedPassword} hide={true} />
           <FlightTrackButton style={styles.submit} title='Sign Up' onPress={submit} />
-        </View>
-      </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
+      </View>
         <Pressable onPressIn={props.navigation.goBack} style={styles.signUp} >
           <Text style={styles.signUpText}>Log In</Text>
         </Pressable>
     </LinearGradient>
-    </KeyboardAvoidingView>
   );
 }
-
-const styles = StyleSheet.create({
-  enclosingView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#348CCB',
-  },
-  pageContent: {
-    flex: 1,
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-    width: '100%',
-  },
-  input: {
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    width: '85%',
-  },  
-  logoContainer: {
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    marginTop: Platform.OS === 'ios' ? '10%' : '0%',
-  },
-  logo: {
-    width: 150,
-    height: 150,
-    resizeMode: "contain",
-  },
-  forgotLoginPressable: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignContent: 'flex-end',
-    width: '90%',
-    marginTop: 3,
-  },
-  forgotLoginText: {
-    color: '#b0b0b0',
-    fontSize: 14,
-    marginRight: 0,
-  },
-  submitContainer: {
-    width: '100%',
-    flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-
-  },
-  submit: {
-    width: '39%',
-    height: 39,
-    marginTop: '5%',
-  },
-  signUp: {
-    marginVertical: '10%',
-  },
-  signUpText: {
-    fontSize: 17,
-    fontFamily: 'Roboto',
-    color: '#000000'
-  },
-});
