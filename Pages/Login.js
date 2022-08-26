@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Image, Pressable, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, View, Image, Pressable, KeyboardAvoidingView, Platform, Dimensions } from 'react-native';
 import { FlightTrackInput } from "./PageComponents/FlightTrackInput";
 import LinearGradient from 'react-native-linear-gradient';
 import { FlightTrackButton } from "./PageComponents/FlightTrackButton";
@@ -135,12 +135,12 @@ export const styles = StyleSheet.create({
     ...outline,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    marginTop: '10%',
+    marginTop: Platform.OS === 'ios' ? '10%' : '5%',
   },
   logo: {
     ...outline,
     width: 150,
-    height: 150,
+    height: Dimensions.get('screen').height * 0.175,
     resizeMode: "contain",
   },
   forgotLoginPressable: {
