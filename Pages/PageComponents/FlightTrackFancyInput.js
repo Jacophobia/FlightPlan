@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Image, Pressable, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Image, Pressable, TextInput, Platform } from 'react-native';
 import { testFirestoreConnection } from "./Firebase/Firestore";
 import { FlightTrackInput } from "./PageComponents/FlightTrackInput";
 import LinearGradient from 'react-native-linear-gradient';
@@ -45,9 +45,21 @@ const borders = {
 const corners = {
   ...borders,
   marginTop: 15,
-  borderColor: 'transparent',
+  borderBottomColor: 'transparent',
   borderTopColor: '#b0b0b0',
   height: '100%',
+}
+
+const topLeft = Platform.OS === 'ios' ? {
+  borderLeftWidth: 3.9,
+} : {
+
+}
+
+const topRight = Platform.OS === 'ios' ? {
+
+} : {
+  marginRight: .5,
 }
 
 const styles = StyleSheet.create({
@@ -63,10 +75,11 @@ const styles = StyleSheet.create({
   topLeft: {
     ...outline,
     ...corners,
+    ...topLeft,
     width: 16,
-    borderLeftWidth: 3.9,
     borderTopLeftRadius: 12,
     borderLeftColor: '#b0b0b0',
+    borderRightColor: 'transparent',
   },
   label: {
     ...outline,
@@ -76,11 +89,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
   },
   topRight: {
+    ...topRight,
     ...outline,
     ...corners,
     flex: 1,
     borderTopRightRadius: 12,
     borderRightColor: '#b0b0b0',
+    borderLeftColor: 'transparent',
   },
   input: {
     ...outline,
