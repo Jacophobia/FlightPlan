@@ -22,6 +22,7 @@ const newFlight = new Flight({});
  */
 export function RecordFlightForm(props) {
   const [flight, setFlight] = useState(newFlight);
+  const [canSubmit, setCanSubmit] = useState(true);
 
   const setTailNumber = (newVal) => {
     setFlight(oldFlight => oldFlight.setTailNumber(newVal));
@@ -75,12 +76,14 @@ export function RecordFlightForm(props) {
     setFlight(oldFlight => oldFlight.setReciepts({Fuel: left, Landing: right}));
   };
   const submit = () => {
+    setCanSubmit(false);
     recordFlight(flight)
       .catch(error => console.error(error))
       .then(() => {
         console.log('Flight Uploaded');
         props.navigation.goBack();
         clear();
+        setCanSubmit(true);
     });
   };
   const clear = () => {
@@ -216,7 +219,7 @@ export function RecordFlightForm(props) {
               data={flight.getReciepts()}
               onUpdate={setReciepts}
             />
-            <FlightTrackButton onPress={submit} style={styles.submit} label='Submit' />
+            <FlightTrackButton onPress={submit} style={styles.submit} label='Submit' enabled={canSubmit} />
           </View>
         </ScrollView>
       </KeyboardAvoidingView>

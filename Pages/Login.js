@@ -27,6 +27,7 @@ export function Login(props) {
     setInitializing(false);
     if (!!user) {
       setUsername(user.email);
+      toHome();
     }
   };
 
@@ -39,6 +40,11 @@ export function Login(props) {
     return null;
   }
 
+  const toHome = () => {
+    props.navigation.popToTop();
+    props.navigation.navigate('Home');
+  };
+
   const submit = async () => {
     if (username.length === 0 || password.length === 0) {
       return;
@@ -46,7 +52,7 @@ export function Login(props) {
     try {
       await logout();
       await login(username, password);
-      props.navigation.navigate('Home');
+      toHome();
       clear();
     } catch (error) {
       console.error('Error logging in or out:', error);
