@@ -91,7 +91,7 @@ export function RecordFlightForm(props) {
   return (
     <View style={styles.container}>
       <FlightTrackHeader headerText='Record Flight' onBackArrowPress={() => {props.navigation.goBack(); clear();}}/>
-      <KeyboardAvoidingView style={styles.scrollable} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} enabled={false} >
+      <KeyboardAvoidingView style={styles.scrollable} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} enabled={Platform.OS === 'ios'} >
         <ScrollView>
           <View style={styles.formList}>
             <FlightTrackDropDown 
