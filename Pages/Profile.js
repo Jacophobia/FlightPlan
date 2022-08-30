@@ -5,7 +5,7 @@ import { FlightTrackDisplay } from './PageComponents/FlightTrackDisplay';
 import { FlightTrackButton } from './PageComponents/FlightTrackButton';
 import { logout } from './Firebase/Auth';
 
-
+// TODO: fix error which isn't allowing us to open the profile page
 export function Profile({ route, navigation }) {
   const { name, email } = route.params;
   const goBack = () => {
