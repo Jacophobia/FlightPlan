@@ -16,6 +16,10 @@ export function Login(props) {
     setPassword('');
   };
 
+  const toHome = () => {
+    props.navigation.navigate('Home');
+  };
+
   // Firebase v v v v v v v v v v v v v v v v v v v v v v
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
@@ -39,11 +43,6 @@ export function Login(props) {
   if (initializing) {
     return null;
   }
-
-  const toHome = () => {
-    props.navigation.popToTop();
-    props.navigation.navigate('Home');
-  };
 
   const submit = async () => {
     if (username.length === 0 || password.length === 0) {

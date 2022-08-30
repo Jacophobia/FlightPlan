@@ -7,12 +7,12 @@ import { FlightTrackDualImageLink } from "./PageComponents/FlightTrackDualImageL
 
 export function Flight({ route, navigation }) {
   const { flight } = route.params;
-
+  const date = new Date(flight.getDate());
   return (
     <View style={styles.container}>
       <FlightTrackHeader headerText='Flight' onBackArrowPress={navigation.goBack} />
       <FlightTrackDisplay label='Tail Number' data={flight.getTailNumber()} style={styles.firstDisplayField} />
-      <FlightTrackDisplay label='Date' data={flight.getDate().toLocaleDateString()} />
+      <FlightTrackDisplay label='Date' data={date.toDateString()} />
       <FlightTrackDisplay label='Departure' data={flight.getDeparture()} />
       <FlightTrackDisplay label='Arrival' data={flight.getArrival()} />
       <FlightTrackDualDisplay label='Hobbs' leftLabel='Out' rightLabel='In' leftData={flight.getHobbs().Out} rightData={flight.getHobbs().In} />
@@ -25,7 +25,7 @@ export function Flight({ route, navigation }) {
       <FlightTrackDisplay label='Principle' data={flight.getPrincipleId()} />
       <FlightTrackDisplay label='Purpose' data={flight.getPurposeId()} />
       <FlightTrackDisplay label='Landing Fee' data={flight.getLandingFee()} />
-      <FlightTrackDualImageLink label='Reciepts' leftLabel='Fuel' rightLabel='Landing' leftUrl={flight.getFuelRecieptUrl()} rightUrl={flight.getLandingRecieptUrl()} />
+      <FlightTrackDualImageLink label='Reciepts' leftLabel='Fuel' rightLabel='Landing' leftUrl={flight.getFuelRecieptUrl()} rightUrl={flight.getLandingRecieptUrl()} style={styles.last} />
     </View>
   );
 }
@@ -39,5 +39,8 @@ const styles = StyleSheet.create({
   },
   firstDisplayField: {
     marginTop: '5%',
+  },
+  last: {
+    marginBottom: '10%',
   },
 });

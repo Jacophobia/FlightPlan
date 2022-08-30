@@ -227,7 +227,7 @@ export default class Flight {
   json() {
     const json = {
       tailNumber: this.tailNumber,
-      date: this.date,
+      date: this.date.toLocaleDateString(),
       departure: this.departure,
       arrival: this.arrival,
       hobbs: this.hobbs, // in & out
@@ -256,7 +256,7 @@ export default class Flight {
 export function getTestFlight() {
   return new Flight({
     tailNumber: 'TestTailNumber',
-    date: new Date(),
+    date: '06/30/1999',
     departure: 'Las Vegas Airport',
     arrival: 'Las Angeles Airport',
     hobbs: {

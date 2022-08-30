@@ -6,7 +6,7 @@ import { StyleSheet, Text, Pressable } from 'react-native';
  * @param props onPress, label
  * @returns a configurable button styled after the flight track way
  */
-export function FlightTrackButton({style, label, onPress, enabled}) {
+export function FlightTrackButton({style, label, onPress, enabled = true}) {
   let opacity = { opacity: 1.0 };
 
   if (!enabled) {

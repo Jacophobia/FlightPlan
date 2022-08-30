@@ -31,9 +31,15 @@ export function SignUp(props) {
   const onAuthStateChanged = (user) => {
     console.log("sign up user =", user);
     setInitializing(false);
+    if (!user) {
+      return;
+    }
     const {valid, error} = credentials.validate();
     if (!!user && valid) {
-      saveUser(user, credentials.getName(), () => props.navigation.goBack());
+      saveUser(user, credentials.getName());
+    }
+    else {
+      console.error(error);
     }
   }
 
