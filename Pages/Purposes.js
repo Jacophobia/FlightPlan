@@ -1,11 +1,13 @@
 import React from "react";
 import { StyleSheet, Text, View } from 'react-native';
+import { FlightTrackHeader } from "./PageComponents/FlightTrackHeader";
 
 
-export function Purposes({}) {
+export function Purposes({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <FlightTrackHeader headerText='Purposes' onBackArrowPress={navigation.goBack} />
       <Text>Not yet Implemented</Text>
     </View>
   );
@@ -14,7 +16,8 @@ export function Purposes({}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
+    backgroundColor: '#ffffff',
   },
 });

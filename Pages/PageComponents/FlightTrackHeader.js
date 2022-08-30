@@ -20,7 +20,7 @@ export function FlightTrackHeader({headerText, onBackArrowPress}) {
     }
 
     let fontSize = 40;
-    if (headerText.length > 12) {
+    if (headerText.length >= 12) {
       fontSize = 33;
     }
 

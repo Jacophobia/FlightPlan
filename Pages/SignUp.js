@@ -59,27 +59,9 @@ export function SignUp(props) {
         [
           '#ffffff',
           '#ffffff',
-          '#ffffff',
-          '#ffffff',
-          '#ffffff',
-          '#ffffff',
-          '#ffffff',
-          '#ffffff',
-          '#ffffff',
-          '#ffffff',
-          '#ffffff',
-          '#f7fafd', 
-          '#e1eff6', 
-          '#c2dcee', 
-          '#aad1e8', 
-          '#8ebfdf', 
-          '#7cb5dc', 
-          '#60a5d3', 
-          '#4b99cd', 
-          '#348dc7', 
-          '#197cbf',
+          '#4C71C7',
           // '#177cbf', // medium blue from logo
-          // '#222e61', // dark blue from logo
+          // '#4C71C7', // dark blue from logo
         ]
       } 
       style={styles.enclosingView}

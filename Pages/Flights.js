@@ -1,6 +1,7 @@
 import React from "react";
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Flight, { getTestFlight } from "./Firebase/DataStructures/Flight";
+import { FlightTrackHeader } from "./PageComponents/FlightTrackHeader";
 
 
 export function Flights({navigation}) {
@@ -10,6 +11,7 @@ export function Flights({navigation}) {
 
   return (
     <View style={styles.container}>
+      <FlightTrackHeader headerText='Flights' onBackArrowPress={navigation.goBack} />
       <Text>Not yet Implemented</Text>
       <Pressable onPress={toFlight} style={styles.tempButton}>
         <Text>To Flight Page</Text>
@@ -21,8 +23,9 @@ export function Flights({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
+    backgroundColor: '#ffffff',
   },
   tempButton: {
     width: '90%',
