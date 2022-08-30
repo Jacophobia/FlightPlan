@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Pressable, Image, TextInput, ScrollView } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 /**
  * Flight Track Dual Input

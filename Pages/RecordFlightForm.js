@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, ScrollView, View, KeyboardAvoidingView, Button, Platform } from 'react-native';
+import { StyleSheet, ScrollView, View, KeyboardAvoidingView, Platform } from 'react-native';
 import { FlightTrackInput } from "./PageComponents/FlightTrackInput";
 import { FlightTrackDatePicker } from "./PageComponents/FlightTrackDatePicker";
 import { FlightTrackHeader } from "./PageComponents/FlightTrackHeader";
@@ -9,8 +9,9 @@ import { FlightTrackDropDown } from "./PageComponents/FlightTrackDropDown";
 import { FlightTrackDollarInput } from "./PageComponents/FlightTrackDollarInput";
 import { FlightTrackDualInput } from "./PageComponents/FlightTrackDualInput";
 import { FlightTrackLabeledNumberInput } from "./PageComponents/FlightTrackLabeledNumberInput";
-import Flight from "../DataStructures/Flight";
+import Flight from "./Firebase/DataStructures/Flight";
 import { FlightTrackButton } from "./PageComponents/FlightTrackButton";
+import { recordFlight } from "./Firebase/Shared";
 
 const newFlight = new Flight({});
 
@@ -74,15 +75,23 @@ export function RecordFlightForm(props) {
     setFlight(oldFlight => oldFlight.setReciepts({Fuel: left, Landing: right}));
   };
   const submit = () => {
-    console.log(flight);
-    alert('Not yet implemented');
+    recordFlight(flight)
+      .catch(error => console.error(error))
+      .then(() => {
+        console.log('Flight Uploaded');
+        props.navigation.goBack();
+        clear();
+    });
+  };
+  const clear = () => {
+    setFlight(new Flight({}));
   };
   
 
   return (
     <View style={styles.container}>
-      <FlightTrackHeader headerText='Record Flight' onBackArrowPress={() => {props.navigation.goBack(); alert('Not yet implemented')}}/>
-      <KeyboardAvoidingView style={styles.scrollable} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
+      <FlightTrackHeader headerText='Record Flight' onBackArrowPress={() => {props.navigation.goBack(); clear();}}/>
+      <KeyboardAvoidingView style={styles.scrollable} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} enabled={false} >
         <ScrollView>
           <View style={styles.formList}>
             <FlightTrackDropDown 
@@ -207,7 +216,7 @@ export function RecordFlightForm(props) {
               data={flight.getReciepts()}
               onUpdate={setReciepts}
             />
-            <FlightTrackButton onPress={submit} style={styles.submit} title='Submit' />
+            <FlightTrackButton onPress={submit} style={styles.submit} label='Submit' />
           </View>
         </ScrollView>
       </KeyboardAvoidingView>

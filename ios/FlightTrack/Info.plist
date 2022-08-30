@@ -66,5 +66,10 @@
   <!-- Include this only if you are planning to use the microphone for video recording -->
   <key>NSMicrophoneUsageDescription</key>
   <string>Hello! Can I have access to your camera to improve your app experience?</string>
+  <key>LSApplicationQueriesSchemes</key>
+  <array>
+    <string>http</string>
+    <string>https</string>
+  </array>
 </dict>
 </plist>

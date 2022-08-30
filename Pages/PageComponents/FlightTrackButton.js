@@ -1,20 +1,16 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
-import { testFirestoreConnection } from "./Firebase/Firestore";
-import { FlightTrackInput } from "./PageComponents/FlightTrackInput";
-import LinearGradient from 'react-native-linear-gradient';
-import { launchCamera } from "react-native-image-picker";
+import React from "react";
+import { StyleSheet, Text, Pressable } from 'react-native';
 
 /**
  * Flight Track Button
- * @param props onPress
+ * @param props onPress, label
  * @returns a configurable button styled after the flight track way
  */
 export function FlightTrackButton(props) {
 
   return (
     <Pressable style={[styles.button, props.style]} onPress={props.onPress}>
-      <Text style={styles.text}>{props.title || ''}</Text>
+      <Text style={styles.text}>{props.label || ''}</Text>
     </Pressable>
   );
 }

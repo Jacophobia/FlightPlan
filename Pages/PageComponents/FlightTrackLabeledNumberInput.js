@@ -1,9 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Image, Pressable, TextInput, Platform } from 'react-native';
-import { testFirestoreConnection } from "./Firebase/Firestore";
-import { FlightTrackInput } from "./PageComponents/FlightTrackInput";
-import LinearGradient from 'react-native-linear-gradient';
-import { launchCamera } from "react-native-image-picker";
+import { StyleSheet, Text, View, TextInput, Platform } from 'react-native';
 
 /**
  * Flight Track Labeled Number Input

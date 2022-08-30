@@ -6,10 +6,10 @@ import { StyleSheet, Text, View, Image, Pressable, Platform } from 'react-native
  * @param props headerText, onBackArrowPress
  * @returns A custom header with a back button, logo, and label for the current page
  */
-export function FlightTrackHeader(props) {
+export function FlightTrackHeader({headerText, onBackArrowPress}) {
 
   const getHeaderText = () => {
-    if (!props.headerText) {
+    if (!headerText) {
       return (
         <View style={styles.headerTextContainer}>
           <Text style={styles.headerText}>
@@ -20,13 +20,13 @@ export function FlightTrackHeader(props) {
     }
 
     let fontSize = 40;
-    if (props.headerText.length > 12) {
+    if (headerText.length > 12) {
       fontSize = 33;
     }
 
     return (
       <View style={styles.headerTextContainer}>
-        <Text style={[styles.headerText, {fontSize: fontSize}]}>{props.headerText}</Text>
+        <Text style={[styles.headerText, {fontSize: fontSize}]}>{headerText}</Text>
       </View>
     );
   };
@@ -34,7 +34,7 @@ export function FlightTrackHeader(props) {
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <Pressable style={styles.iconContainer} onPress={props.onBackArrowPress}>
+        <Pressable style={styles.iconContainer} onPress={onBackArrowPress}>
           <Image style={styles.backArrow} source={require("../../assets/BackArrow.png")} />
         </Pressable>
         {getHeaderText()}
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     ...outline,
     width: '97%',
     height: 7,
-    backgroundColor: '#177dbf',
+    backgroundColor: '#4C71C7',
     borderRadius: 3,
   },
   headerText: {

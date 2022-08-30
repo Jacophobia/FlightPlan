@@ -1,15 +1,9 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View, Image, Pressable, TextInput, Platform } from 'react-native';
-import { testFirestoreConnection } from "./Firebase/Firestore";
-import { FlightTrackInput } from "./PageComponents/FlightTrackInput";
-import LinearGradient from 'react-native-linear-gradient';
-import { launchCamera } from "react-native-image-picker";
+import React from "react";
+import { StyleSheet, Text, View, TextInput, Platform } from 'react-native';
 
-export function FlightTrackFancyInput({style, label, onUpdate, hide = false, data, keyboardType = 'ascii-capable'}) {
-  const [value, setValue] = useState(data || '');
+export function FlightTrackFancyInput({style, label, value, onUpdate, hide = false, data, keyboardType = 'ascii-capable'}) {
 
   const onTextChange = (text) => {
-    setValue(text);
     onUpdate(text);
   };
 
@@ -105,7 +99,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 12,
     borderBottomLeftRadius: 12,
     paddingLeft: 10,
-    paddingBottom: 8,
+    paddingBottom: Platform.OS === 'ios' ? 8 : 12,
     flex: 1,
     
   },

@@ -1,5 +1,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
   package="com.flighttrack">
+     <queries>
+        <intent>
+          <action android:name="android.intent.action.VIEW" />
+          <data android:scheme="http"/>
+        </intent>
+        <intent>
+          <action android:name="android.intent.action.VIEW" />
+          <data android:scheme="https"/>
+        </intent>
+      </queries>
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -15,9 +25,18 @@
         android:label="@string/app_name"
         android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
         android:launchMode="singleTask"
-        android:windowSoftInputMode="adjustResize"
+        android:windowSoftInputMode="adjustPan"
         android:exported="true">
         <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+            <!-- Include the host attribute if you want your app to respond only to URLs with your app's domain. -->
+            <data android:scheme="https://" android:host="firebasestorage.googleapis.com" />
+            <data android:scheme="http://" android:host="firebasestorage.googleapis.com" />
+            <data android:scheme="https" android:host="firebasestorage.googleapis.com" />
+            <data android:scheme="http" android:host="firebasestorage.googleapis.com" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <!-- The BROWSABLE category is required to get links from web pages. -->
+            <category android:name="android.intent.category.BROWSABLE" />
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>

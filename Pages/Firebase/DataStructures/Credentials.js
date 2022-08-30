@@ -1,9 +1,14 @@
-export class Credentials {
-  constructor({email, password, confirmedPassword, name}) {
+/**
+ * Credentials
+ * Contains all data we have gathered regarding a specific user.
+ */
+export default class Credentials {
+  constructor({email, password, confirmedPassword, name, admin = false}) {
     this.email = email;
     this.password = password;
     this.confirmedPassword = confirmedPassword;
     this.name = name;
+    this.admin = admin;
   }
   getEmail() {
     return this.email;
@@ -16,6 +21,9 @@ export class Credentials {
   }
   getName() {
     return this.name;
+  }
+  getAdmin() {
+    return this.admin;
   }
   setEmail(newVal) {
     this.email = newVal;
@@ -31,6 +39,10 @@ export class Credentials {
   }
   setName(newVal) {
     this.name = newVal;
+    return this;
+  }
+  setAdmin(newVal) {
+    this.admin = newVal;
     return this;
   }
 

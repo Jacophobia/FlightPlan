@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Pressable, Image, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput } from 'react-native';
 
 
 const iconWidth = 45;

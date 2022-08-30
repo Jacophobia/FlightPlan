@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Image, Pressable, KeyboardAvoidingView, Platform, Dimensions } from 'react-native';
-import { FlightTrackInput } from "./PageComponents/FlightTrackInput";
 import LinearGradient from 'react-native-linear-gradient';
 import { FlightTrackButton } from "./PageComponents/FlightTrackButton";
-import { onStateChange, login, logout } from "../Firebase/Auth";
+import { onStateChange, login, logout } from "./Firebase/Auth";
 import { FlightTrackFancyInput } from "./PageComponents/FlightTrackFancyInput";
 
 logout();
 
 export function Login(props) {
-  const [userName, setUsername] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  const clear = () => {
+    setUsername('');
+    setPassword('');
+  };
 
   // Firebase v v v v v v v v v v v v v v v v v v v v v v
   const [initializing, setInitializing] = useState(true);
@@ -22,7 +26,7 @@ export function Login(props) {
     setUser(user);
     setInitializing(false);
     if (!!user) {
-      props.navigation.navigate('RecordFlightForm'); // TODO: update this to be the home page
+      setUsername(user.email);
     }
   };
 
@@ -36,17 +40,25 @@ export function Login(props) {
   }
 
   const submit = async () => {
-    if (userName.length === 0 || password.length === 0) {
+    if (username.length === 0 || password.length === 0) {
       return;
     }
     try {
       await logout();
-      await login(userName, password);
+      await login(username, password);
+      props.navigation.navigate('Home');
+      clear();
     } catch (error) {
       console.error('Error logging in or out:', error);
     }
   };
   // Firebase ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^
+
+  const toSignUp = () => {
+    clear();
+    logout();
+    props.navigation.navigate('SignUp');
+  };
 
   return (
     <LinearGradient 
@@ -86,9 +98,9 @@ export function Login(props) {
             style={styles.logo}
           />
         </View>
-        <KeyboardAvoidingView style={styles.input} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} >
-          <FlightTrackFancyInput label='Email Address' onUpdate={setUsername} keyboardType='email-address' />
-          <FlightTrackFancyInput label='Password' onUpdate={setPassword} hide={true} />
+        <KeyboardAvoidingView style={styles.input} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} enabled={Platform.OS === 'ios'} >
+          <FlightTrackFancyInput label='Email Address' onUpdate={setUsername} value={username} keyboardType='email-address' />
+          <FlightTrackFancyInput label='Password' onUpdate={setPassword} value={password} hide={true} />
           <View style={styles.forgotLoginPressable}>
             <Pressable onPress={() => alert('Not yet implemented')}>
               <Text style={styles.forgotLoginText}>
@@ -96,9 +108,9 @@ export function Login(props) {
               </Text>
             </Pressable>
           </View>
-            <FlightTrackButton style={styles.submit} title='Log In' onPress={submit} />
+          <FlightTrackButton style={styles.submit} label='Log In' onPress={submit} />
         </KeyboardAvoidingView>
-        <Pressable onPress={() => props.navigation.navigate('SignUp')} style={styles.signUp} >
+        <Pressable onPress={toSignUp} style={styles.signUp} >
           <Text style={styles.signUpText}>Sign Up</Text>
         </Pressable>
       </View>
@@ -152,7 +164,7 @@ export const styles = StyleSheet.create({
     marginTop: 3,
   },
   forgotLoginText: {
-    color: '#b0b0b0',
+    color: '#a0a0a0',
     fontSize: 14,
     marginRight: 0,
   },

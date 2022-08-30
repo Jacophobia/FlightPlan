@@ -3,12 +3,10 @@ import auth from '@react-native-firebase/auth';
 import { addCrewMember } from './Firestore'
 
 export const onStateChange = (callback) => {
-  console.log('onstatechange'); // DELETEME
   return auth().onAuthStateChanged(callback);
 };
 
 export const signUp = async (credentials, callback = () => {}) => {
-  console.log('signup'); // DELETEME
   const validation = credentials.validate();
   if (validation.valid === false) {
     alert(validation.error);
@@ -32,30 +30,37 @@ export const signUp = async (credentials, callback = () => {}) => {
   callback();
 };
 
-export const saveUser = (user, fullName) => {
-  console.log('saveuser'); // DELETEME
+export const saveUser = (user, fullName, callback = () => {}) => {
   console.log(fullName);
   addCrewMember(user, fullName).then(() => {
     console.log('User added to database');
+    callback();
   }).catch(reason => {
     console.error('Unable to add user to database:', reason);
   });
 };
 
 export const login = async (email, password, callback = () => {}) => {
-  console.log('login'); // DELETEME
   try {
     await auth().signInWithEmailAndPassword(email, password);
   }
   catch (error) {
-    alert('Unable to log in');
+    switch (error.code) {
+    case 'auth/user-not-found':
+      alert('User not found');
+      break;
+    case 'auth/wrong-password':
+      alert('Wrong password');
+      break;
+    default:
+      alert('Unable to log in');
+    }
     console.error(error);
   }
   callback();
 };
 
 export const logout = async () => {
-  console.log('logout'); // DELETEME
   if (!!auth().currentUser) {
     try {
       await auth().signOut();
@@ -65,3 +70,7 @@ export const logout = async () => {
   }
   console.log('Goodbye!');
 };
+
+export const getUid = () => {
+  return auth().currentUser.uid;
+}

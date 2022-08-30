@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Image, Pressable, KeyboardAvoidingView, Platform } from 'react-native';
-import { FlightTrackInput } from "./PageComponents/FlightTrackInput";
+import { Text, View, Image, Pressable, KeyboardAvoidingView, Platform } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { FlightTrackButton } from "./PageComponents/FlightTrackButton";
-import { Credentials } from "../DataStructures/Credentials";
-import { onStateChange, saveUser, signUp, logout } from "../Firebase/Auth";
+import Credentials from "./Firebase/DataStructures/Credentials";
+import { onStateChange, saveUser, signUp } from "./Firebase/Auth";
 import { FlightTrackFancyInput } from "./PageComponents/FlightTrackFancyInput";
 import { styles } from "./Login";
 
@@ -27,15 +26,14 @@ export function SignUp(props) {
 
   // Firebase v v v v v v v v v v v v v v v v v v v v v v
   const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState();
 
   // Handle user state changes
   const onAuthStateChanged = (user) => {
     console.log("sign up user =", user);
-    setUser(user);
     setInitializing(false);
-    if (!!user) {
-      saveUser(user, credentials.getName());
+    const {valid, error} = credentials.validate();
+    if (!!user && valid) {
+      saveUser(user, credentials.getName(), () => props.navigation.goBack());
     }
   }
 
@@ -51,7 +49,7 @@ export function SignUp(props) {
 
   const submit = () => {
     if (credentials.validate()) {
-      signUp(credentials, () => props.navigation.goBack());
+      signUp(credentials);
     }
   };
 
@@ -93,17 +91,17 @@ export function SignUp(props) {
             style={styles.logo}
           />
         </View>
-        <KeyboardAvoidingView style={styles.input} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <KeyboardAvoidingView style={styles.input} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} enabled={Platform.OS === 'ios'}>
           <FlightTrackFancyInput label='Full Name' onUpdate={setName} />
           <FlightTrackFancyInput label='Email Address' onUpdate={setUsername} keyboardType='email-address' />
           <FlightTrackFancyInput label='Password' onUpdate={setPassword} hide={true} />
           <FlightTrackFancyInput label='Confirm Password' onUpdate={setConfirmedPassword} hide={true} />
-          <FlightTrackButton style={styles.submit} title='Sign Up' onPress={submit} />
+          <FlightTrackButton style={styles.submit} label='Sign Up' onPress={submit} />
         </KeyboardAvoidingView>
       </View>
-        <Pressable onPressIn={props.navigation.goBack} style={styles.signUp} >
-          <Text style={styles.signUpText}>Log In</Text>
-        </Pressable>
+      <Pressable onPressIn={props.navigation.goBack} style={styles.signUp} >
+        <Text style={styles.signUpText}>Log In</Text>
+      </Pressable>
     </LinearGradient>
   );
 }

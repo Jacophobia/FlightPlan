@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, ScrollView, Image, Pressable } from 'react-native';
-import { testFirestoreConnection, getOptions } from "./../../Firebase/Firestore";
 import { FlightTrackDropDownOption } from "./FlightTrackDropDownOption";
 
 /**

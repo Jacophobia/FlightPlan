@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
-import { testFirestoreConnection } from "./Firebase/Firestore";
-import { FlightTrackInput } from "./PageComponents/FlightTrackInput";
-import LinearGradient from 'react-native-linear-gradient';
+import { StyleSheet, Text, View, Pressable } from 'react-native';
 
 /**
  * Flight Track Drop Down Option
