@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
   display: {
     ...outline,
     width: '80%',
+    marginVertical: '2%',
   },
   buttonContainer: {
     ...outline,

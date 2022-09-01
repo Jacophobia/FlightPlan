@@ -42,7 +42,6 @@ const styles = StyleSheet.create({
     width: '86%',
     flexDirection: 'column',
     justifyContent: 'flex-end',
-    marginVertical: '2%',
   },
   labelContainer: {
     ...outline,
