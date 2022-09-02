@@ -12,6 +12,7 @@ import { FlightTrackLabeledNumberInput } from "./PageComponents/FlightTrackLabel
 import Flight from "./Firebase/DataStructures/Flight";
 import { FlightTrackButton } from "./PageComponents/FlightTrackButton";
 import { recordFlight } from "./Firebase/Shared";
+import { getPlanes, getCrewMembers, getClients, getPrinciples, getPurposes } from "./Firebase/Firestore";
 
 const newFlight = new Flight({});
 
@@ -20,9 +21,36 @@ const newFlight = new Flight({});
  * @param props data (type: Flight Object), onSubmit
  * @returns A form which collects info about a single flight
  */
-export function RecordFlightForm(props) {
-  const [flight, setFlight] = useState(newFlight);
+export function RecordFlightForm({navigation, data}) {
+  const [flight, setFlight] = useState(data || newFlight);
   const [canSubmit, setCanSubmit] = useState(true);
+
+  const [tailNumberOptions, setTailNumberOptions] = useState([]);
+  if (tailNumberOptions.length === 0) {
+    getPlanes().then(planes => setTailNumberOptions(planes));
+  }
+
+  const [crewMemberOptions, setCrewMemberOptions] = useState([]);
+  if (tailNumberOptions.length === 0) {
+    getCrewMembers().then(crewMembers => setCrewMemberOptions(crewMembers));
+  }
+
+  const [clientOptions, setClientOptions] = useState([]);
+  if (clientOptions.length === 0) {
+    getClients().then(clients => setClientOptions(clients));
+  }
+
+  const [principleOptions, setPrincipleOptions] = useState([]);
+  if (principleOptions.length === 0) {
+    getPrinciples().then(principles => setPrincipleOptions(principles));
+  }
+
+  const [purposeOptions, setPurposeOptions] = useState([]);
+  if (purposeOptions.length === 0) {
+    getPurposes().then(purposes => setPurposeOptions(purposes));
+  }
+
+  const isNewFlight = !data; // to see whether it should auto populate based on the planes last flight
 
   const setTailNumber = (newVal) => {
     setFlight(oldFlight => oldFlight.setTailNumber(newVal));
@@ -73,6 +101,9 @@ export function RecordFlightForm(props) {
     setFlight(oldFlight => oldFlight.setLandingFee(newVal));
   };
   const setReciepts = ({left, right}) => {
+    console.log('left: ', left)
+    console.log('right: ', right)
+    console.log('reciepts', flight.getReciepts())
     setFlight(oldFlight => oldFlight.setReciepts({Fuel: left, Landing: right}));
   };
   const submit = () => {
@@ -81,7 +112,7 @@ export function RecordFlightForm(props) {
       .catch(error => console.error(error))
       .then(() => {
         console.log('Flight Uploaded');
-        props.navigation.goBack();
+        navigation.goBack();
         clear();
         setCanSubmit(true);
     });
@@ -93,14 +124,14 @@ export function RecordFlightForm(props) {
 
   return (
     <View style={styles.container}>
-      <FlightTrackHeader headerText='Record Flight' onBackArrowPress={() => {props.navigation.goBack(); clear();}}/>
+      <FlightTrackHeader headerText='Record Flight' onBackArrowPress={() => {navigation.goBack(); clear();}}/>
       <KeyboardAvoidingView style={styles.scrollable} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} enabled={Platform.OS === 'ios'} >
         <ScrollView>
           <View style={styles.formList}>
             <FlightTrackDropDown 
               labelText='Tail Number' 
               color='#010100' 
-              options={[{name: 'Tail Number 1', id: '1'}, {name: 'Tail Number 2', id: '2'}, {name: 'Tail Number 3', id: '3'}, {name: 'Tail Number 4', id: '4'}, {name: 'Tail Number 5', id: '5'}]} 
+              options={tailNumberOptions} 
               data={flight.getTailNumber()} 
               onUpdate={setTailNumber}
             />
@@ -171,35 +202,35 @@ export function RecordFlightForm(props) {
             <FlightTrackDropDown 
               labelText='Pilot in Command' 
               color='#010100' 
-              options={[{name: 'Crew Member 1', id: '1'}, {name: 'Crew Member 2', id: '2'}, {name: 'Crew Member 3', id: '3'}, {name: 'Crew Member 4', id: '4'}, {name: 'Crew Member 5', id: '5'}]} 
+              options={crewMemberOptions} 
               data={flight.getPilotId()} 
               onUpdate={setPilotId}
             />
             <FlightTrackDropDown 
               labelText='Second in Command' 
               color='#010100' 
-              options={[{name: 'Crew Member 1', id: '1'}, {name: 'Crew Member 2', id: '2'}, {name: 'Crew Member 3', id: '3'}, {name: 'Crew Member 4', id: '4'}, {name: 'Crew Member 5', id: '5'}]} 
+              options={crewMemberOptions} 
               data={flight.getCopilotId()} 
               onUpdate={setCopilotId}
             />
             <FlightTrackDropDown 
               labelText='Client' 
               color='#010100' 
-              options={[{name: 'Client 1', id: '1'}, {name: 'Client 2', id: '2'}, {name: 'Client 3', id: '3'}, {name: 'Client 4', id: '4'}, {name: 'Client 5', id: '5'}]} 
+              options={clientOptions} 
               data={flight.getClientId()} 
               onUpdate={setClientId}
             />
             <FlightTrackDropDown 
               labelText='Principle' 
               color='#010100' 
-              options={[{name: 'Principle 1', id: '1'}, {name: 'Principle 2', id: '2'}, {name: 'Principle 3', id: '3'}, {name: 'Principle 4', id: '4'}, {name: 'Principle 5', id: '5'}]} 
+              options={principleOptions} 
               data={flight.getPrincipleId()} 
               onUpdate={setPrincipleId}
             />
             <FlightTrackDropDown 
               labelText='Purpose' 
               color='#010100' 
-              options={[{name: 'Purpose 1', id: '1'}, {name: 'Purpose 2', id: '2'}, {name: 'Purpose 3', id: '3'}, {name: 'Purpose 4', id: '4'}, {name: 'Purpose 5', id: '5'}]} 
+              options={purposeOptions} 
               data={flight.getPurposeId()} 
               onUpdate={setPurposeId}
             />

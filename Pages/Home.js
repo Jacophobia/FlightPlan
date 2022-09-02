@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, View } from 'react-native';
 import { FlightTrackHeader } from "./PageComponents/FlightTrackHeader";
 import { FlightTrackMenuOption } from "./PageComponents/FlightTrackMenuOption";
@@ -31,19 +31,40 @@ export function Home({navigation}) {
     navigation.navigate('Profile', {name, email});
   };
 
+  const [admin, setAdmin] = useState(undefined);
+  const MenuOptions = () => {
+    if (admin === undefined) {
+      getUserData().then(({admin}) => setAdmin(admin));
+    }
+
+    if (admin) {
+      return (
+        <View style={styles.content}>
+          <FlightTrackMenuOption label='Record Flight' icon={require('../assets/HomePage/RecordFlight.png')} onPress={toRecordFlightForm} />
+          <FlightTrackMenuOption label='Flights' icon={require('../assets/HomePage/Flights.png')} onPress={toFlights} />
+          <FlightTrackMenuOption label='Crew Members' icon={require('../assets/HomePage/CrewMembers.png')} onPress={toCrewMembers} />
+          <FlightTrackMenuOption label='Planes' icon={require('../assets/HomePage/Planes.png')} onPress={toPlanes} />
+          <FlightTrackMenuOption label='Clients' icon={require('../assets/HomePage/Clients.png')} onPress={toClients} />
+          <FlightTrackMenuOption label='Principles' icon={require('../assets/HomePage/Principles.png')} onPress={toPrinciples} />
+          <FlightTrackMenuOption label='Purposes' icon={require('../assets/HomePage/Purposes.png')} onPress={toPurposes} />
+          <FlightTrackMenuOption label='Profile' icon={require('../assets/HomePage/Profile.png')} onPress={toProfile} />
+        </View>
+      );
+    }
+    else {
+      return (
+        <View style={[styles.content, {justifyContent: 'center'}]}>
+          <FlightTrackMenuOption label='Record Flight' icon={require('../assets/HomePage/RecordFlight.png')} onPress={toRecordFlightForm} />
+          <FlightTrackMenuOption label='Profile' icon={require('../assets/HomePage/Profile.png')} onPress={toProfile} />
+        </View>
+      );
+    }
+  };
+
   return (
     <View style={styles.container}>
       <FlightTrackHeader headerText='Home' onBackArrowPress={navigation.goBack} />
-      <View style={styles.content}>
-        <FlightTrackMenuOption label='Record Flight' icon={require('../assets/HomePage/RecordFlight.png')} onPress={toRecordFlightForm} />
-        <FlightTrackMenuOption label='Flights' icon={require('../assets/HomePage/Flights.png')} onPress={toFlights} />
-        <FlightTrackMenuOption label='Crew Members' icon={require('../assets/HomePage/CrewMembers.png')} onPress={toCrewMembers} />
-        <FlightTrackMenuOption label='Planes' icon={require('../assets/HomePage/Planes.png')} onPress={toPlanes} />
-        <FlightTrackMenuOption label='Clients' icon={require('../assets/HomePage/Clients.png')} onPress={toClients} />
-        <FlightTrackMenuOption label='Principles' icon={require('../assets/HomePage/Principles.png')} onPress={toPrinciples} />
-        <FlightTrackMenuOption label='Purposes' icon={require('../assets/HomePage/Purposes.png')} onPress={toPurposes} />
-        <FlightTrackMenuOption label='Profile' icon={require('../assets/HomePage/Profile.png')} onPress={toProfile} />
-      </View>
+      <MenuOptions />
     </View>
   );
 }

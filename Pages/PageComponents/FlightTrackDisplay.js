@@ -40,8 +40,9 @@ const styles = StyleSheet.create({
     ...outline,
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center',
     backgroundColor: '#D0EFFB',
+    paddingRight: 8,
   },
 });

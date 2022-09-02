@@ -32,6 +32,7 @@ export default class Flight {
     reciepts, // fuel, landing
     fuelRecieptUrl,
     landingRecieptUrl,
+    id,
   }) {
     this.tailNumber = tailNumber;
     this.date = date || new Date();
@@ -52,7 +53,7 @@ export default class Flight {
     this.reciepts = reciepts;
     this.fuelRecieptUrl = fuelRecieptUrl;
     this.landingRecieptUrl = landingRecieptUrl;
-
+    this.id = id
 
     console.log('new flight created');
   }
@@ -112,13 +113,16 @@ export default class Flight {
     return this.reciepts.Fuel;
   }
   getLandingReciept() {
-    return this.reciepts.Fuel;
+    return this.reciepts.Landing;
   }
   getFuelRecieptUrl() {
     return this.fuelRecieptUrl;
   }
   getLandingRecieptUrl() {
     return this.landingRecieptUrl;
+  }
+  getId() {
+    return this.id;
   }
 
   setTailNumber(newVal) {
@@ -197,6 +201,10 @@ export default class Flight {
     this.landingRecieptUrl = newVal;
     return this;
   }
+  setId(newVal) {
+    this.id = newVal;
+    return this;
+  }
   complete() {
     return (
       isComplete(this.tailNumber) &&
@@ -251,33 +259,4 @@ export default class Flight {
     }
     return json;
   }
-}
-
-export function getTestFlight() {
-  return new Flight({
-    tailNumber: 'TestTailNumber',
-    date: '06/30/1999',
-    departure: 'Las Vegas Airport',
-    arrival: 'Las Angeles Airport',
-    hobbs: {
-      In: 5,
-      Out: 5,
-    },
-    flightHours: 5,
-    apuHours: 5,
-    fuel: {
-      In: 5,
-      Out: 5,
-    },
-    gallons: 5,
-    fuelPrice: 5,
-    pilotId: 'TestPilotId',
-    copilotId: 'TestCopilotId',
-    clientId: 'TestClientId',
-    principleId: 'TestPrincipleId',
-    purposeId: 'TestPurposeId',
-    landingFee: 5,
-    fuelRecieptUrl: 'https://firebasestorage.googleapis.com/v0/b/flighttrack-860aa.appspot.com/o/reciepts%2F1%2FIborjZf7JuU6Z2vkLKbC%2FfuelReciept.jpg?alt=media&token=1ae28da9-03e8-4a56-a1b5-fd7280900c41',
-    landingRecieptUrl: 'https://firebasestorage.googleapis.com/v0/b/flighttrack-860aa.appspot.com/o/reciepts%2F1%2FIborjZf7JuU6Z2vkLKbC%2FfuelReciept.jpg?alt=media&token=1ae28da9-03e8-4a56-a1b5-fd7280900c41',
-  });
 }

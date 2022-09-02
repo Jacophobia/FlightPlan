@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#D0EFFB',
     flex: 1,
     marginHorizontal: '5%',
-    paddingRight: '5%',
+    paddingRight: 8,
 
   },
   rightDataContainer: {
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#D0EFFB',
     flex: 1,
     marginLeft: '5%',
-    paddingRight: '5%',
+    paddingRight: 8,
 
   },
   display: {

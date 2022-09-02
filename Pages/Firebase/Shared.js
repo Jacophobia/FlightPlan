@@ -15,10 +15,12 @@ export const recordFlight = async (flight) => {
     throw 'Reciept not uploaded';
   }
   if (!!fuelReciept && fuelReciept !== '' && fuelReciept !== [] && fuelReciept !== {}) {
+    console.log("fuel reciept to upload:", fuelReciept)
     const fuelUrl = await uploadPhoto(fuelReciept, flight.getTailNumber(), flightRef.id, 'fuelReciept');
     flight.setFuelRecieptUrl(fuelUrl);
   }
   if (!!landingReciept && landingReciept !== '' && landingReciept !== [] && landingReciept !== {}) {
+    console.log("Landing reciept to upload", landingReciept)
     const landingUrl = await uploadPhoto(landingReciept, flight.getTailNumber(), flightRef.id, 'landingReciept');
     flight.setLandingRecieptUrl(landingUrl);
   }

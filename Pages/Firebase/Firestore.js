@@ -92,12 +92,25 @@ const getProfilesRef = () => {
   return result;
 };
 
+const getPurposesRef = () => {
+  const result = firestore()
+    .collection("Purposes");
+    return result;
+};
+
+const getPurposeRef = (id) => {
+  const result = getPurposesRef()
+    .doc(String(id));
+  return result;
+}
+
 export const addCrewMember = async (user, name, callback = () => {}) => {
   try {
     await getCrewMembersRef().doc(user.uid).set({
       name,
       email: user.email,
       uid: user.uid,
+      admin: false,
     });
     callback();
   }
@@ -107,14 +120,118 @@ export const addCrewMember = async (user, name, callback = () => {}) => {
   }
 };
 
-export const getFlight = async (tailNumber, flightId) => {
-  try {
-    
-    alert('Get flight not yet implemented');
-    callback();
-  } catch (error) {
-    console.error(error);
+// getPlanes, getCrewMemberOptions, getClientOptions, getPrincipleOptions, getPurposeOptions
+
+export const getPlanes = async () => {
+  return (await getPlanesRef().get())
+    .docs
+    .map(doc => {
+      const plane = doc.data();
+      if (!plane.id) {
+        plane.id = doc.id;
+      }
+      if (!plane.name) {
+        plane.name = doc.id;
+      }
+      return plane;
+    });
+};
+
+export const getCrewMembers = async () => {
+  return (await getCrewMembersRef().get())
+    .docs
+    .map(doc => {
+      const crewMember = doc.data();
+      if (!crewMember.id) {
+        crewMember.id = crewMember.uid;
+      }
+      return crewMember;
+    })
+};
+
+export const getClients = async () => {
+  return (await getClientsRef().get())
+    .docs
+    .map(doc => {
+      const client = doc.data();
+      if (!client.id) {
+        client.id = doc.id;
+      }
+      return client;
+    })
+};
+
+export const getPrinciples = async () => {
+  return (await getPrinciplesRef().get())
+    .docs
+    .map(doc => {
+      const principle = doc.data();
+      if (!principle.id) {
+        principle.id = doc.id;
+
+      }
+      return principle;
+    })
+};
+
+export const getPurposes = async () => {
+  return (await getPurposesRef().get())
+    .docs
+    .map(doc => {
+      const purpose = doc.data();
+      if (!purpose.id) {
+        purpose.id = doc.id;
+      }
+      return purpose;
+    })
+};
+
+export const getFlights = async () => {
+  const flights = [];
+  const planes = await getPlanes();
+  console.log(planes);
+  for (let plane of planes) {
+    const recentFlights = await getFlightsRef(plane.id).get();
+    recentFlights.docs.forEach(doc => {
+      const flight = doc.data();
+      flight.id = doc.id;
+      console.log(flight);
+      flights.push(new Flight(flight));
+    });
   }
+  return flights;
+};
+
+// getCrewMember, getClient, getPrinciple, getPurpose
+
+export const getCrewMember = async (id) => {
+  const result = (await getCrewMemberRef(id).get()).data();
+  result.id = id;
+  return result;
+};
+
+export const getClient = async (id) => {
+  const result = (await getClientRef(id).get()).data();
+  result.id = id;
+  return result;
+};
+
+export const getPrinciple = async (id) => {
+  const result = (await getPrincipleRef(id).get()).data();
+  result.id = id;
+  return result;
+};
+
+export const getPurpose = async (id) => {
+  const result = (await getPurposeRef(id).get()).data();
+  result.id = id;
+  return result;
+};
+
+export const getFlight = async (tailNumber, flightId) => {
+  const result = (await getFlightRef(tailNumber, flightId).get()).data();
+  result.id = flightId;
+  return new Flight(result);
 };
 
 /**
