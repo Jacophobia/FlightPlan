@@ -11,6 +11,8 @@ const emptyCreds = new Credentials({});
 
 export function SignUp(props) {
   const [credentials, setCredentials] = useState(emptyCreds);
+  const [loading, setLoading] = useState(false);
+
   const setUsername = (username) => {
     setCredentials(oldCreds => oldCreds.setEmail(username));
   };
@@ -53,10 +55,12 @@ export function SignUp(props) {
   }
   // Firebase ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^
 
-  const submit = () => {
+  const submit = async () => {
+    setLoading(true);
     if (credentials.validate()) {
-      signUp(credentials);
+      await signUp(credentials);
     }
+    setLoading(false);
   };
 
   return (
@@ -84,7 +88,7 @@ export function SignUp(props) {
           <FlightTrackFancyInput label='Email Address' onUpdate={setUsername} keyboardType='email-address' />
           <FlightTrackFancyInput label='Password' onUpdate={setPassword} hide={true} />
           <FlightTrackFancyInput label='Confirm Password' onUpdate={setConfirmedPassword} hide={true} />
-          <FlightTrackButton style={styles.submit} label='Sign Up' onPress={submit} />
+          <FlightTrackButton style={styles.submit} label='Sign Up' onPress={submit} enabled={!loading} />
         </KeyboardAvoidingView>
       </View>
       <Pressable onPressIn={props.navigation.goBack} style={styles.signUp} >

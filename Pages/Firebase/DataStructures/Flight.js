@@ -1,4 +1,7 @@
 const isComplete = (value) => {
+  if (typeof value === 'string') {
+    return value !== '';
+  }
   return (
     value !== null && 
     value !== undefined && 
@@ -234,8 +237,8 @@ export default class Flight {
   }
   json() {
     const json = {
-      tailNumber: this.tailNumber,
-      date: this.date.toLocaleDateString(),
+      tailNumber: typeof this.tailNumber === 'object' ? this.tailNumber.id : this.tailNumber,
+      date: new Date(this.date).toISOString(),
       departure: this.departure,
       arrival: this.arrival,
       hobbs: this.hobbs, // in & out
@@ -244,11 +247,11 @@ export default class Flight {
       fuel: this.fuel, // in & out
       gallons: this.gallons,
       fuelPrice: this.fuelPrice,
-      pilotId: this.pilotId,
-      copilotId: this.copilotId,
-      clientId: this.clientId,
-      principleId: this.principleId,
-      purposeId: this.purposeId,
+      pilotId: typeof this.pilotId === 'object' ? this.pilotId.id : this.pilotId,
+      copilotId: typeof this.copilotId === 'object' ? this.copilotId.id : this.copilotId,
+      clientId: typeof this.clientId === 'object' ? this.clientId.id : this.clientId,
+      principleId: typeof this.principleId === 'object' ? this.principleId.id : this.principleId,
+      purposeId: typeof this.purposeId === 'object' ? this.purposeId.id : this.purposeId,
       landingFee: this.landingFee,
     };
     if (!!this.fuelRecieptUrl) {

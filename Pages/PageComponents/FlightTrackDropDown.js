@@ -2,34 +2,48 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View, ScrollView, Image, Pressable } from 'react-native';
 import { FlightTrackDropDownOption } from "./FlightTrackDropDownOption";
 
+const findOption = (id, options) => {
+  if (!id || id === '' || id === undefined) {
+    return {name: '', id: ''};
+  }
+  return options.find(option => option.id === id);
+};
+
+const findOptionName = (id, options) => {
+  return findOption(id, options).name || '';
+};
+
 /**
  * Flight Track Drop Down
  * @param props options, onUpdate, data
  * @returns A dropdown menu with selectable elements
  */
-export function FlightTrackDropDown(props) {
+export function FlightTrackDropDown({data, options, onUpdate, color, labelText}) {
   const [expanded, setExpanded] = useState(false);
-  const [selected, setSelected] = useState(props.data || {id: '', name: ''});
+  const [selected, setSelected] = useState('');
+
+  if (selected !== data) {
+    setSelected(data);
+  }
 
   const handlePress = () => {
     setExpanded(prev => !prev);
   };
 
   const onSelect = option => {
-    setSelected(option);
-    props.onUpdate(option.id);
+    onUpdate(option.id);
+    setSelected(option.id);
     handlePress();
   };
 
-  const renderDropDown = () => {
+  const DropDown = () => {
     if (expanded) {
       return (
-        (!!props.options ? props.options : [{name: 'Test option 1', id: '1'}, {name: 'Test option 2', id: '2'}, {name: 'Test option 3', id: '3'}, {name: 'Test option 4', id: '4'}])
-          .map((option) => {
-            return (
-              <FlightTrackDropDownOption key={option.id} option={option} onPress={onSelect} />
-            )
-          })
+        options.map((option) => {
+          return (
+            <FlightTrackDropDownOption key={option.id} option={option} onPress={onSelect} />
+          );
+        })
       );
     }
     return (<></>);
@@ -42,19 +56,19 @@ export function FlightTrackDropDown(props) {
       <View style={styles.accordion}>
         <View style={styles.label}>
           <Text 
-            style={[styles.labelText, !!props.color ? {color: props.color} : {}]}
+            style={[styles.labelText, !!color ? {color: color} : {}]}
           >
-            {props.labelText || "No label prop provided"}
+            {labelText || "No label prop provided"}
           </Text>
         </View>
         <Pressable style={styles.pressable} onPress={handlePress}>
-          <Text>{selected.name}</Text>
+          <Text>{findOptionName(selected, options)}</Text>
           <View>
             <Image style={[styles.icon]} source={icon} />
           </View>
         </Pressable>
         <ScrollView style={[styles.dropDown]}>
-          {renderDropDown()}
+          <DropDown />
         </ScrollView>
       </View>
     </>

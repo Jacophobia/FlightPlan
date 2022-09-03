@@ -133,6 +133,9 @@ export const getPlanes = async () => {
       if (!plane.name) {
         plane.name = doc.id;
       }
+      if (!plane.apu) {
+        plane.apu = false;
+      }
       return plane;
     });
 };
@@ -204,6 +207,18 @@ export const getFlights = async () => {
 
 // getCrewMember, getClient, getPrinciple, getPurpose
 
+export const getPlane = async (id) => {
+  console.log('Tail Number', id);
+  const result = (await getPlaneRef(id).get()).data();
+  if (!result) {
+    throw 'Cannot get plane';
+  }
+  if (!result.id) {
+    result.id = id;
+  }
+  return result;
+};
+
 export const getCrewMember = async (id) => {
   const result = (await getCrewMemberRef(id).get()).data();
   result.id = id;
@@ -232,6 +247,25 @@ export const getFlight = async (tailNumber, flightId) => {
   const result = (await getFlightRef(tailNumber, flightId).get()).data();
   result.id = flightId;
   return new Flight(result);
+};
+
+export const getMostRecentFlight = async (tailNumber) => {
+  let mostRecentFlight = undefined;
+  let mostRecentDate = undefined;
+  (await getFlightsRef(tailNumber).get())
+    .docs
+    .forEach(doc => {
+      const flight = doc.data();
+      const date = new Date(flight.date);
+      if (mostRecentFlight === undefined || !mostRecentFlight || date.getMilliseconds() > mostRecentDate.getMilliseconds()) {
+        mostRecentDate = date;
+        mostRecentFlight = flight;
+      }
+    });
+  if (!mostRecentFlight) {
+    return undefined;
+  }
+  return new Flight(mostRecentFlight);
 };
 
 /**

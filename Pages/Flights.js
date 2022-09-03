@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Pressable, StyleSheet, Text, View, FlatList } from 'react-native';
-import Flight, { getTestFlight } from "./Firebase/DataStructures/Flight";
+import { StyleSheet, View, FlatList } from 'react-native';
+import Flight from "./Firebase/DataStructures/Flight";
 import { FlightTrackHeader } from "./PageComponents/FlightTrackHeader";
 import { FlightTrackFlightOption } from "./PageComponents/FlightTrackFlightOption";
 import { getFlights } from "./Firebase/Firestore";
@@ -17,10 +17,6 @@ export function Flights({navigation}) {
     });
   }
 
-  const toFlight = () => {
-    navigation.navigate('Flight', {flight: getTestFlight()});
-  };
-
   const renderFlightOption = ({item}) => {
     return (
       <FlightTrackFlightOption data={item} onPress={() => navigation.navigate('Flight', {flight: item})} />
@@ -31,9 +27,6 @@ export function Flights({navigation}) {
     <View style={styles.container}>
       <FlightTrackHeader headerText='Flights' onBackArrowPress={navigation.goBack} />
       <FlatList data={flights} renderItem={renderFlightOption} keyExtractor={item => item.getId()} style={styles.list} />
-      <Pressable onPress={toFlight} style={styles.tempButton}>
-        <Text>To Flight Page</Text>
-      </Pressable>
     </View>
   );
 }
@@ -47,12 +40,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
   list: {
-    width: '75%',
-  },
-  tempButton: {
-    width: '90%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'green',
+    width: '76%',
   },
 });

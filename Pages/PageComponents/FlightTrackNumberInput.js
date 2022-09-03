@@ -4,21 +4,26 @@ import { FlightTrackInput } from "./FlightTrackInput";
 
 /**
  * Flight Track Number Input
- * @props data, labelText, color, onUpdate
+ * @props data, labelText, color, onUpdate, display
  * @returns A Text Input With FlightTrack Custom Styling
  */
-export function FlightTrackNumberInput(props) {
+export function FlightTrackNumberInput({display = true, data, labelText, color, onUpdate}) {
+  if (display) {
+    return (
+      <FlightTrackInput
+        data={data}
+        labelText={labelText}
+        color={color}
+        icon={require('../../assets/NumberSign.png')}
+        iconScale={45}
+        keyboardType='numeric'
+        onUpdate={onUpdate}
+        align='right'
+      />
+    );
+  }
   return (
-    <FlightTrackInput
-      data={props.data}
-      labelText={props.labelText}
-      color={props.color}
-      icon={require('../../assets/NumberSign.png')}
-      iconScale={45}
-      keyboardType='numeric'
-      onUpdate={props.onUpdate}
-      align='right'
-    />
+    <></>
   );
 }
 

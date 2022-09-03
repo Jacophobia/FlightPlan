@@ -11,34 +11,30 @@ const iconHeight = 45;
  * @returns A Text Input With FlightTrack Custom Styling
  */
 export function FlightTrackInput(props) {
-  const [text, setText] = useState(props.data || "");
 
   const onUpdate = (textValue) => {
     if (props.keyboardType === 'numeric') {
-      setText(curr => {
-        let decimalCount = 0;
-        for (const val of textValue) {
-          let numVal = Number(val);
-          if (val === ' ') {
-            return curr;
-          }
-          if (val === '.') {
-            decimalCount += 1;
-            if (decimalCount > 1) {
-              return curr;
-            }
-          }
-          else if (numVal < 0 || numVal > 9 || (numVal !== 0 && !numVal)) {
+      let curr = props.data
+      let decimalCount = 0;
+      for (const val of textValue) {
+        let numVal = Number(val);
+        if (val === ' ') {
+          return curr;
+        }
+        if (val === '.') {
+          decimalCount += 1;
+          if (decimalCount > 1) {
             return curr;
           }
         }
-        props.onUpdate(textValue);
-        return textValue;
-      });
+        else if (numVal < 0 || numVal > 9 || (numVal !== 0 && !numVal)) {
+          return curr;
+        }
+      }
+      props.onUpdate(textValue);
     }
     else {
       props.onUpdate(textValue);
-      setText(textValue);
     }
   };
 
@@ -68,7 +64,7 @@ export function FlightTrackInput(props) {
       <TextInput 
         style={[styles.input, inputBarStyle]} 
         onChangeText={onUpdate} 
-        value={text}  
+        value={props.data}  
         keyboardType={props.keyboardType || 'default'}
         secureTextEntry={props.hide || false}
       />
@@ -91,7 +87,7 @@ export function FlightTrackInput(props) {
   };
 
   const getError = () => {
-    if (!props.validate || props.validate(text)) {
+    if (!props.validate || props.validate(props.data)) {
       return (<></>);
     }
     return (

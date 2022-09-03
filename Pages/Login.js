@@ -10,6 +10,7 @@ logout();
 export function Login(props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const clear = () => {
     setUsername('');
@@ -49,6 +50,7 @@ export function Login(props) {
       return;
     }
     try {
+      setLoading(true);
       await logout();
       await login(username, password);
       toHome();
@@ -56,6 +58,7 @@ export function Login(props) {
     } catch (error) {
       console.error('Error logging in or out:', error);
     }
+    setLoading(false);
   };
   // Firebase ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^
 
@@ -95,7 +98,7 @@ export function Login(props) {
               </Text>
             </Pressable>
           </View>
-          <FlightTrackButton style={styles.submit} label='Log In' onPress={submit} />
+          <FlightTrackButton style={styles.submit} label='Log In' onPress={submit} enabled={!loading} />
         </KeyboardAvoidingView>
         <Pressable onPress={toSignUp} style={styles.signUp} >
           <Text style={styles.signUpText}>Sign Up</Text>
