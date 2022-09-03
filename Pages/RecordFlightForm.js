@@ -12,181 +12,130 @@ import { FlightTrackDualInput } from "./PageComponents/FlightTrackDualInput";
 import { FlightTrackLabeledNumberInput } from "./PageComponents/FlightTrackLabeledNumberInput";
 import Flight from "./Firebase/DataStructures/Flight";
 import { FlightTrackButton } from "./PageComponents/FlightTrackButton";
+
 import { recordFlight } from "./Firebase/Shared";
 import { getPlanes, getCrewMembers, getClients, getPrinciples, getPurposes, getPlane, getMostRecentFlight } from "./Firebase/Firestore";
 
 const newFlight = new Flight({});
 
-/**
- * Record Flight Form
- * @param props data (type: Flight Object), onSubmit
- * @returns A form which collects info about a single flight
- */
-export function RecordFlightForm({navigation, data}) {
-  const [flight, setFlight] = useState(data || newFlight);
+const InitializingBar = ({percent}) => {
+  return (
+      <View style={{justifyContent: 'center', alignItems: 'center', height: '100%', width: '100%'}}>
+        <ProgressBar
+          progress={percent} color="#177cbf" visible={true} style={{width: 300, height: 10}}
+        />
+      </View>
+    );
+};
+
+export function RecordFlightForm({navigation}) {
+  const [flight, setFlight] = useState(newFlight);
+  const [hasApu, setHasApu] = useState(false);
   const [canSubmit, setCanSubmit] = useState(true);
-  const isNewFlight = !data; // to see whether it should auto populate based on the planes last flight
 
-  const [tailNumberOptions, setTailNumberOptions] = useState([]);
-  const [crewMemberOptions, setCrewMemberOptions] = useState([]);
-  const [clientOptions, setClientOptions] = useState([]);
-  const [principleOptions, setPrincipleOptions] = useState([]);
-  const [purposeOptions, setPurposeOptions] = useState([]);
-  const [plane, setPlane] = useState({});
+  //   v v v v Drop Down Options v v v v
+  const [tailNumbers, setTailNumbers] = useState([])
+  const [crewMembers, setCrewMembers] = useState([]);
+  const [clients, setClients] = useState([]);
+  const [principles, setPrinciples] = useState([]);
+  const [purposes, setPurposes] = useState([]);
+  //   ^ ^ ^ ^ Drop Down Options ^ ^ ^ ^
 
-  const [initializingOptions, setInitializingOptions] = useState('not-started');
+  //   v v v v Initialize Options v v v v
+  const [initializePercent, setInitializePercent] = useState(0.0);
+  const [initializeState, setInitializeState] = useState('starting');
+
   const initializeOptions = async () => {
-    if (tailNumberOptions.length === 0) {
-      const planes = await getPlanes();
-      setTailNumberOptions(planes);
-    }
-    if (tailNumberOptions.length === 0) {
-      const crewMembers = await getCrewMembers();
-      setCrewMemberOptions(crewMembers);
-    }
-    if (clientOptions.length === 0) {
-      const clients = await getClients();
-      setClientOptions(clients);
-    }
-    if (principleOptions.length === 0) {
-      const principles = await getPrinciples();
-      setPrincipleOptions(principles);
-    }
-    if (purposeOptions.length === 0) {
-      const purposes = await getPurposes();
-      setPurposeOptions(purposes);
-    }
-    setInitializingOptions('done');
+    setInitializeState('initializing');
+    setInitializePercent(0.0);
+
+    const planes = await getPlanes();
+    setTailNumbers(planes);
+    setInitializePercent(0.2);
+    const crewMembers = await getCrewMembers();
+    setCrewMembers(crewMembers);
+    setInitializePercent(0.4);
+    const clients = await getClients();
+    setClients(clients);
+    setInitializePercent(0.6);
+    const principles = await getPrinciples();
+    setPrinciples(principles);
+    setInitializePercent(0.8);
+    const purposes = await getPurposes();
+    setPurposes(purposes);
+    setInitializePercent(1.0);
+
+    setInitializeState('done');
   };
-
-  if (initializingOptions === 'done') {
-
+  
+  if (initializeState === 'done') {
+    
   }
-  else if (initializingOptions === 'not-started') {
-    setInitializingOptions('initializing');
+  else if (initializeState === 'starting') {
     initializeOptions();
-    return (
-      <View style={{justifyContent: 'center', alignItems: 'center', height: '100%', width: '100%'}}>
-        <ProgressBar
-          progress={0.33} color="#177cbf" visible={true} style={{width: 300, height: 10}}
-        />
-      </View>
-    );
+    return (<InitializingBar percent={initializePercent} />);
   }
-  else if (initializingOptions === 'initializing') {
-    return (
-      <View style={{justifyContent: 'center', alignItems: 'center', height: '100%', width: '100%'}}>
-        <ProgressBar
-          progress={0.66} color="#177cbf" visible={true} style={{width: 300, height: 10}}
-        />
-      </View>
-    );
+  else {
+    return (<InitializingBar percent={initializePercent} />);
   }
+  //   ^ ^ ^ ^ Initialize Options ^ ^ ^ ^
 
-  const setDate = (newVal) => {
-    setFlight(oldFlight => oldFlight.setDate(newVal));
+  //   v v v v Fill Flight Form v v v v
+  const updateFlight = (callback) => {
+    setFlight(currentFlight => new Flight(callback(currentFlight)));
   };
-  const setDeparture = (newVal) => {
-    setFlight(oldFlight => oldFlight.setDeparture(newVal));
+
+  const setDate        = (newValue)      => updateFlight(currentFlight => currentFlight.setDate(newValue));
+  const setDeparture   = (newValue)      => updateFlight(currentFlight => currentFlight.setDeparture(newValue));
+  const setArrival     = (newValue)      => updateFlight(currentFlight => currentFlight.setArrival(newValue));
+  const setFlightHours = (newValue)      => updateFlight(currentFlight => currentFlight.setFlightHours(newValue));
+  const setApuHours    = (newValue)      => updateFlight(currentFlight => currentFlight.setApuHours(newValue));
+  const setGallons     = (newValue)      => updateFlight(currentFlight => currentFlight.setGallons(newValue));
+  const setFuelPrice   = (newValue)      => updateFlight(currentFlight => currentFlight.setFuelPrice(newValue));
+  const setPilotId     = (newValue)      => updateFlight(currentFlight => currentFlight.setPilotId(newValue));
+  const setCopilotId   = (newValue)      => updateFlight(currentFlight => currentFlight.setCopilotId(newValue));
+  const setClientId    = (newValue)      => updateFlight(currentFlight => currentFlight.setClientId(newValue));
+  const setPrincipleId = (newValue)      => updateFlight(currentFlight => currentFlight.setPrincipleId(newValue));
+  const setPurposeId   = (newValue)      => updateFlight(currentFlight => currentFlight.setPurposeId(newValue));
+  const setLandingFee  = (newValue)      => updateFlight(currentFlight => currentFlight.setLandingFee(newValue));
+  const setHobbs       = ({left, right}) => updateFlight(currentFlight => currentFlight.setHobbs({Out: left, In: right})); 
+  const setFuel        = ({left, right}) => updateFlight(currentFlight => currentFlight.setFuel({Out: left, In: right}));
+  const setReciepts    = ({left, right}) => updateFlight(currentFlight => currentFlight.setReciepts({Fuel: left, Landing: right}));
+  
+  const autofill = async tailNumber => {
+    const newPlane = await getPlane(tailNumber);
+    setHasApu(newPlane);
+    const recentFlight = await getMostRecentFlight(tailNumber);
+    if (!recentFlight) {
+      return;
+    }
+    setDeparture(recentFlight.getArrival());
+    setPilotId(recentFlight.getPilotId());
+    setCopilotId(recentFlight.getCopilotId());
+    setClientId(recentFlight.getClientId());
+    setPrincipleId(recentFlight.getPrincipleId());
+    setPurposeId(recentFlight.getPurposeId());
   };
-  const setArrival = (newVal) => {
-    setFlight(oldFlight => oldFlight.setArrival(newVal));
+
+  const setTailNumber = (newValue) => {
+    autofill(newValue).catch(error => console.error(error));
+    updateFlight(currentFlight => currentFlight.setTailNumber(newValue));
   };
-  const setHobbs = ({left, right}) => {
-    setFlight(oldFlight => oldFlight.setHobbs({Out: left, In: right}));
-  };
-  const setFlightHours = (newVal) => {
-    setFlight(oldFlight => oldFlight.setFlightHours(newVal));
-  };
-  const setApuHours = (newVal) => {
-    setFlight(oldFlight => oldFlight.setApuHours(newVal));
-  };
-  const setFuel = ({left, right}) => {
-    setFlight(oldFlight => oldFlight.setFuel({Out: left, In: right}));
-  };
-  const setGallons = (newVal) => {
-    setFlight(oldFlight => oldFlight.setGallons(newVal));
-  };
-  const setFuelPrice = (newVal) => {
-    setFlight(oldFlight => oldFlight.setFuelPrice(newVal));
-  };
-  const setPilotId = (newVal) => {
-    setFlight(oldFlight => oldFlight.setPilotId(newVal));
-  };
-  const setCopilotId = (newVal) => {
-    setFlight(oldFlight => oldFlight.setCopilotId(newVal));
-  };
-  const setClientId = (newVal) => {
-    setFlight(oldFlight => oldFlight.setClientId(newVal));
-  };
-  const setPrincipleId = (newVal) => {
-    setFlight(oldFlight => oldFlight.setPrincipleId(newVal));
-  };
-  const setPurposeId = (newVal) => {
-    setFlight(oldFlight => oldFlight.setPurposeId(newVal));
-  };
-  const setLandingFee = (newVal) => {
-    setFlight(oldFlight => oldFlight.setLandingFee(newVal));
-  };
-  const setReciepts = ({left, right}) => {
-    setFlight(oldFlight => oldFlight.setReciepts({Fuel: left, Landing: right}));
-  };
-  const submit = () => {
+
+  const clear = () => setFlight(new Flight({}));
+  //   ^ ^ ^ ^ Fill Flight Form ^ ^ ^ ^
+
+  const submit = async () => {
     setCanSubmit(false);
-    recordFlight(flight)
-      .catch(error => console.error(error))
-      .then(() => {
-        console.log('Flight Uploaded');
-        navigation.goBack();
-        clear();
-        setCanSubmit(true);
-    });
-  };
-
-  const clear = () => {
-    setFlight(new Flight({}));
-  };
-
-  const populateFields = async (plane) => {
-    const recentFlight = await getMostRecentFlight(plane.id);
-    let departure = '';
-    let pilotId = {name: '', id: ''};
-    let copilotId = {name: '', id: ''};
-    let clientId = {name: '', id: ''};
-    let principleId = {name: '', id: ''};
-    let purposeId = {name: '', id: ''};
-    if (!!recentFlight) {
-      departure = recentFlight.getArrival();
-      pilotId = crewMemberOptions.find(option => option.id === recentFlight.getPilotId());
-      copilotId = crewMemberOptions.find(option => option.id === recentFlight.getCopilotId());
-      clientId = clientOptions.find(option => option.id === recentFlight.getClientId());
-      principleId = principleOptions.find(option => option.id === recentFlight.getPrincipleId());
-      purposeId = purposeOptions.find(option => option.id === recentFlight.getPurposeId());
-    }
-    setDeparture(departure);
-    setPilotId(pilotId);
-    setCopilotId(copilotId);
-    setClientId(clientId);
-    setPrincipleId(principleId);
-    setPurposeId(purposeId);
-  };
-
-  const setTailNumber = async (newVal) => {
     try {
-      setFlight(oldFlight => oldFlight.setTailNumber(newVal));
-      if (!isNewFlight) {
-        return;
-      }
-
-      const plane = await getPlane(newVal.id);
-      setPlane(plane);
-      await populateFields(plane);
+      await recordFlight(flight);
+      clear();
+      navigation.goBack();
     } catch (error) {
-      console.error('Error populating fields or getting flight:', error);
+      console.error(error);
     }
+    setCanSubmit(true);
   };
-
-  const hasApu = !!plane.apu;
 
   return (
     <View style={styles.container}>
@@ -197,7 +146,7 @@ export function RecordFlightForm({navigation, data}) {
             <FlightTrackDropDown 
               labelText='Tail Number' 
               color='#010100' 
-              options={tailNumberOptions} 
+              options={tailNumbers} 
               data={flight.getTailNumber()} 
               onUpdate={setTailNumber}
             />
@@ -225,8 +174,10 @@ export function RecordFlightForm({navigation, data}) {
               labelText='Hobbs' 
               leftField={FlightTrackLabeledNumberInput}
               leftLabel='Out:' 
+              getLeft={data => data.Out}
               rightField={FlightTrackLabeledNumberInput} 
               rightLabel='In:' 
+              getRight={data => data.In}
               color='#010100' 
               data={flight.getHobbs()} 
               onUpdate={setHobbs}
@@ -248,8 +199,10 @@ export function RecordFlightForm({navigation, data}) {
               labelText='Fuel' 
               leftField={FlightTrackLabeledNumberInput} 
               leftLabel='Out:' 
+              getLeft={data => data.Out}
               rightField={FlightTrackLabeledNumberInput} 
               rightLabel='In:' 
+              getRight={data => data.In}
               color='#010100' 
               data={flight.getFuel()} 
               onUpdate={setFuel}
@@ -269,35 +222,35 @@ export function RecordFlightForm({navigation, data}) {
             <FlightTrackDropDown 
               labelText='Pilot in Command' 
               color='#010100' 
-              options={crewMemberOptions} 
+              options={crewMembers} 
               data={flight.getPilotId()} 
               onUpdate={setPilotId}
             />
             <FlightTrackDropDown 
               labelText='Second in Command' 
               color='#010100' 
-              options={crewMemberOptions} 
+              options={crewMembers} 
               data={flight.getCopilotId()} 
               onUpdate={setCopilotId}
             />
             <FlightTrackDropDown 
               labelText='Client' 
               color='#010100' 
-              options={clientOptions} 
+              options={clients} 
               data={flight.getClientId()} 
               onUpdate={setClientId}
             />
             <FlightTrackDropDown 
               labelText='Principle' 
               color='#010100' 
-              options={principleOptions} 
+              options={principles} 
               data={flight.getPrincipleId()} 
               onUpdate={setPrincipleId}
             />
             <FlightTrackDropDown 
               labelText='Purpose' 
               color='#010100' 
-              options={purposeOptions} 
+              options={purposes} 
               data={flight.getPurposeId()} 
               onUpdate={setPurposeId}
             />
@@ -311,13 +264,15 @@ export function RecordFlightForm({navigation, data}) {
               labelText='Reciepts'
               rightField={FlightTrackPhotoButton} 
               rightLabel='Landing:' 
+              getRight={data => data.Landing}
               leftField={FlightTrackPhotoButton} 
               leftLabel='Fuel:' 
+              getLeft={data => data.Fuel}
               color='#010100'
               data={flight.getReciepts()}
               onUpdate={setReciepts}
             />
-            <FlightTrackButton onPress={submit} style={styles.submit} label='Submit' enabled={canSubmit} />
+            <FlightTrackButton onPress={submit} style={styles.submit} label='Submit' enabled={canSubmit && flight.complete()} />
           </View>
         </ScrollView>
       </KeyboardAvoidingView>

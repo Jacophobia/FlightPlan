@@ -7,13 +7,13 @@ import { FlightTrackTailLogo } from "./FlightTrackTailLogo";
  * @param props onPress, label
  */
 export function FlightTrackFlightOption({style, onPress, data}) {
-  
+  const date = new Date(data.getDate());
   return (
     <Pressable style={[styles.container, style]} onPress={onPress}>
       <FlightTrackTailLogo tailNumber={data.getTailNumber()} style={styles.tailLogo} />
       <View style={styles.textContainer}>
         <View style={styles.dateContainer}>
-          <Text style={styles.date}>{data.getDate()}</Text>
+          <Text style={styles.date}>{date.toLocaleDateString()}</Text>
         </View>
         <View style={styles.airports}>
           <View style={styles.airportContainer}>
@@ -46,12 +46,12 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderRadius: 18,
     borderColor: '#4C71C7',
-    width: '100%',
+    width: '76%',
     height: 100,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    marginTop: '4%',
+    marginVertical: '2.5%',
   },
   textContainer: {
     ...outline,

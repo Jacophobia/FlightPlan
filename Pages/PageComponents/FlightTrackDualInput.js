@@ -3,32 +3,20 @@ import { StyleSheet, Text, View } from 'react-native';
 
 /**
  * Flight Track Dual Input
- * @param props leftField, rightField, data (right, left), labelText, onUpdate
+ * @param props leftField, rightField, data (right, left), labelText, onUpdate, getLeft, getRight
  * @returns An input field with two configurable inputs
  */
 export function FlightTrackDualInput(props) {
-  
-  const [data, setData] = useState({
-    'right': props?.data?.right || '',
-    'left': props?.data?.left || '',
-  })
-
   const setRightData = newRightData => {
-    setData(oldData => {
-      oldData.right = newRightData;
-      props.onUpdate(oldData);
-      return oldData;
-    });
+    const left = props.getLeft(props.data);
+    props.onUpdate({left: left, right: newRightData});
   };
 
   const setLeftData = newLeftData => {
-    setData(oldData => {
-      oldData.left = newLeftData;
-      props.onUpdate(oldData);
-      return oldData;
-    });
+    const right = props.getRight(props.data);
+    props.onUpdate({left: newLeftData, right: right});
   };
-  
+
   return (
     <>
       <View style={styles.InputField}>
@@ -40,8 +28,8 @@ export function FlightTrackDualInput(props) {
           </Text>
         </View>
         <View style={styles.inputArea}>
-          <props.leftField onUpdate={setLeftData} data={data.left} label={props.leftLabel} color={props.color} />
-          <props.rightField onUpdate={setRightData} data={data.right} label={props.rightLabel} color={props.color} />
+          <props.leftField onUpdate={setLeftData} data={props.getLeft(props.data)} label={props.leftLabel} color={props.color} />
+          <props.rightField onUpdate={setRightData} data={props.getRight(props.data)} label={props.rightLabel} color={props.color} />
         </View>
       </View>
     </>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View } from 'react-native';
 import { testFirestoreConnection } from "./Pages/Firebase/Firestore";
 import { Login } from "./Pages/Login";
-import { RecordFlightForm } from "./Pages/RecordFlightForm2";
+import { RecordFlightForm } from "./Pages/RecordFlightForm";
 import { ProgressBar } from "react-native-paper";
 import { SignUp } from "./Pages/SignUp";
 import { Home } from "./Pages/Home";

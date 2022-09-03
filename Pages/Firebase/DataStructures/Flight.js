@@ -1,13 +1,22 @@
-const isComplete = (value) => {
+const isComplete = (value, name = '') => {
+  let complete;
   if (typeof value === 'string') {
-    return value !== '';
+    complete = value !== '';
   }
-  return (
-    value !== null && 
-    value !== undefined && 
-    value !== [] && 
-    value !== {}
-  );
+  else {
+    complete = (
+      value !== null && 
+      value !== undefined && 
+      value !== [] && 
+      value !== {}
+    );
+  }
+  if (complete) {
+    return true;
+  }
+  else {
+    console.log(`${name} is not completed`)
+  }
 };
 
 /**
@@ -74,7 +83,7 @@ export default class Flight {
     return this.arrival;
   }
   getHobbs() {
-    return this.hobbs; 
+    return this.hobbs || {}; 
   }
   getFlightHours() {
     return this.flightHours;
@@ -83,7 +92,7 @@ export default class Flight {
     return this.apuHours;
   }
   getFuel() {
-    return this.fuel;
+    return this.fuel || {};
   }
   getGallons() {
     return this.gallons;
@@ -110,7 +119,7 @@ export default class Flight {
     return this.landingFee;
   }
   getReciepts() {
-    return this.reciepts;
+    return this.reciepts || {};
   }
   getFuelReciept() {
     return this.reciepts.Fuel;
@@ -210,28 +219,28 @@ export default class Flight {
   }
   complete() {
     return (
-      isComplete(this.tailNumber) &&
-      isComplete(this.date) &&
-      isComplete(this.departure) &&
-      isComplete(this.arrival) &&
-      isComplete(this.hobbs.Out) &&
-      isComplete(this.hobbs.In) &&
-      isComplete(this.flightHours) &&
-      isComplete(this.apuHours) &&
-      isComplete(this.fuel.Out) &&
-      isComplete(this.fuel.In) &&
-      isComplete(this.gallons) &&
-      isComplete(this.fuelPrice) &&
-      isComplete(this.pilotId) &&
-      isComplete(this.copilotId) &&
-      isComplete(this.clientId) &&
-      isComplete(this.principleId) &&
-      isComplete(this.purposeId) &&
-      isComplete(this.landingFee) &&
+      isComplete(this.tailNumber, 'tailNumber') &&
+      isComplete(this.date, 'date') &&
+      isComplete(this.departure, 'departure') &&
+      isComplete(this.arrival, 'arrival') &&
+      isComplete(this.hobbs?.Out, 'hobbs.Out') &&
+      isComplete(this.hobbs?.In, 'hobbs.In') &&
+      isComplete(this.flightHours, 'flightHours') &&
+      isComplete(this.apuHours, 'apuHours') &&
+      isComplete(this.fuel?.Out, 'fuel.Out') &&
+      isComplete(this.fuel?.In, 'fuel.In') &&
+      isComplete(this.gallons, 'gallons') &&
+      isComplete(this.fuelPrice, 'fuelPrice') &&
+      isComplete(this.pilotId, 'pilotId') &&
+      isComplete(this.copilotId, 'copilotId') &&
+      isComplete(this.clientId, 'clientId') &&
+      isComplete(this.principleId, 'principleId') &&
+      isComplete(this.purposeId, 'purposeId') &&
+      isComplete(this.landingFee, 'landingFee') &&
       (
-        isComplete(this.reciepts) || 
-        isComplete(this.landingRecieptUrl) || 
-        isComplete(this.fuelRecieptUrl)
+        isComplete(this.reciepts, 'reciepts') || 
+        isComplete(this.landingRecieptUrl, 'landingRecieptUrl') || 
+        isComplete(this.fuelRecieptUrl, 'fuelRecieptUrl')
       )
     );
   }

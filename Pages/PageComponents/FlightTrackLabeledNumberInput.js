@@ -7,32 +7,26 @@ import { StyleSheet, Text, View, TextInput, Platform } from 'react-native';
  * @returns A small numerical input with a label
  */
 export function FlightTrackLabeledNumberInput(props) {
-  const [value, setValue] = useState(props.data || '');
-
-  const onUpdate = newValue => {
-    setValue(curr => {
-      let decimalCount = 0;
-      for (const val of newValue) {
-        let numVal = Number(val);
-        if (val === ' ') {
-          props.onUpdate(curr);
-          return curr;
-        }
-        if (val === '.') {
-          decimalCount += 1;
-          if (decimalCount > 1) {
-            props.onUpdate(curr);
-            return curr;
-          }
-        }
-        else if (numVal < 0 || numVal > 9 || (numVal !== 0 && !numVal)) {
-          props.onUpdate(curr);
-          return curr;
+  const onUpdate = (textValue) => {
+    let number = '';
+    let decimalCount = 0;
+    for (const val of textValue) {
+      let numVal = Number(val);
+      if (val === ' ') {
+        continue;
+      }
+      if (val === '.') {
+        decimalCount += 1;
+        if (decimalCount > 1) {
+          continue;
         }
       }
-      props.onUpdate(newValue);
-      return newValue;
-    });
+      else if (numVal < 0 || numVal > 9 || (numVal !== 0 && !numVal)) {
+        continue;
+      }
+      number += val;
+    }
+    props.onUpdate(number);
   };
 
   return (
@@ -41,7 +35,7 @@ export function FlightTrackLabeledNumberInput(props) {
       <View style={styles.textContainer}>
         <TextInput 
           style={styles.text} 
-          value={value} 
+          value={props.data} 
           onChangeText={onUpdate} 
           keyboardType='numeric' 
         />

@@ -14,24 +14,25 @@ export function FlightTrackInput(props) {
 
   const onUpdate = (textValue) => {
     if (props.keyboardType === 'numeric') {
-      let curr = props.data
+      let number = '';
       let decimalCount = 0;
       for (const val of textValue) {
         let numVal = Number(val);
         if (val === ' ') {
-          return curr;
+          continue;
         }
         if (val === '.') {
           decimalCount += 1;
           if (decimalCount > 1) {
-            return curr;
+            continue;
           }
         }
         else if (numVal < 0 || numVal > 9 || (numVal !== 0 && !numVal)) {
-          return curr;
+          continue;
         }
+        number += val;
       }
-      props.onUpdate(textValue);
+      props.onUpdate(number);
     }
     else {
       props.onUpdate(textValue);

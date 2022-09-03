@@ -10,6 +10,7 @@ export function FlightTrackDropDownOption(props) {
   const [color, setColor] = useState('transparent');
 
   const onPress = () => {
+    console.log('that press was registered');
     props.onPress(props.option);
   };
 

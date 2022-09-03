@@ -120,6 +120,14 @@ export const addCrewMember = async (user, name, callback = () => {}) => {
   }
 };
 
+export const patchCrewMember = async ( id, crewMember ) => {
+  try {
+    await getCrewMemberRef(id).set(crewMember);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 // getPlanes, getCrewMemberOptions, getClientOptions, getPrincipleOptions, getPurposeOptions
 
 export const getPlanes = async () => {

@@ -10,7 +10,7 @@ const findOption = (id, options) => {
 };
 
 const findOptionName = (id, options) => {
-  return findOption(id, options).name || '';
+  return findOption(id, options)?.name || '';
 };
 
 /**
@@ -20,20 +20,14 @@ const findOptionName = (id, options) => {
  */
 export function FlightTrackDropDown({data, options, onUpdate, color, labelText}) {
   const [expanded, setExpanded] = useState(false);
-  const [selected, setSelected] = useState('');
-
-  if (selected !== data) {
-    setSelected(data);
-  }
 
   const handlePress = () => {
     setExpanded(prev => !prev);
   };
 
   const onSelect = option => {
-    onUpdate(option.id);
-    setSelected(option.id);
     handlePress();
+    onUpdate(option.id);
   };
 
   const DropDown = () => {
@@ -62,7 +56,7 @@ export function FlightTrackDropDown({data, options, onUpdate, color, labelText})
           </Text>
         </View>
         <Pressable style={styles.pressable} onPress={handlePress}>
-          <Text>{findOptionName(selected, options)}</Text>
+          <Text>{findOptionName(data, options)}</Text>
           <View>
             <Image style={[styles.icon]} source={icon} />
           </View>
