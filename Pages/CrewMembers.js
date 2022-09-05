@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { ProgressBar } from "react-native-paper";
-import { FlightTrackEditable } from "./PageComponents/FlightTrackEditable";
+import { FlightTrackCrewMember } from "./PageComponents/FlightTrackCrewMember";
 import { FlightTrackHeader } from "./PageComponents/FlightTrackHeader";
 import { getCrewMembers, patchCrewMember } from "./Firebase/Firestore";
+import { FlightTrackNewField } from "./PageComponents/FlightTrackNewField";
 
 
 const InitializingBar = ({percent}) => {
@@ -29,7 +30,9 @@ export function CrewMembers({ navigation }) {
     let prev = 100;
     for (let i = 1; i < 100; i++) {
       setTimeout(() => {
-        setInitializePercent(i / 100.0);
+        if (initializeState !== 'done') {
+          setInitializePercent(i / 100.0);
+        }
       }, prev);
       prev *= 1.04;
     }
@@ -45,7 +48,6 @@ export function CrewMembers({ navigation }) {
     
   }
   else if (initializeState === 'starting') {
-    setInitializePercent(0.2);
     initializeOptions();
     return (<InitializingBar percent={initializePercent} />);
   }
@@ -56,14 +58,15 @@ export function CrewMembers({ navigation }) {
 
   const renderEditable = ({item}) => {
     return (
-      <FlightTrackEditable data={item} onSubmit={(crewMember) => patchCrewMember(item.id, crewMember)} />
+      <FlightTrackCrewMember data={item} onSubmit={(crewMember) => patchCrewMember(item.id, crewMember)} />
     );
   };
 
   return (
     <View style={styles.container}>
       <FlightTrackHeader headerText='Crew Members' onBackArrowPress={navigation.goBack} />
-      <FlatList data={crewMembers} renderItem={renderEditable} keyExtractor={item => item.id || item.uid} style={styles.list} contentContainerStyle={styles.listContent} />
+      <FlatList data={crewMembers} renderItem={renderEditable} keyExtractor={item => item.id} style={styles.list} contentContainerStyle={styles.listContent} />
+      <FlightTrackNewField onSubmit={console.log} fields={['Thing 1', 'Thing 2', 'Thing 3']} />
     </View>
   );
 }

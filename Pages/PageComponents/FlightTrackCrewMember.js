@@ -1,18 +1,20 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Text, TextInput } from 'react-native';
+import { Checkbox } from "react-native-paper";
 import { FlightTrackButton } from "./FlightTrackButton";
 
 /**
  * Flight Track Editable
  * @param onSubmit function with arity of one. Put the user account into there once you are finished.
  */
-export function FlightTrackEditable({ style, onSubmit, data, key }) {
+export function FlightTrackCrewMember({ style, onSubmit, data, key }) {
   const [editing, setEditing] = useState(false);
   const [name, setName] = useState(data.name);
+  const [admin, setAdmin] = useState(data.admin);
 
   const submit = () => {
     if (editing) {
-      onSubmit({name: name});
+      onSubmit({name: name, admin: admin});
     }
     setEditing(!editing);
   };
@@ -22,7 +24,13 @@ export function FlightTrackEditable({ style, onSubmit, data, key }) {
       <View style={styles.inputContainer}>
         <View style={styles.name}>
           <Text style={styles.nameLabel}>Name:</Text>
-          <TextInput style={styles.nameInput} value={name} onChangeText={setName} editable={editing} textAlign='center' textAlignVertical='top' multiline={true} />
+          <TextInput style={styles.nameInput} value={name} onChangeText={setName} editable={editing} textAlign='center' />
+        </View>
+        <View style={styles.admin}>
+          <Text style={styles.adminLabel}>Admin:</Text>
+          <View style={styles.adminInput}>
+            <Checkbox status={admin ? 'checked' : 'unchecked'} onPress={() => setAdmin(curr => !curr)} disabled={!editing} color='#4C71C7' />
+          </View>
         </View>
       </View>
       <FlightTrackButton style={styles.submit} onPress={submit} label={editing ? 'Submit' : 'Edit'}  />
@@ -65,6 +73,21 @@ const styles = StyleSheet.create({
   },
   nameInput: {
     flex: 1,
+  },
+  admin: {
+    flex: 1,
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+  },
+  adminLabel: {
+    flex: 1,
+    textAlign: 'center',
+  },
+  adminInput: {
+    flex: 1,
+    alignItems: 'center',
   },
   submit: {
     width: '25%',

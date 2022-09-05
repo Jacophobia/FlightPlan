@@ -1,4 +1,4 @@
-import firestore from "@react-native-firebase/firestore";
+import firestore, { FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
 import Flight from "./DataStructures/Flight";
 // https://www.youtube.com/watch?v=eET0YtDBWWg
 
@@ -120,13 +120,45 @@ export const addCrewMember = async (user, name, callback = () => {}) => {
   }
 };
 
+export const patchPlane = async ( id, plane ) => {
+  try {
+    await getPlaneRef(id).set(plane);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const patchCrewMember = async ( id, crewMember ) => {
   try {
     await getCrewMemberRef(id).set(crewMember);
   } catch (error) {
     console.error(error);
   }
-}
+};
+
+export const patchClient = async ( id, client ) => {
+  try {
+    await getClientRef(id).set(client);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const patchPrinciple = async ( id, principle ) => {
+  try {
+    await getPrincipleRef(id).set(principle);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const patchPurpose = async ( id, purpose ) => {
+  try {
+    await getPurposeRef(id).set(purpose);
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 // getPlanes, getCrewMemberOptions, getClientOptions, getPrincipleOptions, getPurposeOptions
 
@@ -154,7 +186,7 @@ export const getCrewMembers = async () => {
     .map(doc => {
       const crewMember = doc.data();
       if (!crewMember.id) {
-        crewMember.id = crewMember.uid;
+        crewMember.id = doc.id;
       }
       return crewMember;
     })
