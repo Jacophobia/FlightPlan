@@ -51,25 +51,37 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-  <!-- Required with iOS 10 and higher -->
-  <key>NSCameraUsageDescription</key>
-  <string>Hello there! Can I access your camera to take a picture of your reciept?</string>
-
-  <!-- Required with iOS 11 and higher: include this only if you are planning to use the camera roll -->
-  <key>NSPhotoLibraryAddUsageDescription</key>
-  <string>Hello there! Can I take a look at your photos so I can upload your reciept?</string>
-
-  <!-- Include this only if you are planning to use the camera roll -->
-  <key>NSPhotoLibraryUsageDescription</key>
-  <string>Hello there! Can I take a look at your photos so I can upload your reciept?</string>
-
-  <!-- Include this only if you are planning to use the microphone for video recording -->
-  <key>NSMicrophoneUsageDescription</key>
-  <string>Hello! Can I have access to your camera to improve your app experience?</string>
-  <key>LSApplicationQueriesSchemes</key>
-  <array>
-    <string>http</string>
-    <string>https</string>
-  </array>
+	<key>NSCameraUsageDescription</key>
+	<string>Hello there! Can I access your camera to take a picture of your reciept?</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Hello there! Can I take a look at your photos so I can upload your reciept?</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Hello there! Can I take a look at your photos so I can upload your reciept?</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Hello! Can I have access to your camera to improve your app experience?</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>AntDesign.ttf</string>
+		<string>Entypo.ttf</string>
+		<string>EvilIcons.ttf</string>
+		<string>Feather.ttf</string>
+		<string>FontAwesome.ttf</string>
+		<string>FontAwesome5_Brands.ttf</string>
+		<string>FontAwesome5_Regular.ttf</string>
+		<string>FontAwesome5_Solid.ttf</string>
+		<string>Fontisto.ttf</string>
+		<string>Foundation.ttf</string>
+		<string>Ionicons.ttf</string>
+		<string>MaterialCommunityIcons.ttf</string>
+		<string>MaterialIcons.ttf</string>
+		<string>Octicons.ttf</string>
+		<string>SimpleLineIcons.ttf</string>
+		<string>Zocial.ttf</string>
+	</array>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>http</string>
+		<string>https</string>
+	</array>
 </dict>
 </plist>
