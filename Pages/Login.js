@@ -52,9 +52,11 @@ export function Login(props) {
     try {
       setLoading(true);
       await logout();
-      await login(username, password);
-      toHome();
-      clear();
+      const success = await login(username, password);
+      if (success) {
+        toHome();
+        clear();
+      }
     } catch (error) {
       console.error('Error logging in or out:', error);
     }
@@ -62,9 +64,9 @@ export function Login(props) {
   };
   // Firebase ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^
 
-  const toSignUp = () => {
+  const toSignUp = async () => {
     clear();
-    logout();
+    await logout();
     props.navigation.navigate('SignUp');
   };
 
@@ -92,7 +94,7 @@ export function Login(props) {
           <FlightTrackFancyInput label='Email Address' onUpdate={setUsername} value={username} keyboardType='email-address' />
           <FlightTrackFancyInput label='Password' onUpdate={setPassword} value={password} hide={true} />
           <View style={styles.forgotLoginPressable}>
-            <Pressable onPress={() => alert('Not yet implemented')}>
+            <Pressable onPress={() => props.navigation.navigate('ForgotLogin', {loginEmail: username || ''})}>
               <Text style={styles.forgotLoginText}>
                 Forgot Login
               </Text>

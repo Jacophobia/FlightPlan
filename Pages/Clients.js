@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { ProgressBar } from "react-native-paper";
 import { FlightTrackHeader } from "./PageComponents/FlightTrackHeader";
-import { getClients, patchClient } from "./Firebase/Firestore";
+import { addClient, getClients, patchClient, deleteClient } from "./Firebase/Firestore";
 import { FlightTrackEditable } from "./PageComponents/FlightTrackEditable";
+import { FlightTrackNewField } from "./PageComponents/FlightTrackNewField";
 
 
 const InitializingBar = ({percent}) => {
@@ -18,7 +19,7 @@ const InitializingBar = ({percent}) => {
 
 
 export function Clients({ navigation }) {
-  const [planes, setPlanes] = useState([]);
+  const [clients, setClients] = useState([]);
 
   //   v v v v Initialize Options v v v v
   const [initializePercent, setInitializePercent] = useState(0.0);
@@ -33,11 +34,11 @@ export function Clients({ navigation }) {
           setInitializePercent(i / 100.0);
         }
       }, prev);
-      prev *= 1.04;
+      prev *= 1.001;
     }
 
 
-    setPlanes(await getClients());
+    setClients(await getClients());
 
 
     setInitializeState('done');
@@ -55,16 +56,35 @@ export function Clients({ navigation }) {
   }
   //   ^ ^ ^ ^ Initialize Options ^ ^ ^ ^
 
+  const addNewClient = async (client) => {
+    try {
+      await addClient(client);
+      initializeOptions();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const removeClient = async (id) => {
+    try {
+      await deleteClient(id);
+      initializeOptions();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const renderEditable = ({item}) => {
     return (
-      <FlightTrackEditable data={item} onSubmit={(crewMember) => patchClient(item.id, crewMember)} />
+      <FlightTrackEditable data={item} onSubmit={(crewMember) => patchClient(item.id, crewMember)} onDelete={() => removeClient(item.id)} />
     );
   };
 
   return (
     <View style={styles.container}>
       <FlightTrackHeader headerText='Clients' onBackArrowPress={navigation.goBack} />
-      <FlatList data={planes} renderItem={renderEditable} keyExtractor={item => item.id} style={styles.list} contentContainerStyle={styles.listContent} />
+      <FlatList data={clients} renderItem={renderEditable} keyExtractor={item => item.id} style={styles.list} contentContainerStyle={styles.listContent} />
+      <FlightTrackNewField onSubmit={addNewClient} fields={['name']} label='New Client' />
     </View>
   );
 }

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { ProgressBar } from "react-native-paper";
-import { FlightTrackCrewMember } from "./PageComponents/FlightTrackCrewMember";
+import { FlightTrackDualEditable } from "./PageComponents/FlightTrackDualEditable";
 import { FlightTrackHeader } from "./PageComponents/FlightTrackHeader";
-import { getCrewMembers, patchCrewMember } from "./Firebase/Firestore";
+import { getCrewMembers, patchCrewMember, deleteCrewMember, addCrewMember } from "./Firebase/Firestore";
 import { FlightTrackNewField } from "./PageComponents/FlightTrackNewField";
 
 
@@ -34,7 +34,7 @@ export function CrewMembers({ navigation }) {
           setInitializePercent(i / 100.0);
         }
       }, prev);
-      prev *= 1.04;
+      prev *= 1.001;
     }
 
 
@@ -56,9 +56,31 @@ export function CrewMembers({ navigation }) {
   }
   //   ^ ^ ^ ^ Initialize Options ^ ^ ^ ^
 
+  const addNewCrewMember = async (crewMember) => {
+    try {
+      await addCrewMember(crewMember);
+      initializeOptions();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const removeCrewMember = async (id) => {
+    try {
+      await deleteCrewMember(id);
+      initializeOptions();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const renderEditable = ({item}) => {
     return (
-      <FlightTrackCrewMember data={item} onSubmit={(crewMember) => patchCrewMember(item.id, crewMember)} />
+      <FlightTrackDualEditable 
+        data={item} 
+        onSubmit={({first, second}) => patchCrewMember(item.id, {name: first, admin: second})} 
+        onDelete={() => removeCrewMember(item.id)}
+      />
     );
   };
 
@@ -66,7 +88,7 @@ export function CrewMembers({ navigation }) {
     <View style={styles.container}>
       <FlightTrackHeader headerText='Crew Members' onBackArrowPress={navigation.goBack} />
       <FlatList data={crewMembers} renderItem={renderEditable} keyExtractor={item => item.id} style={styles.list} contentContainerStyle={styles.listContent} />
-      <FlightTrackNewField onSubmit={console.log} fields={['Thing 1', 'Thing 2', 'Thing 3']} />
+      <FlightTrackNewField onSubmit={addNewCrewMember} fields={['name', 'uid', 'bool:admin']} label='New CrewMember' />
     </View>
   );
 }

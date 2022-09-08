@@ -6,7 +6,7 @@ import { FlightTrackButton } from "./FlightTrackButton";
  * Flight Track Editable
  * @param onSubmit function with arity of one. Put the user account into there once you are finished.
  */
-export function FlightTrackEditable({ style, onSubmit, data, key }) {
+export function FlightTrackEditable({ style, onSubmit, onDelete, data, key }) {
   const [editing, setEditing] = useState(false);
   const [name, setName] = useState(data.name);
 
@@ -15,6 +15,12 @@ export function FlightTrackEditable({ style, onSubmit, data, key }) {
       onSubmit({name: name});
     }
     setEditing(!editing);
+  };
+
+  const deleteEditable = () => {
+    if (editing) {
+      onDelete();
+    }
   };
 
   return (
@@ -26,6 +32,7 @@ export function FlightTrackEditable({ style, onSubmit, data, key }) {
         </View>
       </View>
       <FlightTrackButton style={styles.submit} onPress={submit} label={editing ? 'Submit' : 'Edit'}  />
+      <FlightTrackButton style={[styles.submit, {backgroundColor: editing ? 'red' : 'gray',}]} onPress={deleteEditable} label='delete' enabled={editing} />
     </View>
   );
 }
@@ -43,9 +50,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-    borderWidth: 1.5,
     borderColor: '#4C71C7',
-    borderRadius: 12,
+    borderWidth: 3,
+    borderRadius: 18,
   },
   inputContainer: {
     flex: 1,
@@ -67,7 +74,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   submit: {
-    width: '25%',
-    margin: '4%',
+    width: '21%',
+    marginRight: '1.5%',
   },
 });

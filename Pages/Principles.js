@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { ProgressBar } from "react-native-paper";
 import { FlightTrackHeader } from "./PageComponents/FlightTrackHeader";
-import { getPrinciples, patchPrinciple } from "./Firebase/Firestore";
+import { addPrinciple, getPrinciples, patchPrinciple, deletePrinciple } from "./Firebase/Firestore";
 import { FlightTrackEditable } from "./PageComponents/FlightTrackEditable";
+import { FlightTrackNewField } from "./PageComponents/FlightTrackNewField";
 
 
 const InitializingBar = ({percent}) => {
@@ -18,7 +19,7 @@ const InitializingBar = ({percent}) => {
 
 
 export function Principles({ navigation }) {
-  const [planes, setPlanes] = useState([]);
+  const [principles, setPrinciples] = useState([]);
 
   //   v v v v Initialize Options v v v v
   const [initializePercent, setInitializePercent] = useState(0.0);
@@ -33,11 +34,11 @@ export function Principles({ navigation }) {
           setInitializePercent(i / 100.0);
         }
       }, prev);
-      prev *= 1.04;
+      prev *= 1.001;
     }
 
 
-    setPlanes(await getPrinciples());
+    setPrinciples(await getPrinciples());
 
 
     setInitializeState('done');
@@ -55,16 +56,35 @@ export function Principles({ navigation }) {
   }
   //   ^ ^ ^ ^ Initialize Options ^ ^ ^ ^
 
+  const addNewPrinciple = async (principle) => {
+    try {
+      await addPrinciple(principle);
+      initializeOptions();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const removePrinciple = async (id) => {
+    try {
+      await deletePrinciple(id);
+      initializeOptions();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const renderEditable = ({item}) => {
     return (
-      <FlightTrackEditable data={item} onSubmit={(crewMember) => patchPrinciple(item.id, crewMember)} />
+      <FlightTrackEditable data={item} onSubmit={(crewMember) => patchPrinciple(item.id, crewMember)} onDelete={() => removePrinciple(item.id)} />
     );
   };
 
   return (
     <View style={styles.container}>
-      <FlightTrackHeader headerText='Planes' onBackArrowPress={navigation.goBack} />
-      <FlatList data={planes} renderItem={renderEditable} keyExtractor={item => item.id} style={styles.list} contentContainerStyle={styles.listContent} />
+      <FlightTrackHeader headerText='Principles' onBackArrowPress={navigation.goBack} />
+      <FlatList data={principles} renderItem={renderEditable} keyExtractor={item => item.id} style={styles.list} contentContainerStyle={styles.listContent} />
+      <FlightTrackNewField onSubmit={addNewPrinciple} fields={['name']} label='New Principle' />
     </View>
   );
 }

@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { ProgressBar } from "react-native-paper";
 import { FlightTrackHeader } from "./PageComponents/FlightTrackHeader";
-import { getPlanes, patchPlane } from "./Firebase/Firestore";
-import { FlightTrackEditable } from "./PageComponents/FlightTrackEditable";
+import { addPlane, getPlanes, patchPlane, deletePlane } from "./Firebase/Firestore";
+import { FlightTrackDualEditable } from "./PageComponents/FlightTrackDualEditable";
+import { FlightTrackNewField } from "./PageComponents/FlightTrackNewField";
 
 
 const InitializingBar = ({percent}) => {
@@ -33,7 +34,7 @@ export function Planes({ navigation }) {
           setInitializePercent(i / 100.0);
         }
       }, prev);
-      prev *= 1.04;
+      prev *= 1.001;
     }
 
 
@@ -55,9 +56,33 @@ export function Planes({ navigation }) {
   }
   //   ^ ^ ^ ^ Initialize Options ^ ^ ^ ^
 
+  const addNewPlane = async (plane) => {
+    try {
+      await addPlane(plane);
+      initializeOptions();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const removePlane = async (id) => {
+    try {
+      await deletePlane(id);
+      initializeOptions();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const renderEditable = ({item}) => {
+    const { name, apu } = item;
     return (
-      <FlightTrackEditable data={item} onSubmit={(crewMember) => patchPlane(item.id, crewMember)} />
+      <FlightTrackDualEditable 
+        data={{ first: name, second: apu }} 
+        onSubmit={({first, second}) => patchPlane(item.id, {name: first, apu: second})}
+        onDelete={() => removePlane(item.id)} 
+        field2='APU:' 
+      />
     );
   };
 
@@ -65,6 +90,7 @@ export function Planes({ navigation }) {
     <View style={styles.container}>
       <FlightTrackHeader headerText='Planes' onBackArrowPress={navigation.goBack} />
       <FlatList data={planes} renderItem={renderEditable} keyExtractor={item => item.id} style={styles.list} contentContainerStyle={styles.listContent} />
+      <FlightTrackNewField onSubmit={addNewPlane} fields={['name', 'bool:apu']} label='New Plane' />
     </View>
   );
 }

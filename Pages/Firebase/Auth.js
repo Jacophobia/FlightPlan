@@ -1,6 +1,7 @@
+import { Platform } from 'react-native';
 import auth from '@react-native-firebase/auth';
 
-import { addCrewMember } from './Firestore'
+import { setCrewMember } from './Firestore'
 
 export const onStateChange = (callback) => {
   return auth().onAuthStateChanged(callback);
@@ -31,12 +32,16 @@ export const signUp = async (credentials, callback = () => {}) => {
 };
 
 export const saveUser = (user, fullName, callback = () => {}) => {
-  console.log(fullName);
-  addCrewMember(user, fullName).then(() => {
+  setCrewMember(user, fullName, callback).then(() => {
     console.log('User added to database');
-    callback();
-  }).catch(reason => {
-    console.error('Unable to add user to database:', reason);
+  }).catch(error => {
+    alert(
+      `Unable to add to crew members list.\n` + 
+      `Please take a screenshot of this message\n` +
+      `and send it to your administrator so you\n` + 
+      `can be manually added.\nuid = ${user.uid}`
+    );
+    console.error(error);
   });
 };
 
@@ -56,8 +61,10 @@ export const login = async (email, password, callback = () => {}) => {
       alert('Unable to log in');
     }
     console.error(error);
+    return false;
   }
   callback();
+  return true;
 };
 
 export const logout = async () => {
@@ -73,4 +80,8 @@ export const logout = async () => {
 
 export const getUid = () => {
   return auth().currentUser.uid;
-}
+};
+
+export const recoverAccount = async (email) => {
+  await auth().sendPasswordResetEmail(email);
+};

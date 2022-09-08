@@ -14,6 +14,7 @@ import { Principles } from "./Pages/Principles";
 import { Purposes } from "./Pages/Purposes";
 import { Profile } from "./Pages/Profile";
 import { Flight } from "./Pages/Flight";
+import { ForgotLogin } from "./Pages/ForgotLogin";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator();
@@ -44,6 +45,7 @@ const App = () => {
         <Stack.Navigator>
           <Stack.Screen name='Login' component={Login} options={{headerShown: false}} />
           <Stack.Screen name='SignUp' component={SignUp} options={{headerShown: false}} />
+          <Stack.Screen name='ForgotLogin' component={ForgotLogin} options={{headerShown: false}} />
           <Stack.Screen name='Home' component={Home} options={{headerShown: false}} />
           <Stack.Screen name='RecordFlightForm' component={RecordFlightForm} options={{headerShown: false}} />
           <Stack.Screen name='Flights' component={Flights} options={{headerShown: false}} />

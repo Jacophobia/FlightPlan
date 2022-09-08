@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, TextInput, Platform } from 'react-native';
 
-export function FlightTrackFancyInput({style, label, value, onUpdate, hide = false, data, keyboardType = 'ascii-capable'}) {
+export function FlightTrackFancyInput({style, label, value, onUpdate, hide = false, keyboardType = 'ascii-capable'}) {
 
   const onTextChange = (text) => {
     onUpdate(text);
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     ...outline,
     marginTop: 3,
     fontSize: 17,
-    color: '#b0b0b0',
+    color: '#000000',
     paddingHorizontal: 5,
   },
   topRight: {

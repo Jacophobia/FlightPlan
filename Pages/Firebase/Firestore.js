@@ -104,18 +104,104 @@ const getPurposeRef = (id) => {
   return result;
 }
 
-export const addCrewMember = async (user, name, callback = () => {}) => {
+export const setCrewMember = async (user, name, callback = () => {}) => {
+  await getCrewMembersRef().doc(user.uid).set({
+    name,
+    email: user.email,
+    uid: user.uid,
+    admin: false,
+  });
+  callback();
+};
+
+export const addPlane = async (plane) => {
   try {
-    await getCrewMembersRef().doc(user.uid).set({
-      name,
-      email: user.email,
-      uid: user.uid,
-      admin: false,
-    });
-    callback();
+    await getPlanesRef().add(plane);
+  } catch (error) {
+    console.error(error);
   }
-  catch (error) {
-    alert('Unable to add to crew members list. Please contact an administrator to be added manually.');
+};
+
+export const addCrewMember = async (crewMember) => {
+  try {
+    await getCrewMembersRef().add(crewMember);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const addClient = async (client) => {
+  try {
+    await getClientsRef().add(client);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const addPrinciple = async (principle) => {
+  try {
+    await getPrinciplesRef().add(principle);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const addPurpose = async (purpose) => {
+  try {
+    await getPurposesRef().add(purpose);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// v delete v
+
+export const deleteCrewMember = async (id) => {
+  try {
+    await getCrewMemberRef(id).delete();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deletePlane = async (id) => {
+  try {
+    await getPlaneRef(id).delete();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deleteClient = async (id) => {
+  try {
+    await getClientRef(id).delete();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deletePrinciple = async (id) => {
+  try {
+    await getPrincipleRef(id).delete();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deletePurpose = async (id) => {
+  try {
+    await getPurposeRef(id).delete();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// ^ delete ^
+
+export const patchCrewMember = async ( id, crewMember ) => {
+  try {
+    await getCrewMemberRef(id).set(crewMember);
+  } catch (error) {
     console.error(error);
   }
 };
@@ -123,14 +209,6 @@ export const addCrewMember = async (user, name, callback = () => {}) => {
 export const patchPlane = async ( id, plane ) => {
   try {
     await getPlaneRef(id).set(plane);
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-export const patchCrewMember = async ( id, crewMember ) => {
-  try {
-    await getCrewMemberRef(id).set(crewMember);
   } catch (error) {
     console.error(error);
   }
