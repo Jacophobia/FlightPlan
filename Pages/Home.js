@@ -27,7 +27,7 @@ export function Home({navigation}) {
     navigation.navigate('Purposes');
   };
   const toProfile = async () => {
-    const { name, email } = await getUserData();
+    const { name, email } = await getUserData().catch(error => console.error(error));
     navigation.navigate('Profile', {name, email});
   };
 
@@ -40,7 +40,7 @@ export function Home({navigation}) {
     if (admin) {
       return (
         <View style={styles.content}>
-          <FlightTrackMenuOption label='Record Flight' icon={require('../assets/HomePage/RecordFlight.png')} onPress={toRecordFlightForm} />
+          <FlightTrackMenuOption label='Record Flight' icon={require('../assets/HomePage/RecordFlight.png')} onPress={toRecordFlightForm} iconScale={0.8} />
           <FlightTrackMenuOption label='Flights' icon={require('../assets/HomePage/Flights.png')} onPress={toFlights} />
           <FlightTrackMenuOption label='Crew Members' icon={require('../assets/HomePage/CrewMembers.png')} onPress={toCrewMembers} />
           <FlightTrackMenuOption label='Planes' icon={require('../assets/HomePage/Planes.png')} onPress={toPlanes} />

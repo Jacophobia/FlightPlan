@@ -34,9 +34,12 @@ export function Flights({navigation}) {
       prev *= 1.04;
     }
 
-
-    const flights = await getFlights();
-    setFlights(flights);
+    try {
+      const flights = await getFlights();
+      setFlights(flights);
+    } catch (error) {
+      console.error(error);
+    }
 
 
     setInitializeState('done');

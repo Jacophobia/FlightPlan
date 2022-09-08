@@ -105,7 +105,7 @@ const getPurposeRef = (id) => {
 }
 
 export const setCrewMember = async (user, name, callback = () => {}) => {
-  await getCrewMembersRef().doc(user.uid).set({
+  await getCrewMembersRef().doc(user.uid).update({
     name,
     email: user.email,
     uid: user.uid,
@@ -200,7 +200,7 @@ export const deletePurpose = async (id) => {
 
 export const patchCrewMember = async ( id, crewMember ) => {
   try {
-    await getCrewMemberRef(id).set(crewMember);
+    await getCrewMemberRef(id).update(crewMember);
   } catch (error) {
     console.error(error);
   }
@@ -208,7 +208,7 @@ export const patchCrewMember = async ( id, crewMember ) => {
 
 export const patchPlane = async ( id, plane ) => {
   try {
-    await getPlaneRef(id).set(plane);
+    await getPlaneRef(id).update(plane);
   } catch (error) {
     console.error(error);
   }
@@ -216,7 +216,7 @@ export const patchPlane = async ( id, plane ) => {
 
 export const patchClient = async ( id, client ) => {
   try {
-    await getClientRef(id).set(client);
+    await getClientRef(id).update(client);
   } catch (error) {
     console.error(error);
   }
@@ -224,7 +224,7 @@ export const patchClient = async ( id, client ) => {
 
 export const patchPrinciple = async ( id, principle ) => {
   try {
-    await getPrincipleRef(id).set(principle);
+    await getPrincipleRef(id).update(principle);
   } catch (error) {
     console.error(error);
   }
@@ -232,7 +232,7 @@ export const patchPrinciple = async ( id, principle ) => {
 
 export const patchPurpose = async ( id, purpose ) => {
   try {
-    await getPurposeRef(id).set(purpose);
+    await getPurposeRef(id).update(purpose);
   } catch (error) {
     console.error(error);
   }
@@ -320,7 +320,17 @@ export const getFlights = async () => {
       flights.push(new Flight(flight));
     });
   }
-  return flights;
+  return flights.sort(({date: date1}, {date: date2}) => {
+    date1 = new Date(date1);
+    date2 = new Date(date2);
+    if (date1 > date2) {
+      return -1;
+    }
+    else if (date1 < date2) {
+      return 1;
+    }
+    return 0;
+  });
 };
 
 // getCrewMember, getClient, getPrinciple, getPurpose
@@ -402,7 +412,7 @@ export const addFlight = async (flight, flightsRef = undefined) => {
     alert('Please complete the flight form before sumbitting.');
     throw 'Incomplete form';
   }
-  return customRef ? await flightsRef.set(flight.json()) : await flightsRef.add(flight.json());
+  return customRef ? await flightsRef.update(flight.json()) : await flightsRef.add(flight.json());
 };
 
 export const getCrewMemberData = async (uid) => {
